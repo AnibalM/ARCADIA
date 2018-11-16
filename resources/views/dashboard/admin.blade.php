@@ -85,7 +85,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="docentes.html">
+                <a class="nav-link" href="{{ route('docente.gestion') }}">
                   <i class="material-icons">supervised_user_circle</i>
                   <span>Docentes</span>
                 </a>

@@ -17,6 +17,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('dashboard-admin', 'HomeController@dashboard_admin')->name('home.admin')->middleware('auth');
 Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.docente')->middleware('auth');
 
+Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docente.gestion')->middleware('auth');
 Route::get('crear-docente', 'DocenteController@crear')->name('crear.docente')->middleware('auth');
 Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docente')->middleware('auth');
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');

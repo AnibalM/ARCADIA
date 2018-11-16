@@ -13,6 +13,10 @@ class DocenteController extends Controller
     	$this->middleware('auth');//VErifica si el usuario esta logeado o no...
     }
 
+    public function gestion_docente(Request $request){
+        return view('docentes.gestionDocente');
+    }
+
     public function crear(Request $request){
     	return view('docentes.crear');
     }
