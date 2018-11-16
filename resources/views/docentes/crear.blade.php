@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section("content")
-	<a href="{{ route('home.admin') }}">Regresar</a>
+	<a href="{{ route('home.admin') }}">REGRESAR</a>
 	<form onsubmit="return false" id="formulario">
 		<h1>REGISTRO DE DOCENTE</h1>
 		<label>Cedula:</label><br>
