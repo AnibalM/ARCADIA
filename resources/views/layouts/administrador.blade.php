@@ -44,7 +44,7 @@
           <div class="nav-wrapper">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="index.html">
+                <a class="nav-link active" href="{{ route('home.admin')}}">
                   <i class="material-icons">home</i>
                   <span>Principal</span>
                 </a>
