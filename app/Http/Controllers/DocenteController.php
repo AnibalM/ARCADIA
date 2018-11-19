@@ -37,6 +37,7 @@ class DocenteController extends Controller
     	$lista = Docente::select("idDocente","Nombre","Apellidos","Tipo_Docente")
     		->orderBy("idDocente","DESC")
     		->get();
+
     	return $lista;
     }
 
