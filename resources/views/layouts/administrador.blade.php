@@ -143,7 +143,7 @@
                 </li>-->
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img class="user-avatar rounded-circle mr-2" src="{{ ('administradores/images/avatars/2.jpg') }}" alt="User Avatar">
+                    <img class="user-avatar rounded-circle mr-2" src="{{ ('administradores/images/avatars/1.jpg') }}" alt="User Avatar">
                     <span class="d-none d-md-inline-block">Administrador</span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-small">
@@ -182,7 +182,7 @@
    
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
     @yield('scripts')
     <script type="text/javascript" src="{{ asset('js/notify.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

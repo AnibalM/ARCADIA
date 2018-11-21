@@ -34,10 +34,9 @@ class DocenteController extends Controller
     }
 
     public function listar(Request $request){
-    	$lista = Docente::select("idDocente","Nombre","Apellidos","Tipo_Docente")
+    	$lista = Docente::select("idDocente","Nombre","Apellidos","Tipo_Docente","Telefono")
     		->orderBy("idDocente","DESC")
     		->get();
-
     	return $lista;
     }
 
