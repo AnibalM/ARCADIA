@@ -10,11 +10,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="{{ asset('administradores/styles/shards-dashboards.1.1.0.min.css') }}">
-    @yield('style')
     <link rel="stylesheet" href="{{ asset('administradores/styles/extras.1.1.0.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('administradores/dataTables.bootstrap4.min.css') }}">
+    @yield('style')
+    
+    
 
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+   
 
 </head>
  <div class="container-fluid">
@@ -183,7 +184,8 @@
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
-    @yield('scripts')
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
     <script type="text/javascript" src="{{ asset('js/notify.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -193,5 +195,7 @@
     <script src="{{ asset('administradores/scripts/extras.1.1.0.min.js') }}"></script>
     <script src="{{ asset('administradores/scripts/shards-dashboards.1.1.0.min.js') }}"></script>
     <script src="{{ asset('administradores/scripts/app/app-blog-overview.1.1.0.js') }}"></script>	
+
+    @yield('scripts')
  </body>
 </html>    

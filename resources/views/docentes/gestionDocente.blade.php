@@ -1,6 +1,8 @@
 @extends('layouts.administrador')
 
-
+@section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('administradores/dataTables.bootstrap4.min.css') }}">
+@endsection
 
 
 @section('contenido')  
@@ -31,7 +33,7 @@
                 <th>Apellidos</th>
                 <th>Tipo</th>
                 <th>Telefono</th>
-                <th>Accion</th>
+                
             </tr>
         </thead>
         <tbody>          
@@ -41,12 +43,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th>Cedula</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Tipo</th>
+                <th>Telefono</th>
+                
             </tr>
         </tfoot>
     </table>
@@ -150,14 +152,32 @@
 @endsection
 
 @section('scripts')
-
-   
+    
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
     <script type="text/javascript">
-    $(document).ready(function() {
-    $('#example').DataTable();
+    $(function() {
+    $('#example').DataTable({
+      processing: true,
+      serverSide: true,
+      language: {
+                 "url": '{!! asset('/administradores/latino.json') !!}'
+                  } ,
+      ajax: '{!! route('listar.docentes') !!}',
+      columns : [
+                        { data: 'idDocente', name: 'idDocente' },
+                        { data: 'Nombre', name: 'Nombre' },
+                        { data: 'Apellidos', name: 'Apellidos'},
+                        { data: 'Tipo_Docente', name: 'Tipo_Docente'},
+                        { data: 'Telefono', name: 'Telefono'}
+        ]
+
+
+    });
+
+
+
       });
 
  </script>   

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Docente;
 use DB;
+use DataTables;
 
 class DocenteController extends Controller
 {
@@ -33,12 +34,24 @@ class DocenteController extends Controller
     	return response()->json(["message" => "Docente guardado"]);
     }
 
-    public function listar(Request $request){
+
+
+
+
+    public function listar()
+    {
+
+        return Datatables::of(Docente::get())->make(true);
+
+
+    }
+
+    /*public function listar(Request $request){
     	$lista = Docente::select("idDocente","Nombre","Apellidos","Tipo_Docente","Telefono")
     		->orderBy("idDocente","DESC")
     		->get();
     	return $lista;
-    }
+    }*/
 
     public function eliminar(Request $request){
     	DB::table('docente')->where('idDocente', $request->id)->delete();
