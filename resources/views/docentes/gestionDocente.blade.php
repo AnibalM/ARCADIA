@@ -2,6 +2,8 @@
 
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/alertify.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/themes/default.css') }}">
 @endsection
 
 
@@ -32,7 +34,7 @@
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Tipo</th>
-                <th>Telefono</th>
+                <th>Acciones</th>
                 
             </tr>
         </thead>
@@ -47,7 +49,7 @@
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Tipo</th>
-                <th>Telefono</th>
+                <th>Acciones</th>
                 
             </tr>
         </tfoot>
@@ -155,9 +157,9 @@
     
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
+     <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
     <script type="text/javascript">
-    $(function() {
+    function listarDocente() {
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -170,17 +172,80 @@
                         { data: 'Nombre', name: 'Nombre' },
                         { data: 'Apellidos', name: 'Apellidos'},
                         { data: 'Tipo_Docente', name: 'Tipo_Docente'},
-                        { data: 'Telefono', name: 'Telefono'}
-        ]
+                        { data: null,  render: function ( data, type, row ) {
+                        return "<button id='ok' class='btn btn-xs btn-danger' onclick='eliminar("+ data.idDocente +")'>Elminar</button>"  }  
+                         } 
+                  ]
 
 
     });
 
 
 
+      };
+ listarDocente();     
+      
+</script>  
+
+      <script type="text/javascript">   
+
+      $(document).ready(function(){
+      $("#guardar").click(function(){
+        $.post("{{ route('guardar.docente') }}", {
+          "cedula": $("#ceduladoc").val(),
+          "nombres": $("#nombredoc").val(),
+          "apellidos": $("#apellidodoc").val(),
+          "correo": $("#correodoc").val(),
+          "tipo": $("#tipodoc").val(),
+          "contrasena": $("#contradoc").val()
+        },
+          function(response) {
+          //console.log(response.message)
+          alertify.success(response.message);     
+
+          document.getElementById('formulario').reset()
+          $("#example").dataTable().fnDestroy();
+          listarDocente();
+        });
+
+        
+        });
+
       });
 
- </script>   
+ </script> 
+
+<script type="text/javascript">
+  
+   function eliminar(id){
+       $.post("{{ route('eliminar.docente') }}", {
+        "id": id
+
+       },
+        function (response) {            
+        $.notify(response.message,"success");
+        $("#example").dataTable().fnDestroy();
+        listarDocente();
+
+        });
+      }; 
+      
+    
+
+</script>
+
+<script type="text/javascript">
+  
+function sino(){
+
+  alertify.confirm('Confirm Title', 'Confirm Message', function(){ alertify.success('Ok') }
+  , function(){ alertify.error('Cancel')});
+
+
+};
+
+
+</script>
 
 
 

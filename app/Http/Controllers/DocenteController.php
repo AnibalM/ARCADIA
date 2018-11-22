@@ -31,7 +31,7 @@ class DocenteController extends Controller
     	$docente->Email = $request->correo;
     	$docente->password = bcrypt($request->contrasena);
     	$docente->save();
-    	return response()->json(["message" => "Docente guardado"]);
+    	return response()->json(["message" => "DOCENTE REGISTRADO CON EXITO"]);
     }
 
 
