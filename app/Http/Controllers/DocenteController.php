@@ -55,7 +55,7 @@ class DocenteController extends Controller
 
     public function eliminar(Request $request){
     	DB::table('docente')->where('idDocente', $request->id)->delete();
-    	return response()->json(["message" => "Eliminado correctamente"]);
+    	return response()->json(["message" => "DOCENTE ELIMINADO CON EXITO"]);
     }
 
     public function editar($id){

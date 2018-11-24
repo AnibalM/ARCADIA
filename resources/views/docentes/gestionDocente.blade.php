@@ -173,7 +173,7 @@
                         { data: 'Apellidos', name: 'Apellidos'},
                         { data: 'Tipo_Docente', name: 'Tipo_Docente'},
                         { data: null,  render: function ( data, type, row ) {
-                        return "<button id='ok' class='btn btn-xs btn-danger' onclick='eliminar("+ data.idDocente +")'>Elminar</button>"  }  
+                        return "<button class='btn btn-xs btn-danger' onclick='eliminar("+ data.idDocente +")'>Elminar</button>"  }  
                          } 
                   ]
 
@@ -215,37 +215,46 @@
 
  </script> 
 
-<script type="text/javascript">
-  
-   function eliminar(id){
-       $.post("{{ route('eliminar.docente') }}", {
-        "id": id
+<script type="text/javascript"> 
 
-       },
-        function (response) {            
-        $.notify(response.message,"success");
-        $("#example").dataTable().fnDestroy();
-        listarDocente();
+      function eliminar(id){
+      alertify.confirm('Eliminar Docente','¿Desea eliminar este docente?', function(){ 
 
-        });
-      }; 
-      
-    
+          $.post("{{ route('eliminar.docente') }}", {
+        "id": id,         
+          },
+          function(response){
+           alertify.success(response.message); 
+          document.getElementById('formulario').reset()
+          $("#example").dataTable().fnDestroy();
+          listarDocente();
+          });//FIN DEL AJAX
+
+           },function(){ alertify.error('Cancelado')});//FIN DEL ALERTIFY
+
+
+
+    };//FIN DE LA FUNCION ELIMINAR
+
+
+     
+     
+
+
+
+
+       
 
 </script>
 
-<script type="text/javascript">
-  
-function sino(){
 
-  alertify.confirm('Confirm Title', 'Confirm Message', function(){ alertify.success('Ok') }
-  , function(){ alertify.error('Cancel')});
+alertify.confirm('Confirm Message', function(){ alertify.success('Ok') 
 
 
-};
+
+});
 
 
-</script>
 
 
 
