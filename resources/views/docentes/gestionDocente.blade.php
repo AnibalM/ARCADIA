@@ -221,7 +221,7 @@
       alertify.confirm('Eliminar Docente','¿Desea eliminar este docente?', function(){ 
 
           $.post("{{ route('eliminar.docente') }}", {
-        "id": id,         
+          "id": id,         
           },
           function(response){
            alertify.success(response.message); 
@@ -230,34 +230,17 @@
           listarDocente();
           });//FIN DEL AJAX
 
-           },function(){ alertify.error('Cancelado')});//FIN DEL ALERTIFY
+           },function(){ alertify.error('Cancelado')
+         
+         }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
 
 
 
-    };//FIN DE LA FUNCION ELIMINAR
-
-
-     
-     
+         //FIN DEL ALERTIFY
 
 
 
-
-       
+              };//FIN DE LA FUNCION ELIMINAR        
 
 </script>
-
-
-alertify.confirm('Confirm Message', function(){ alertify.success('Ok') 
-
-
-
-});
-
-
-
-
-
-
-
 @endsection
