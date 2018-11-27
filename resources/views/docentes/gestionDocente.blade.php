@@ -36,6 +36,7 @@
                 <th>Tipo</th>
                 <th>Acciones</th>
                 
+                
             </tr>
         </thead>
         <tbody>          
@@ -50,6 +51,7 @@
                 <th>Apellidos</th>
                 <th>Tipo</th>
                 <th>Acciones</th>
+                
                 
             </tr>
         </tfoot>
@@ -92,7 +94,7 @@
               -->
             </ul>
             <span class="copyright ml-auto my-auto mr-2">Software
-              <a href="https://designrevision.com" rel="nofollow">La Arcadia</a>
+              <a href="https://designrevision.com" rel="nofollow">Arcadia</a>
             </span>
           </footer>
         </main>
@@ -101,7 +103,7 @@
   </main>
       </div>
     </div> 
-    <!-- Modal -->          
+    <!-- Modal crear -->          
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -151,6 +153,57 @@
   </div>
 </div>
 </div>
+<!-- Modal editar -->          
+  <div class="modal fade" id="exampleModalCentereditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><b>EDITAR DOCENTE</b></h5>
+        <button type="boton" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body">
+        <form onsubmit="return false" id="formulario">
+          <div class="form-group">
+            <label for="documento" class="col-form-label">Cedula:</label>
+            <input type="text" class="form-control" name="ceduladoc" id="ceduladoc">
+          </div>
+          <div class="form-group">
+            <label for="nombre" class="col-form-label">Nombres:</label>
+            <input type="text" class="form-control" name="nombredoc" id="nombredoc"></input>
+          </div>
+          <div class="form-group">
+            <label for="apellido" class="col-form-label">Apellidos:</label>
+            <input type="text" class="form-control" name="apellidodoc" id="apellidodoc"></input>
+          </div>
+          <div class="form-group">
+            <label for="tipo" class="col-form-label">Tipo de docente:</label>
+            <select class="form-control" name="tipodoc" id="tipodoc">
+              <option>Estable</option>
+          <option>Provisional</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="correo" class="col-form-label">Correo Electronico:</label>
+            <input type="text" class="form-control" name="correodoc" id="correodoc"></input>
+          </div>
+          <div class="form-group">
+            <label for="contraseña" class="col-form-label">Contraseña:</label>
+            <input type="text" class="form-control" name="contradoc" id="contradoc"></input>
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-outline-success" data-dismiss="modal" name="guardar" id="guardar">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -173,8 +226,10 @@
                         { data: 'Apellidos', name: 'Apellidos'},
                         { data: 'Tipo_Docente', name: 'Tipo_Docente'},
                         { data: null,  render: function ( data, type, row ) {
-                        return "<button class='btn btn-xs btn-danger' onclick='eliminar("+ data.idDocente +")'>Elminar</button>"  }  
-                         } 
+                        return " <button class='btn btn-xs btn-info' data-toggle='modal' data-target='#exampleModalCentereditar''>Modificar</button>" +
+                        " <button class='btn btn-xs btn-danger' onclick='eliminar("+ data.idDocente +")'>Elminar</button>" }
+                         }
+                         
                   ]
 
 

@@ -41,7 +41,7 @@ class DocenteController extends Controller
     public function listar()
     {
 
-        return Datatables::of(Docente::get())->make(true);
+        return Datatables::of(Docente::get())->make(10);
 
 
     }
