@@ -31,12 +31,17 @@ class DocenteController extends Controller
         return view('docentes.docente', compact('docente'));
     }
 
+    public function docentever($id)
+    {
+         $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono')->where('idDocente', $id);
+
+        return view('docentes.docentever', compact('docente'));
+    }
+
+
     public function pdf()
-    {        
-        /**
-         * toma en cuenta que para ver los mismos 
-         * datos debemos hacer la misma consulta
-        **/
+    {      
+        
         $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono');
 
         $pdf = PDF::loadView('docentes.docente', compact('docente'));
@@ -123,7 +128,8 @@ class DocenteController extends Controller
 
         return '<a href="#" class="btn btn-xs btn-primary edit" id="'.$docentes->idDocente.'"><i class="glyphicon
         glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$docentes->idDocente.')"><i class="glyphicon
-        glyphicon-edit"></i> Eliminar</a>';
+        glyphicon-edit"></i> Eliminar</a> <a class="btn btn-xs btn-info" href="docente-ver/'.$docentes->idDocente.'"><i class="glyphicon
+        glyphicon-edit"></i> Ver</a>';
 
        })
        ->make(true);

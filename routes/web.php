@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Auth;
 Route::get('docente', 'DocenteController@index')->name('docente');
 Route::get('pdf', 'DocenteController@pdf')->name('docente.pdf');
 
+Route::get('docente-ver/{id}', 'DocenteController@docentever')->name('docente.ver');
+Route::get('pdfver', 'DocenteController@pdfver')->name('docentever.pdf');
+
+
 
 Route::any('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
