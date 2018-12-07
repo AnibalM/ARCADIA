@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Docente;
 use DB;
 use DataTables;
+use PDF;
 
 class DocenteController extends Controller
 {
@@ -22,7 +24,84 @@ class DocenteController extends Controller
     	return view('docentes.crear');
     }
 
-    public function guardar(Request $request){
+    public function index()
+    {
+        $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono');
+
+        return view('docentes.docente', compact('docente'));
+    }
+
+    public function pdf()
+    {        
+        /**
+         * toma en cuenta que para ver los mismos 
+         * datos debemos hacer la misma consulta
+        **/
+        $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono');
+
+        $pdf = PDF::loadView('docentes.docente', compact('docente'));
+
+        return $pdf->download('listado-docentes.pdf');
+    }
+
+
+
+    function guardar(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'idDocente' => 'required'
+            
+        ]);
+
+        $error_array = array();
+        $success_output = '';
+        if ($validation->fails())
+        {
+            foreach($validation->messages()->getMessages() as $field_name => $messages)
+            {
+                $error_array[] = $messages = 'CEDULA REQUERIDA';
+            }
+        }
+        else
+        {
+            if($request->get('button_action') == "insert")
+            {
+                $docente = new docente([
+                    'idDocente'    =>  $request->get('idDocente'),
+                    'Nombre'     =>  $request->get('nombre'),
+                    'Apellidos'     =>  $request->get('apellido'),
+                    'Tipo_Docente'     =>  $request->get('tipo'),
+                    'Email'     =>  $request->get('correo'),
+                    'password'     =>  $request->get('contrasena')
+                ]);
+                $docente->save();
+                $success_output = 'DOCENTE REGISTRADO CON EXITO';
+            }
+
+            if($request->get('button_action') == "update") {
+                
+                $docente = Docente::where("idDocente", $request->docente_id)->first();
+                $docente->idDocente = $request->get('idDocente');
+                $docente->Nombre = $request->get('nombre');
+                $docente->Apellidos = $request->get('apellido');               
+                $docente->Tipo_Docente = $request->get('tipo');
+                $docente->Email = $request->get('correo');
+                $docente->password = $request->get('contrasena');
+                $docente->save();
+                $success_output = 'DOCENTE ACTUALIZADO CON EXITO ';
+
+            };
+            
+        }
+        $output = array(
+            'error'     =>  $error_array,
+            'success'   =>  $success_output
+        );
+        echo json_encode($output);
+    }
+
+
+    /*public function guardar(Request $request){
     	$docente = new Docente();
     	$docente->idDocente = $request->cedula;
     	$docente->Nombre = $request->nombres;
@@ -32,19 +111,48 @@ class DocenteController extends Controller
     	$docente->password = bcrypt($request->contrasena);
     	$docente->save();
     	return response()->json(["message" => "DOCENTE REGISTRADO CON EXITO"]);
+    }*/
+
+
+
+    public function listar(){
+
+       $docentes = docente::select('idDocente','Nombre', 'Apellidos', 'Tipo_Docente');
+       return Datatables::of($docentes)
+       ->addColumn('action', function($docentes){
+
+        return '<a href="#" class="btn btn-xs btn-primary edit" id="'.$docentes->idDocente.'"><i class="glyphicon
+        glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$docentes->idDocente.')"><i class="glyphicon
+        glyphicon-edit"></i> Eliminar</a>';
+
+       })
+       ->make(true);
     }
 
 
 
+    function fetch(Request $request)
+    {
+
+        $id= $request->input('id');
+        $docente = Docente::where("idDocente", $id)->first();
 
 
-    public function listar()
+       return response()->json(["idDocente" => "$docente->idDocente","Nombre" => "$docente->Nombre",
+        "Apellidos" => "$docente->Apellidos", "tipo" => "$docente->Tipo_Docente", "correo" => "$docente->Email"
+        ]);
+
+    }
+
+
+
+    /*public function listar()
     {
 
         return Datatables::of(Docente::get())->make(10);
 
 
-    }
+    }*/
 
     /*public function listar(Request $request){
     	$lista = Docente::select("idDocente","Nombre","Apellidos","Tipo_Docente","Telefono")
@@ -77,3 +185,5 @@ class DocenteController extends Controller
     	return view("dashboard.admin");
     }
 }
+
+

@@ -12,28 +12,41 @@
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 <span class="text-uppercase page-subtitle">Docentes</span>
                 <h3 class="page-title">Listados</h3>
-                <button class="boton" data-toggle="modal" data-target="#exampleModalCenter" style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
-                Agregar</button>
-              </div>
+                <button class="boton" data-toggle="modal" id="add_data"  style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
+                Agregar</button>                
+              </div>              
             </div>
-
+            <div>
+                <a href="{{ route('docente.pdf') }}" class="btn btn-success">
+                Descargar listado
+                </a>
+                <br>
+                <br>
+                <h4><strong>GESTION DOCENTES</strong></h4>
+              </div>
+              
                 
                 
                 
-                <div class="row">
+              <!--<div clas>
               <div class="col">
                 <div class="card card-small mb-4">
                   <div class="card-header border-bottom">
                     <h6 class="m-0">LISTADO DE DOCENTE</h6>
-                  </div>
+                  </div> POR SI LA QUIERO DEJAR COMO ANTES-->
+                  <div>
+                    <div>
+                      <div>
                  <!--EMPIEZA LA TABLA AQUI-->
                  <table id="example" class="table table-striped table-bordered" style="width:100%">
                  <thead>
             <tr>
+
+
                 <th>Cedula</th>
-                <th>Nombres</th>
+                <th>Nombre</th>
                 <th>Apellidos</th>
-                <th>Tipo</th>
+                <th>Tipo Docente</th>
                 <th>Acciones</th>
                 
                 
@@ -47,11 +60,10 @@
         <tfoot>
             <tr>
                 <th>Cedula</th>
-                <th>Nombres</th>
+                <th>Nombre</th>
                 <th>Apellidos</th>
-                <th>Tipo</th>
+                <th>Tipo Docente</th>
                 <th>Acciones</th>
-                
                 
             </tr>
         </tfoot>
@@ -76,13 +88,13 @@
           <footer class="main-footer d-flex p-2 px-3 bg-white border-top">
             <ul class="nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Andrés Cáceres</a>
+                <a class="nav-link" href="#">ANDRES CACERES</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">-</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Anibal Manjarrez</a>
+                <a class="nav-link" href="#">ANIBAL MANJARREZ</a>
               </li>
               <!--
               <li class="nav-item">
@@ -94,7 +106,7 @@
               -->
             </ul>
             <span class="copyright ml-auto my-auto mr-2">Software
-              <a href="https://designrevision.com" rel="nofollow">Arcadia</a>
+              <a href="http://www.unicesar.edu.co" rel="nofollow">Arcadia</a>
             </span>
           </footer>
         </main>
@@ -103,106 +115,64 @@
   </main>
       </div>
     </div> 
-    <!-- Modal crear -->          
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle"><b>CREAR DOCENTE</b></h5>
-        <button type="boton" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-       <div class="modal-body">
-        <form onsubmit="return false" id="formulario">
-          <div class="form-group">
-            <label for="documento" class="col-form-label">Cedula:</label>
-            <input type="text" class="form-control" name="ceduladoc" id="ceduladoc">
-          </div>
-          <div class="form-group">
-            <label for="nombre" class="col-form-label">Nombres:</label>
-            <input type="text" class="form-control" name="nombredoc" id="nombredoc"></input>
-          </div>
-          <div class="form-group">
-            <label for="apellido" class="col-form-label">Apellidos:</label>
-            <input type="text" class="form-control" name="apellidodoc" id="apellidodoc"></input>
-          </div>
-          <div class="form-group">
-            <label for="tipo" class="col-form-label">Tipo de docente:</label>
-            <select class="form-control" name="tipodoc" id="tipodoc">
-              <option>Estable</option>
-          <option>Provisional</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="correo" class="col-form-label">Correo Electronico:</label>
-            <input type="text" class="form-control" name="correodoc" id="correodoc"></input>
-          </div>
-          <div class="form-group">
-            <label for="contraseña" class="col-form-label">Contraseña:</label>
-            <input type="text" class="form-control" name="contradoc" id="contradoc"></input>
-          </div>
-          
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-outline-success" data-dismiss="modal" name="guardar" id="guardar">Registrar</button>
-      </div>
+   
+<!--MODAL INSERTAR MODIFICAR-->
+<div id="docenteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="docente_form">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>AGREGAR DOCENTE</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   
+                </div>
+                <div class="modal-body">
+                      <!--{{csrf_field()}}-->
+                    <span id="form_output"></span>
+                    <div class="form-group">
+                        <label>Cedula</label>
+                        <input type="text" name="idDocente" id="idDocente" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nombres</label>
+                        <input type="text" name="nombre" id="nombre" class="form-control" />
+                    </div>
+                     <div class="form-group">
+                        <label>Apellidos</label>
+                        <input type="text" name="apellido" id="apellido" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label">Tipo de docente:</label>
+                        <select class="form-control" name="tipo" id="tipo">
+                        <option>Estable</option>
+                        <option>Provisional</option>
+                        </select>
+                        </div>
+                       <div class="form-group">
+                        <label>Correo Electronico</label>
+                        <input type="text" name="correo" id="correo" class="form-control" />
+                    </div> 
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="text" name="contrasena" id="contrasena" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="docente_id" id="docente_id" value="" />
+                    <input type="hidden" name="button_action" id="button_action" value="insert" />
+                    <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
+                    <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
-</div>
-<!-- Modal editar -->          
-  <div class="modal fade" id="exampleModalCentereditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle"><b>EDITAR DOCENTE</b></h5>
-        <button type="boton" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-       <div class="modal-body">
-        <form onsubmit="return false" id="formulario">
-          <div class="form-group">
-            <label for="documento" class="col-form-label">Cedula:</label>
-            <input type="text" class="form-control" name="ceduladoc" id="ceduladoc">
-          </div>
-          <div class="form-group">
-            <label for="nombre" class="col-form-label">Nombres:</label>
-            <input type="text" class="form-control" name="nombredoc" id="nombredoc"></input>
-          </div>
-          <div class="form-group">
-            <label for="apellido" class="col-form-label">Apellidos:</label>
-            <input type="text" class="form-control" name="apellidodoc" id="apellidodoc"></input>
-          </div>
-          <div class="form-group">
-            <label for="tipo" class="col-form-label">Tipo de docente:</label>
-            <select class="form-control" name="tipodoc" id="tipodoc">
-              <option>Estable</option>
-          <option>Provisional</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="correo" class="col-form-label">Correo Electronico:</label>
-            <input type="text" class="form-control" name="correodoc" id="correodoc"></input>
-          </div>
-          <div class="form-group">
-            <label for="contraseña" class="col-form-label">Contraseña:</label>
-            <input type="text" class="form-control" name="contradoc" id="contradoc"></input>
-          </div>
-          
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-outline-success" data-dismiss="modal" name="guardar" id="guardar">Registrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+
+<!--FIN MODAL INSERTAR MODIFICADO-->
+
+
+
+
 
 @endsection
 
@@ -211,8 +181,11 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
      <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
+
+
+
     <script type="text/javascript">
-    function listarDocente() {
+    $(document).ready(function(){
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -221,28 +194,112 @@
                   } ,
       ajax: '{!! route('listar.docentes') !!}',
       columns : [
+                        
                         { data: 'idDocente', name: 'idDocente' },
                         { data: 'Nombre', name: 'Nombre' },
                         { data: 'Apellidos', name: 'Apellidos'},
-                        { data: 'Tipo_Docente', name: 'Tipo_Docente'},
-                        { data: null,  render: function ( data, type, row ) {
-                        return " <button class='btn btn-xs btn-info' data-toggle='modal' data-target='#exampleModalCentereditar''>Modificar</button>" +
-                        " <button class='btn btn-xs btn-danger' onclick='eliminar("+ data.idDocente +")'>Elminar</button>" }
-                         }
+                        { data: 'Tipo_Docente', name: 'Tipo_Docente'}, 
+                        { data: "action", orderable:false, searchable:false}                      
                          
                   ]
 
 
-    });
+    });//CIERRE DEL DATATABLE
+
+           $('#add_data').click(function(){
+           $('#docenteModal').modal('show');
+           document.getElementById('docente_form').reset();
+           $('#form_output').html('');
+           $('#button_action').val('insert');
+           $('#action').val('Agregar');
+           $('.modal-title').text('AGREGAR DOCENTE');
+            });
 
 
+        $('#docente_form').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.docente') }}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+            {
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                    }
+                    $('#form_output').html(error_html);
+                }
+                else
+                {
+                    
+                    //$('#form_output').html(data.success);
+                    document.getElementById('docente_form').reset();
+                    $('#action').val('Agregar');
+                    $('.modal-title').text('AGREGAR DOCENTE');
+                    $('#button_action').val('insert');
+                    $('#example').DataTable().ajax.reload();
+                    $('#docenteModal').modal('hide');
+                    alertify.success(data.success);
+                        }
+                    }
+                    
+                      })
+                        });
 
-      };
- listarDocente();     
+                
+
+                  $(document).on('click', '.edit', function(){
+                      var idDocente = $(this).attr("id");
+                       $('#form_output').html('');
+
+                    
+                        $.ajaxSetup({
+                        headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                          }
+                         });                        
+                        $.ajax({
+                          url:"{{route('fetch.docentes')}}",
+                          method:'GET',
+                          data:{id:idDocente},
+                          dataType:'json',
+                          success:function(response){
+
+                            $('#idDocente').val(response.idDocente);
+                            $('#nombre').val(response.Nombre);
+                            $('#apellido').val(response.Apellidos);
+                            $('#tipo').val(response.tipo);
+                            $('#correo').val(response.correo);
+                            $('#docente_id').val(idDocente);                          
+                            $('#docenteModal').modal('show');
+                            $('#action').val('Editar');
+                            $('.modal-title').text('EDITAR DOCENTE');
+                            $('#button_action').val('update');
+
+
+                          }
+
+                      })
+
+
+                  });//FIN DEL DOCUMENTS EDITAR
+
+              });//FIN DEL DOCUMENTS...     
       
 </script>  
 
-      <script type="text/javascript">   
+      <!--<script type="text/javascript">   
 
       $(document).ready(function(){
       $("#guardar").click(function(){
@@ -266,9 +323,10 @@
         
         });
 
+       
       });
 
- </script> 
+ </script> -->
 
 <script type="text/javascript"> 
 
@@ -280,9 +338,7 @@
           },
           function(response){
            alertify.success(response.message); 
-          document.getElementById('formulario').reset()
-          $("#example").dataTable().fnDestroy();
-          listarDocente();
+           $('#example').DataTable().ajax.reload();
           });//FIN DEL AJAX
 
            },function(){ alertify.error('Cancelado')
@@ -296,6 +352,11 @@
 
 
               };//FIN DE LA FUNCION ELIMINAR        
+
+</script>
+
+
+
 
 </script>
 @endsection

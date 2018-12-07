@@ -32,6 +32,7 @@
             <!--@if (isset($msg))
                 {{ $msg }}
             @endif-->
+         
             <form action="{{ route('login') }}" method="post" class="login100-form validate-form">
                 <span class="login100-form-title p-b-26">
                     Iniciar Sesión

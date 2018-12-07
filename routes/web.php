@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Route::get('/prueba', function(){
+//return View('docentes.prueba');
+//});	
+
+//Route::get('pdf', function(){
+//$pdf = PDF::loadView('docentes.prueba');
+//return $pdf->download();
+//})->name('pdf');
+
+Route::get('docente', 'DocenteController@index')->name('docente');
+Route::get('pdf', 'DocenteController@pdf')->name('docente.pdf');
+
 
 Route::any('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -21,6 +33,12 @@ Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docent
 Route::get('crear-docente', 'DocenteController@crear')->name('crear.docente')->middleware('auth');
 Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docente')->middleware('auth');
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');
+
+Route::get('update-docente', 'DocenteController@fetch')->name('fetch.docentes')->middleware('auth');;
+
+
+
+
 Route::post('eliminar-docente', 'DocenteController@eliminar')->name('eliminar.docente')->middleware('auth');
 Route::get('editar-docente/{id}', 'DocenteController@editar')->name('editar.docente')->middleware('auth');
 Route::post('actualizar-docente', 'DocenteController@actualizar')->name('actualizar.docente')->middleware('auth');
