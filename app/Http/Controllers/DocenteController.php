@@ -34,8 +34,9 @@ class DocenteController extends Controller
     public function docentever($id)
     {
          $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono')->where('idDocente', $id);
-
-        return view('docentes.docentever', compact('docente'));
+         $pdf = PDF::loadView('docentes.docentever', compact('docente')); 
+        
+        return $pdf->stream();
     }
 
 
