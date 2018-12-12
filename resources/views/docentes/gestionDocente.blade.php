@@ -204,7 +204,7 @@
                   ]
 
 
-    });//CIERRE DEL DATATABLE
+    });//CIERRE DEL DATATABLES
 
            $('#add_data').click(function(){
            $('#docenteModal').modal('show');

@@ -34,6 +34,11 @@ Route::get('dashboard-admin', 'HomeController@dashboard_admin')->name('home.admi
 Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.docente')->middleware('auth');
 
 Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docente.gestion')->middleware('auth');
+
+Route::get('gestion-area', 'AreaController@gestion_area')->name('area.gestion')->middleware('auth');
+Route::get('listar-area', 'AreaController@listarArea')->name('listar.area');
+
+
 Route::get('crear-docente', 'DocenteController@crear')->name('crear.docente')->middleware('auth');
 Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docente')->middleware('auth');
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');

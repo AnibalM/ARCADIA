@@ -56,6 +56,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link " href="{{ route('area.gestion') }}">
+                  <i class="material-icons">brightness_auto</i>
+                  <span>Areas</span>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link " href="estudiantes.html">
                   <i class="material-icons">face</i>
                   <span>Estudiantes</span>
@@ -72,19 +78,13 @@
                   <i class="material-icons">school</i>
                   <span>Cursos</span>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="areas.html">
-                  <i class="material-icons">brightness_auto</i>
-                  <span>Areas</span>
-                </a>
-              </li>
-              <li class="nav-item">
+              </li>              
+              <!--<li class="nav-item">
                 <a class="nav-link " href="user-profile-lite.html">
                   <i class="material-icons">person</i>
                   <span>Perfil Administrador</span>
                 </a>
-              </li>
+              </li>-->
               <li class="nav-item">
                 <a class="nav-link" href="{{ route('docente.gestion') }}">
                   <i class="material-icons">supervised_user_circle</i>
