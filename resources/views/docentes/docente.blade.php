@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-       <link rel="stylesheet" href="{{ asset('administradores/bootstrap.css') }}">
+       <!--<link rel="stylesheet" href="{{ asset('administradores/bootstrap.css') }}">-->
 
         <title>INSTITUCION EDUCATIVA ARCADIA</title>
 
@@ -14,7 +14,7 @@
                 <div class="col-xs-12">
     <h1 class="page-header">INSTITUCION EDUCATIVA ARCADIA</h1>
     <h2 class="page-header">Listado de Docentes</h2>
-    <table class="table table-hover table-striped">
+    <table>
         <thead>
             <tr>
                 <th>Cedula</th>
