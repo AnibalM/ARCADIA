@@ -5,7 +5,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Area extends Model
+class Area extends Authenticatable
 {
   
   protected $table= "area";

@@ -16,6 +16,12 @@
                 Agregar</button>                
               </div>              
             </div>
+            <div>
+              <br>
+              
+              
+                <h4><strong>GESTION AREAS</strong></h4>
+            </div>
 
              <div>
                     <div>
@@ -96,6 +102,49 @@
       </div>
     </div> 
 
+    <!--MODAL INSERTAR MODIFICAR-->
+<div id="areaModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="area_form">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>REGISTRAR AREA</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   
+                </div>
+                <div class="modal-body">
+                      <!--{{csrf_field()}}-->
+                    <span id="form_output"></span>
+                    <div class="form-group">
+                        <label>Identificacion</label>
+                        <input type="text" name="idarea" id="idarea" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del area</label>
+                        <input type="text" name="tipoarea" id="tipoarea" class="form-control" />
+                    </div>                     
+                    <div class="form-group">
+                        <label for="estado" class="col-form-label">Estado:</label>
+                        <select class="form-control" name="estado" id="estado">
+                        <option>Habilitado</option>
+                        <option>Deshabilitado</option>
+                        </select>
+                        </div>
+                       
+                </div>
+                <div class="modal-footer">
+                    <!--<input type="hidden" name="docente_id" id="docente_id" value="" />-->
+                    <input type="hidden" name="button_action" id="button_action" value="insert" />
+                    <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
+                    <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL INSERTAR MODIFICADO-->
+
 @endsection
 
 @section('scripts')
@@ -124,7 +173,65 @@
 
 
     });
-    });
+
+    $('#add_data').click(function(){
+           $('#areaModal').modal('show');
+           document.getElementById('area_form').reset();
+           $('#form_output').html('');
+           $('#button_action').val('insert');
+           $('#action').val('Agregar');
+           //$('.modal-title').text('REGISTRAR AREA');
+            });
+
+    $('#area_form').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();
+
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.area') }}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+            {
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                    }
+                    $('#form_output').html(error_html);
+                    //alert(form_data);
+                }
+                else
+                {
+                    
+                    //$('#form_output').html(data.success);
+                    document.getElementById('area_form').reset();
+                    $('#action').val('Agregar');
+                    $('.modal-title').text('REGISTRAR AREA');
+                    $('#button_action').val('insert');
+                    $('#example').DataTable().ajax.reload();
+                    $('#areaModal').modal('hide');
+                    alertify.success(data.success);
+                        }
+                    }
+                    
+                      })
+                        });
+
+
+
+
+
+
+    });//CIERRE DEL DOCUMENTS
 
     </script>
 @endsection    

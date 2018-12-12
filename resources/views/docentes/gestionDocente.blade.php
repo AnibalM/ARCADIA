@@ -169,11 +169,6 @@
 </div>
 
 <!--FIN MODAL INSERTAR MODIFICADO-->
-
-
-
-
-
 @endsection
 
 @section('scripts')
