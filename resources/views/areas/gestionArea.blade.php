@@ -114,8 +114,11 @@
                    
                 </div>
                 <div class="modal-body">
-                      <!--{{csrf_field()}}-->
-                    <span id="form_output"></span>
+                      <!--{{csrf_field()}}-->                    
+                    <div class="alert alert-danger" id="div">
+                     
+                    </div> 
+                        
                     <div class="form-group">
                         <label>Identificacion</label>
                         <input type="text" name="idarea" id="idarea" class="form-control" />
@@ -182,6 +185,7 @@
            $('#form_output').html('');
            $('#button_action').val('insert');
            $('#action').val('Agregar');
+           $('#div').hide();
            //$('.modal-title').text('REGISTRAR AREA');
             });
 
@@ -205,9 +209,11 @@
                     var error_html = '';
                     for(var count = 0; count < data.error.length; count++)
                     {
-                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                        error_html += '<li>'+data.error[count]+'</li>';
                     }
-                    $('#form_output').html(error_html);
+                    $('#div').show();
+                    $('#div').html(error_html);                   
+
                     //alert(form_data);
                 }
                 else
@@ -225,7 +231,11 @@
                     }
                     
                       })
-                        });   
+                        }); 
+
+
+      
+  
 
                       $(document).on('click', '.edit', function(){
                       var idArea = $(this).attr("id"); 
@@ -248,7 +258,8 @@
                             $('#areaModal').modal('show');
                             $('#action').val('Editar');
                             $('.modal-title').text('EDITAR AREA');
-                            $('#button_action').val('update');                  
+                            $('#button_action').val('update'); 
+                            $('#div').hide();                 
 
 
                           }

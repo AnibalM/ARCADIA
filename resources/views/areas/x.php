@@ -39,11 +39,12 @@ class AreaController extends Controller
     	 }
 
   function guardarArea(Request $request)
-        {
-        
-            $validation = Validator::make($request->all(), [
+    {
+        $validation = Validator::make($request->all(), [
             'idarea' => 'required|unique:area,idArea',
-            'tipoarea' => 'required|unique:area,Tipo_area'   
+            'tipoarea' => 'required|unique:area,Tipo_area'
+           
+            
         ]);
 
         $error_array = array();
@@ -77,11 +78,13 @@ class AreaController extends Controller
                 ->update([
                     'idArea' => $request->get('idarea'),
                     'Tipo_area' => $request->get('tipoarea'),
-                    'Estado' => $request->get('estado')
-                ]);
+                    'Estado' => $request->get('estado') 
+                ]);               
                 $success_output = 'AREA ACTUALIZADA CON EXITO ';
 
-            };            
+            };
+
+            
         }
         $output = array(
             'error'     =>  $error_array,

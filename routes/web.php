@@ -40,6 +40,7 @@ Route::get('listar-area', 'AreaController@listarArea')->name('listar.area')->mid
 Route::post('guardar-area', 'AreaController@guardarArea')->name('guardar.area')->middleware('auth');
 Route::post('eliminar-area', 'AreaController@eliminar')->name('eliminar.area')->middleware('auth');
 Route::get('actualizar-area', 'AreaController@fetch')->name('fetch.area')->middleware('auth');;
+
 //FIN RUTAS AREAS
 
 //RUTAS DEL DOCENTE
@@ -48,6 +49,7 @@ Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docen
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');
 Route::get('update-docente', 'DocenteController@fetch')->name('fetch.docentes')->middleware('auth');;
 Route::post('eliminar-docente', 'DocenteController@eliminar')->name('eliminar.docente')->middleware('auth');
+
 //FIN RUTAS DOCENTES
 
 
