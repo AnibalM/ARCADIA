@@ -33,24 +33,26 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('dashboard-admin', 'HomeController@dashboard_admin')->name('home.admin')->middleware('auth');
 Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.docente')->middleware('auth');
 
-Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docente.gestion')->middleware('auth');
 
 //RUTAS AREAS
 Route::get('gestion-area', 'AreaController@gestion_area')->name('area.gestion')->middleware('auth');
 Route::get('listar-area', 'AreaController@listarArea')->name('listar.area')->middleware('auth');
 Route::post('guardar-area', 'AreaController@guardarArea')->name('guardar.area')->middleware('auth');
+Route::post('eliminar-area', 'AreaController@eliminar')->name('eliminar.area')->middleware('auth');
+Route::get('actualizar-area', 'AreaController@fetch')->name('fetch.area')->middleware('auth');;
 //FIN RUTAS AREAS
 
 //RUTAS DEL DOCENTE
+Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docente.gestion')->middleware('auth');
 Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docente')->middleware('auth');
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');
 Route::get('update-docente', 'DocenteController@fetch')->name('fetch.docentes')->middleware('auth');;
-
+Route::post('eliminar-docente', 'DocenteController@eliminar')->name('eliminar.docente')->middleware('auth');
 //FIN RUTAS DOCENTES
 
 
-
+//RUTAS DE LA CRUD DE PRACTICA....
 Route::get('crear-docente', 'DocenteController@crear')->name('crear.docente')->middleware('auth');
-Route::post('eliminar-docente', 'DocenteController@eliminar')->name('eliminar.docente')->middleware('auth');
 Route::get('editar-docente/{id}', 'DocenteController@editar')->name('editar.docente')->middleware('auth');
 Route::post('actualizar-docente', 'DocenteController@actualizar')->name('actualizar.docente')->middleware('auth');
+//FIN RUTAS PRACTICAS

@@ -281,7 +281,7 @@
                             $('#action').val('Editar');
                             $('.modal-title').text('EDITAR DOCENTE');
                             $('#button_action').val('update');
-
+                            
 
                           }
 

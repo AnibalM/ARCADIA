@@ -35,7 +35,7 @@
                 <th>Identificacion</th>
                 <th>Nombre area</th>
                 <th>Estado</th>
-               
+                <th>Acciones</th>
                 
             </tr>
         </thead>
@@ -49,6 +49,7 @@
                 <th>Identificacion</th>
                 <th>Nombre area</th>
                 <th>Estado</th>
+                <th>Acciones</th>
                
                 
             </tr>
@@ -133,7 +134,7 @@
                        
                 </div>
                 <div class="modal-footer">
-                    <!--<input type="hidden" name="docente_id" id="docente_id" value="" />-->
+                    <input type="hidden" name="area_id" id="area_id" value="" />
                     <input type="hidden" name="button_action" id="button_action" value="insert" />
                     <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
                     <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
@@ -167,7 +168,8 @@
                         
                         { data: 'idArea', name: 'idArea' },
                         { data: 'Tipo_area', name: 'Tipo_area' },
-                        { data: 'Estado', name: 'Estado' }                
+                        { data: 'Estado', name: 'Estado' },
+                        { data: "action", orderable:false, searchable:false}                
                          
                   ]
 
@@ -186,7 +188,6 @@
     $('#area_form').on('submit', function(event){
         event.preventDefault();
         var form_data = $(this).serialize();
-
         $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -216,7 +217,7 @@
                     document.getElementById('area_form').reset();
                     $('#action').val('Agregar');
                     $('.modal-title').text('REGISTRAR AREA');
-                    $('#button_action').val('insert');
+                    $('#button_action').val('');
                     $('#example').DataTable().ajax.reload();
                     $('#areaModal').modal('hide');
                     alertify.success(data.success);
@@ -224,14 +225,62 @@
                     }
                     
                       })
-                        });
+                        });   
+
+                      $(document).on('click', '.edit', function(){
+                      var idArea = $(this).attr("id"); 
+                       $.ajaxSetup({
+                          headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                           }
+                         });                      
+                        $.ajax({
+                          url:"{{route('fetch.area')}}",
+                          method:'GET',
+                          data:{id:idArea},
+                          dataType:'json',
+                          success:function(response){
+
+                            $('#idarea').val(response.idArea);
+                            $('#tipoarea').val(response.Tipo_area);
+                            $('#estado').val(response.Estado);                           
+                            $('#area_id').val(idArea);                          
+                            $('#areaModal').modal('show');
+                            $('#action').val('Editar');
+                            $('.modal-title').text('EDITAR AREA');
+                            $('#button_action').val('update');                  
 
 
+                          }
+
+                      })
 
 
-
+                  });//FIN DEL DOCUMENTS EDITAR 
 
     });//CIERRE DEL DOCUMENTS
-
     </script>
+
+    <script type="text/javascript"> 
+
+        function eliminar(id){
+        alertify.confirm('Eliminar Area','¿Desea eliminar esta area?', function(){ 
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+          $.post("{{ route('eliminar.area') }}", {
+          "id": id,         
+          },
+          function(response){
+           alertify.success(response.message); 
+           $('#example').DataTable().ajax.reload();
+           });//FIN DEL AJAX
+           },function(){ alertify.error('Cancelado')
+         
+           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
+           };//FIN DE LA FUNCION ELIMINAR        
+
+      </script> 
 @endsection    
