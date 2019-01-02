@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
+//use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Request\AreaRequest;
 use App\Area;
 use DB;
 use DataTables;
 use PDF;
+//use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Rule;
 
 class AreaController extends Controller
 {
@@ -38,12 +42,18 @@ class AreaController extends Controller
 
     	 }
 
+         
   function guardarArea(Request $request)
         {
-        
+
+            $id = $request->get('idarea');            
             $validation = Validator::make($request->all(), [
-            'idarea' => 'required|unique:area,idArea',
-            'tipoarea' => 'required|unique:area,Tipo_area'   
+            'idarea' => 'required',
+            //'Tipo_area' => 'required|unique:area,'.$request->idarea
+            'Tipo_area' => [
+                'required',
+                 Rule::unique('area')->ignore($request->idarea,'idArea'),
+            ],
         ]);
 
         $error_array = array();
@@ -62,7 +72,7 @@ class AreaController extends Controller
             {
                 $area = new area([
                     'idArea'    =>  $request->get('idarea'),
-                    'Tipo_area'     =>  $request->get('tipoarea'),
+                    'Tipo_area'     =>  $request->get('Tipo_area'),
                     'Estado'     =>  $request->get('estado')
                     
                 ]);
@@ -76,7 +86,7 @@ class AreaController extends Controller
                 DB::table('area')->where("idArea", $request->area_id)
                 ->update([
                     'idArea' => $request->get('idarea'),
-                    'Tipo_area' => $request->get('tipoarea'),
+                    'Tipo_area' => $request->get('Tipo_area'),
                     'Estado' => $request->get('estado')
                 ]);
                 $success_output = 'AREA ACTUALIZADA CON EXITO ';

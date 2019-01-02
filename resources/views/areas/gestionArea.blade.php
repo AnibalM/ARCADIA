@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <label>Nombre del area</label>
-                        <input type="text" name="tipoarea" id="tipoarea" class="form-control" />
+                        <input type="text" name="Tipo_area" id="Tipo_area" class="form-control" />
                     </div>                     
                     <div class="form-group">
                         <label for="estado" class="col-form-label">Estado:</label>
@@ -252,7 +252,7 @@
                           success:function(response){
 
                             $('#idarea').val(response.idArea);
-                            $('#tipoarea').val(response.Tipo_area);
+                            $('#Tipo_area').val(response.Tipo_area);
                             $('#estado').val(response.Estado);                           
                             $('#area_id').val(idArea);                          
                             $('#areaModal').modal('show');
