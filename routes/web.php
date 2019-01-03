@@ -43,6 +43,14 @@ Route::get('actualizar-area', 'AreaController@fetch')->name('fetch.area')->middl
 
 //FIN RUTAS AREAS
 
+//RUTAS ASIGNATURAS
+
+Route::get('gestion-asignatura', 'AsignaturaController@gestion_asignatura')->name('asignatura.gestion')->middleware('auth');
+Route::get('listar-asignatura', 'AsignaturaController@listarAsignatura')->name('listar.asignatura')->middleware('auth');
+//Route::get('cargar-areas', 'AsignaturaController@cargarAreas')->name('cargar.areas');
+//Route::get('cargar-areas', 'AsignaturaController@cargarAreas')->name('cargar.area')->middleware('auth');
+//FIN RUTAS ASIGNATURAS
+
 //RUTAS DEL DOCENTE
 Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docente.gestion')->middleware('auth');
 Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docente')->middleware('auth');

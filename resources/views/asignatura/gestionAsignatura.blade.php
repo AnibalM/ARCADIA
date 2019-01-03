@@ -6,11 +6,11 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/themes/default.css') }}">
 @endsection
 
+@section('contenido')
 
-@section('contenido')  
 <div class="page-header row no-gutters py-4 mb-3 border-bottom">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <span class="text-uppercase page-subtitle">Areas</span>
+                <span class="text-uppercase page-subtitle">Asignaturas</span>
                 <h3 class="page-title">Listados</h3>
                 <button class="boton" data-toggle="modal" id="add_data"  style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
                 Agregar</button>                
@@ -20,7 +20,7 @@
               <br>
               
               
-                <h4><strong>GESTION AREAS</strong></h4>
+                <h4><strong>GESTION ASIGNATURAS</strong></h4>
             </div>
 
              <div>
@@ -33,9 +33,11 @@
 
 
                 <th>Identificacion</th>
-                <th>Nombre area</th>
+                <th>Nombre asignatura</th>                
+                <th>Area asociada</th>
                 <th>Estado</th>
                 <th>Acciones</th>
+                <!--<th>Acciones</th>-->
                 
             </tr>
         </thead>
@@ -47,10 +49,11 @@
         <tfoot>
             <tr>
                 <th>Identificacion</th>
-                <th>Nombre area</th>
+                <th>Nombre asignatura</th>                
+                <th>Area asociada</th>
                 <th>Estado</th>
                 <th>Acciones</th>
-               
+                <!--<th>Acciones</th>-->
                 
             </tr>
         </tfoot>
@@ -102,14 +105,13 @@
   </main>
       </div>
     </div> 
-
     <!--MODAL INSERTAR MODIFICAR-->
-<div id="areaModal" class="modal fade" role="dialog">
+<div id="asignaturaModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" id="area_form">
+            <form method="post" id="asignatura_form">
                 <div class="modal-header">
-                    <h5 class="modal-title"><b>REGISTRAR AREA</b></h5>
+                    <h5 class="modal-title"><b>REGISTRAR ASIGNATURA</b></h5>
                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                    
                 </div>
@@ -121,19 +123,27 @@
                         
                     <div class="form-group">
                         <label>Identificacion</label>
-                        <input type="text" name="idArea" id="idArea" class="form-control" />
+                        <input type="text" name="idAsignatura" id="idAsignatura" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label>Nombre del area</label>
-                        <input type="text" name="Tipo_area" id="Tipo_area" class="form-control" />
+                        <label>Nombre de la Asignatura</label>
+                        <input type="text" name="Nombre_Asignatura" id="Nombre_Asignatura" class="form-control" />
                     </div>                     
                     <div class="form-group">
+                        <label for="areaasociada" class="col-form-label">Area Asociada:</label>
+                        <select class="form-control" name="Tipo_area" id="Tipo_area">
+                        @foreach($areas as $area)
+                        <option>{{ $area->Tipo_area }}</option>
+                        @endforeach
+                        </select>
+                        </div>
+                      <div class="form-group">
                         <label for="estado" class="col-form-label">Estado:</label>
                         <select class="form-control" name="estado" id="estado">
                         <option>Habilitado</option>
                         <option>Deshabilitado</option>
                         </select>
-                        </div>
+                        </div>   
                        
                 </div>
                 <div class="modal-footer">
@@ -147,8 +157,6 @@
     </div>
 </div>
 
-<!--FIN MODAL INSERTAR MODIFICADO-->
-
 @endsection
 
 @section('scripts')
@@ -158,7 +166,7 @@
     <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
 
 
- <script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function(){
     $('#example').DataTable({
       processing: true,
@@ -166,10 +174,11 @@
       language: {
                  "url": '{!! asset('/administradores/latino.json') !!}'
                   } ,
-      ajax: '{!! route('listar.area') !!}',
+      ajax: '{!! route('listar.asignatura') !!}',
       columns : [
                         
-                        { data: 'idArea', name: 'idArea' },
+                        { data: 'idAsignatura', name: 'idAsignatura' },
+                        { data: 'Nombre_Asignatura', name: 'Nombre_Asignatura' },
                         { data: 'Tipo_area', name: 'Tipo_area' },
                         { data: 'Estado', name: 'Estado' },
                         { data: "action", orderable:false, searchable:false}                
@@ -179,9 +188,10 @@
 
     });
 
-    $('#add_data').click(function(){
-           $('#areaModal').modal('show');
-           document.getElementById('area_form').reset();
+
+          $('#add_data').click(function(){
+           $('#asignaturaModal').modal('show');
+           document.getElementById('asignatura_form').reset();
            $('#form_output').html('');
            $('#button_action').val('insert');
            $('#action').val('Agregar');
@@ -189,109 +199,10 @@
            //$('.modal-title').text('REGISTRAR AREA');
             });
 
-    $('#area_form').on('submit', function(event){
-        event.preventDefault();
-        var form_data = $(this).serialize();
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-        });
-        $.ajax({
-            url:"{{ route('guardar.area') }}",
-            method:"POST",
-            data:form_data,
-            dataType:"json",
-            success:function(data)
-            {
-                if(data.error.length > 0)
-                {
-                    var error_html = '';
-                    for(var count = 0; count < data.error.length; count++)
-                    {
-                        error_html += '<li>'+data.error[count]+'</li>';
-                    }
-                    $('#div').show();
-                    $('#div').html(error_html);                   
+     });//CIERRE DEL DOCUMENTS
 
-                    //alert(form_data);
-                }
-                else
-                {
-                    
-                    //$('#form_output').html(data.success);
-                    document.getElementById('area_form').reset();
-                    $('#action').val('Agregar');
-                    $('.modal-title').text('REGISTRAR AREA');
-                    $('#button_action').val('');
-                    $('#example').DataTable().ajax.reload();
-                    $('#areaModal').modal('hide');
-                    alertify.success(data.success);
-                        }
-                    }
-                    
-                      })
-                        }); 
-
-
-      
-  
-
-                      $(document).on('click', '.edit', function(){
-                      var idArea = $(this).attr("id"); 
-                       $.ajaxSetup({
-                          headers: {
-                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                           }
-                         });                      
-                        $.ajax({
-                          url:"{{route('fetch.area')}}",
-                          method:'GET',
-                          data:{id:idArea},
-                          dataType:'json',
-                          success:function(response){
-
-                            $('#idArea').val(response.idArea);
-                            $('#Tipo_area').val(response.Tipo_area);
-                            $('#estado').val(response.Estado);                           
-                            $('#area_id').val(idArea);                          
-                            $('#areaModal').modal('show');
-                            $('#action').val('Editar');
-                            $('.modal-title').text('EDITAR AREA');
-                            $('#button_action').val('update'); 
-                            $('#div').hide();                 
-
-
-                          }
-
-                      })
-
-
-                  });//FIN DEL DOCUMENTS EDITAR 
-
-    });//CIERRE DEL DOCUMENTS
     </script>
 
-    <script type="text/javascript"> 
 
-        function eliminar(id){
-        alertify.confirm('Eliminar Area','¿Desea eliminar esta area?', function(){ 
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-        });
-          $.post("{{ route('eliminar.area') }}", {
-          "id": id,         
-          },
-          function(response){
-           alertify.success(response.message); 
-           $('#example').DataTable().ajax.reload();
-           });//FIN DEL AJAX
-           },function(){ alertify.error('Cancelado')
-         
-           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
-           };//FIN DE LA FUNCION ELIMINAR        
 
-      </script> 
-@endsection    
+@endsection

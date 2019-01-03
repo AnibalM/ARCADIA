@@ -62,17 +62,17 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="estudiantes.html">
-                  <i class="material-icons">face</i>
-                  <span>Estudiantes</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="asignaturas.html">
+                <a class="nav-link " href="{{ route('asignatura.gestion') }}">
                   <i class="material-icons">local_mall</i>
                   <span>Asignaturas</span>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link " href="estudiantes.html">
+                  <i class="material-icons">face</i>
+                  <span>Estudiantes</span>
+                </a>
+              </li>              
               <li class="nav-item">
                 <a class="nav-link " href="cursos.html">
                   <i class="material-icons">school</i>

@@ -48,11 +48,11 @@ class AreaController extends Controller
 
             $id = $request->get('idarea');            
             $validation = Validator::make($request->all(), [
-            'idarea' => 'required',
+            'idArea' => 'required',
             //'Tipo_area' => 'required|unique:area,'.$request->idarea
             'Tipo_area' => [
                 'required',
-                 Rule::unique('area')->ignore($request->idarea,'idArea'),
+                 Rule::unique('area')->ignore($request->idArea,'idArea'),
             ],
         ]);
 
@@ -71,7 +71,7 @@ class AreaController extends Controller
             if($request->get('button_action') == "insert")
             {
                 $area = new area([
-                    'idArea'    =>  $request->get('idarea'),
+                    'idArea'    =>  $request->get('idArea'),
                     'Tipo_area'     =>  $request->get('Tipo_area'),
                     'Estado'     =>  $request->get('estado')
                     
@@ -85,7 +85,7 @@ class AreaController extends Controller
                 
                 DB::table('area')->where("idArea", $request->area_id)
                 ->update([
-                    'idArea' => $request->get('idarea'),
+                    'idArea' => $request->get('idArea'),
                     'Tipo_area' => $request->get('Tipo_area'),
                     'Estado' => $request->get('estado')
                 ]);

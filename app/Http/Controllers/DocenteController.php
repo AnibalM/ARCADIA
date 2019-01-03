@@ -31,15 +31,6 @@ class DocenteController extends Controller
         return view('docentes.docente', compact('docente'));
     }
 
-    public function docentever($id)
-    {
-         $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono')->where('idDocente', $id);
-         $pdfver = PDF::loadView('docentes.docentever', compact('docente')); 
-        
-        return $pdfver->stream();
-    }
-
-
     public function pdf()
     {      
         
@@ -50,6 +41,16 @@ class DocenteController extends Controller
         return $pdf->download('listado-docentes.pdf');
     }
 
+    public function docentever($id)
+    {
+         $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono')->where('idDocente', $id);
+         $pdfver = PDF::loadView('docentes.docentever', compact('docente')); 
+        
+        return $pdfver->stream();
+    }
+
+
+    
 
 
     function guardar(Request $request)
