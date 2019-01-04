@@ -131,9 +131,9 @@
                     </div>                     
                     <div class="form-group">
                         <label for="areaasociada" class="col-form-label">Area Asociada:</label>
-                        <select class="form-control" name="Tipo_area" id="Tipo_area">
+                        <select class="form-control" name="Area_idArea" id="Area_idArea">
                         @foreach($areas as $area)
-                        <option>{{ $area->Tipo_area }}</option>
+                        <option value= "{{ $area->idArea }}">{{ $area->Tipo_area }}</option>
                         @endforeach
                         </select>
                         </div>
@@ -198,6 +198,52 @@
            $('#div').hide();
            //$('.modal-title').text('REGISTRAR AREA');
             });
+
+        $('#asignatura_form').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.asignatura') }}",  
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+            {
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<li>'+data.error[count]+'</li>';
+                    }
+                    $('#div').show();
+                    $('#div').html(error_html);                   
+
+                    //alert(form_data);
+                }
+                else
+                {
+                    
+                    //$('#form_output').html(data.success);
+                    document.getElementById('asignatura_form').reset();
+                    $('#action').val('Agregar');
+                    $('.modal-title').text('REGISTRAR ASIGNATURA');
+                    $('#button_action').val('');
+                    $('#example').DataTable().ajax.reload();
+                    $('#asignaturaModal').modal('hide');
+                    alertify.success(data.success);
+                        }
+                    }
+                    
+                      })
+                        }); 
+
+
 
      });//CIERRE DEL DOCUMENTS
 

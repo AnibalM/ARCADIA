@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Request\AreaRequest;
-use App\Area;
+use App\Asignatura;
 use DB;
 use DataTables;
 use PDF;
@@ -56,6 +56,64 @@ class AsignaturaController extends Controller
        		->make(true);	
 
 		 }
+
+		 function guardarAsignatura(Request $request)
+        {
+
+                      
+            $validation = Validator::make($request->all(), [
+            'idAsignatura' => 'required',
+        
+            /*'Tipo_area' => [
+                'required',
+                 Rule::unique('area')->ignore($request->idArea,'idArea'),
+            ],*/
+        ]);
+
+        $error_array = array();
+        $success_output = '';
+        if ($validation->fails())
+        {
+            foreach($validation->messages()->getMessages() as $field_name => $messages)
+            {
+
+                $error_array[] = $messages;
+            }
+        }
+        else
+        {
+            if($request->get('button_action') == "insert")
+            {
+                $asignatura = new Asignatura([
+                    'idAsignatura'    =>  $request->get('idAsignatura'),
+                    'Nombre_Asignatura'     =>  $request->get('Nombre_Asignatura'),
+                    'Area_idArea' => $request->get('Area_idArea'),
+                    'Estado'     =>  $request->get('estado')
+                    
+                ]);
+                $asignatura->save();
+                $success_output = 'ASIGNATURA REGISTRADA CON EXITO';
+            } 
+
+             if($request->get('button_action') == "update") 
+             {
+                
+                DB::table('area')->where("idArea", $request->area_id)
+                ->update([
+                    'idArea' => $request->get('idArea'),
+                    'Tipo_area' => $request->get('Tipo_area'),
+                    'Estado' => $request->get('estado')
+                ]);
+                $success_output = 'AREA ACTUALIZADA CON EXITO ';
+
+            };            
+        }
+        $output = array(
+            'error'     =>  $error_array,
+            'success'   =>  $success_output
+        );
+        echo json_encode($output);
+    }
 
 
 		 
