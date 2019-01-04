@@ -147,7 +147,7 @@
                        
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" name="area_id" id="area_id" value="" />
+                    <input type="hidden" name="asignatura_id" id="asignatura_id" value="" />
                     <input type="hidden" name="button_action" id="button_action" value="insert" />
                     <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
                     <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
@@ -244,10 +244,68 @@
                         }); 
 
 
+                    $(document).on('click', '.edit', function(){
+                      var idAsignatura = $(this).attr("id"); 
+                       $.ajaxSetup({
+                          headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                           }
+                         });                      
+                        $.ajax({
+                          url:"{{route('fetch.asignatura')}}",
+                          method:'GET',
+                          data:{id:idAsignatura},
+                          dataType:'json',
+                          success:function(response){
+
+                            $('#idAsignatura').val(response.idAsignatura);
+                            $('#Nombre_Asignatura').val(response.Nombre_Asignatura);
+                            $('#Area_idArea').val(response.Area_idArea);
+                            $('#estado').val(response.Estado);                           
+                            $('#asignatura_id').val(idAsignatura);                          
+                            $('#asignaturaModal').modal('show');
+                            $('#action').val('Editar');
+                            $('.modal-title').text('EDITAR ASIGNATURA');
+                            $('#button_action').val('update'); 
+                            $('#div').hide();                 
+
+
+                          }
+
+                      })
+
+
+                  });//FIN DEL DOCUMENTS EDITAR 
+
+
 
      });//CIERRE DEL DOCUMENTS
 
     </script>
+
+
+    <script type="text/javascript"> 
+
+        function eliminar(id){
+        alertify.confirm('Eliminar Asignatura','¿Desea eliminar esta asignatura?', function(){ 
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+          $.post("{{ route('eliminar.asignatura') }}", {
+          "id": id,         
+          },
+          function(response){
+           alertify.success(response.message); 
+           $('#example').DataTable().ajax.reload();
+           });//FIN DEL AJAX
+           },function(){ alertify.error('Cancelado')
+         
+           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
+           };//FIN DE LA FUNCION ELIMINAR        
+
+      </script> 
 
 
 

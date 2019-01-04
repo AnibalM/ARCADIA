@@ -98,13 +98,14 @@ class AsignaturaController extends Controller
              if($request->get('button_action') == "update") 
              {
                 
-                DB::table('area')->where("idArea", $request->area_id)
+                DB::table('asignatura')->where("idAsignatura", $request->asignatura_id)
                 ->update([
-                    'idArea' => $request->get('idArea'),
-                    'Tipo_area' => $request->get('Tipo_area'),
-                    'Estado' => $request->get('estado')
+                    'idAsignatura'    =>  $request->get('idAsignatura'),
+                    'Nombre_Asignatura'     =>  $request->get('Nombre_Asignatura'),
+                    'Area_idArea' => $request->get('Area_idArea'),
+                    'Estado'     =>  $request->get('estado')
                 ]);
-                $success_output = 'AREA ACTUALIZADA CON EXITO ';
+                $success_output = 'ASIGNATURA ACTUALIZADA CON EXITO ';
 
             };            
         }
@@ -115,6 +116,24 @@ class AsignaturaController extends Controller
         echo json_encode($output);
     }
 
+    	public function eliminar(Request $request){
+        DB::table('asignatura')->where('idAsignatura', $request->id)->delete();
+        return response()->json(["message" => "ASIGNATURA ELIMINADA CON EXITO"]);
+    }
+
+
+     function fetch(Request $request)
+    {
+
+        $id= $request->input('id');
+        $asignatura = asignatura::where("idAsignatura", $id)->first();
+
+
+       return response()->json(["idAsignatura" => "$asignatura->idAsignatura","Nombre_Asignatura" => 
+       	"$asignatura->Nombre_Asignatura", "Area_idArea" => "$asignatura->Area_idArea", "Estado" => "$asignatura->Estado"
+        ]);
+
+    }
 
 		 
 
