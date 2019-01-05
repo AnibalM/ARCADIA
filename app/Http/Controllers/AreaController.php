@@ -46,7 +46,7 @@ class AreaController extends Controller
   function guardarArea(Request $request)
         {
 
-            $id = $request->get('idarea');            
+            //$id = $request->get('idarea');            
             $validation = Validator::make($request->all(), [
             'idArea' => 'required',
             //'Tipo_area' => 'required|unique:area,'.$request->idarea
@@ -70,18 +70,24 @@ class AreaController extends Controller
         {
             if($request->get('button_action') == "insert")
             {
-                $area = new area([
-                    'idArea'    =>  $request->get('idArea'),
-                    'Tipo_area'     =>  $request->get('Tipo_area'),
-                    'Estado'     =>  $request->get('estado')
-                    
-                ]);
-                $area->save();
-                $success_output = 'AREA REGISTRADA CON EXITO';
+            	$id_area = area::select('idArea')->where('idArea',$request->idArea)->first();
+            	if (false)
+            	{
+            		$error_array[] = "Este id de area ya está registrado";
+            	}
+            	else {
+	                $area = new area([
+	                    'idArea'    =>  $request->get('idArea'),
+	                    'Tipo_area'     =>  $request->get('Tipo_area'),
+	                    'Estado'     =>  $request->get('estado')
+	                    
+	                ]);
+	                $area->save();
+	                $success_output = 'AREA REGISTRADA CON EXITO';
+            	}
             } 
-
-             if($request->get('button_action') == "update") 
-             {
+         	elseif($request->get('button_action') == "update") 
+         	{
                 
                 DB::table('area')->where("idArea", $request->area_id)
                 ->update([
@@ -90,7 +96,6 @@ class AreaController extends Controller
                     'Estado' => $request->get('estado')
                 ]);
                 $success_output = 'AREA ACTUALIZADA CON EXITO ';
-
             };            
         }
         $output = array(

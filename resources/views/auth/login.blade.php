@@ -29,9 +29,9 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">	
-            <!--@if (isset($msg))
+            @if (isset($msg))
                 {{ $msg }}
-            @endif-->
+            @endif
          
             <form action="{{ route('login') }}" method="post" class="login100-form validate-form">
                 <span class="login100-form-title p-b-26">
