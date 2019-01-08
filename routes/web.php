@@ -33,6 +33,10 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('dashboard-admin', 'HomeController@dashboard_admin')->name('home.admin')->middleware('auth');
 Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.docente')->middleware('auth');
 
+//RUTAS ESTUDIANTE
+Route::get('gestion-estudiante', 'EstudianteController@gestion_estudiante')->name('estudiante.gestion')->middleware('auth');
+Route::get('listar-estudiante', 'EstudianteController@listarEstudiante')->name('listar.estudiante')->middleware('auth');
+//FIN RUTAS ESTUDIANTE
 
 //RUTAS AREAS
 Route::get('gestion-area', 'AreaController@gestion_area')->name('area.gestion')->middleware('auth');

@@ -71,7 +71,7 @@ class AreaController extends Controller
             if($request->get('button_action') == "insert")
             {
             	$id_area = area::select('idArea')->where('idArea',$request->idArea)->first();
-            	if (false)
+            	if ($id_area)
             	{
             		$error_array[] = "Este id de area ya está registrado";
             	}

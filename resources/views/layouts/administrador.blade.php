@@ -68,7 +68,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="estudiantes.html">
+                <a class="nav-link " href="{{ route('estudiante.gestion') }}">
                   <i class="material-icons">face</i>
                   <span>Estudiantes</span>
                 </a>

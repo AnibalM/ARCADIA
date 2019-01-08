@@ -230,10 +230,10 @@
                         }
                     },
                     error : function(xhr){
-                      if (xhr.status == 500) {
+                      /*if (xhr.status == 500) {
                         alert(xhr.statusText)
                       }
-                      else if (xhr.status == 401) {
+                      else*/ if (xhr.status == 401) {
                         alert("Tiempo de sesion finalizado")
                         window.location.href = "/"
                       }

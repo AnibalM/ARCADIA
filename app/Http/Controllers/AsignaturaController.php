@@ -24,7 +24,7 @@ class AsignaturaController extends Controller
 		 public function cargarAreas(){
 
 		 	$areas = DB::table('area')
-		 	->select('idArea', 'Tipo_area')
+		 	->select('idArea', 'Tipo_area')->where('Estado', 'Habilitado')
 		 	->get();
 		 	 return $areas;
 		 }
