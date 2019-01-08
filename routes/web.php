@@ -36,6 +36,9 @@ Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.
 //RUTAS ESTUDIANTE
 Route::get('gestion-estudiante', 'EstudianteController@gestion_estudiante')->name('estudiante.gestion')->middleware('auth');
 Route::get('listar-estudiante', 'EstudianteController@listarEstudiante')->name('listar.estudiante')->middleware('auth');
+Route::post('guardar-estudiante', 'EstudianteController@guardarEstudiante')->name('guardar.estudiante')->middleware('auth');
+
+
 //FIN RUTAS ESTUDIANTE
 
 //RUTAS AREAS

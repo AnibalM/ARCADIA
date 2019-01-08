@@ -110,6 +110,113 @@
       </div>
     </div> 
 
+ <!--MODAL INSERTAR MODIFICAR-->
+
+<div id=estudianteModal class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" id="estudiante_form">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>REGISTRAR ESTUDIANTE</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   
+                </div>
+                <div class="modal-body">
+                      <!--{{csrf_field()}}-->                    
+                    <div class="alert alert-danger" id="div">                     
+                    </div>                        
+                    
+                 <div class="form-row">
+   				    <div class="form-group col-md-6">
+     			    <label for="inputNombre">Nombre</label>
+      			    <input type="text" class="form-control" name="Nom_Es" id="Nom_Es" placeholder="Nombre del estudiante">
+    			</div>
+    				<div class="form-group col-md-6">
+     			    <label for="inputApellido">Apellido</label>
+      			    <input type="text" class="form-control" name="Apell_Es" id="Apell_Es" placeholder="Apellido del estudiante">
+    			</div>
+    				<div class="form-group col-md-6">
+      		    	<label for="inputTipo">Tipo de documento</label>
+      				<select name="Tp_Documen_Es" id="Tp_Documen_Es" class="form-control">
+       		    	<option selected>--Selecciona--</option>
+        	    	<option>cc</option>
+      		   	    </select>
+    			</div>
+    			<div class="form-group col-md-6">
+     			    <label for="inputidentificacion">Identificacion</label>
+      			    <input type="text" class="form-control" name="idEstudiante" id="idEstudiante" placeholder="Numero de documento">
+    			</div>
+    			<div class="form-group col-md-4">
+      		    	<label for="inputTipo">Sexo:</label>
+      				<select name="Sex_es" id="Sex_es" class="form-control">
+       		    	<option selected>--Selecciona--</option>
+        	    	<option>M</option>
+        	    	<option>F</option>
+      		   	    </select>	    				
+  				</div>
+  				<div class="form-group col-md-4">
+     			    <label for="inputidentificacion">Edad</label>
+      			    <input type="number" class="form-control" name="Edad_es" id="Edad_es" placeholder="Edad">
+    			</div>
+  				<div class="form-group col-md-4">
+      		    	<label for="inputTipo">Estrato:</label>
+      				<select name="Estrato_Es" id="Estrato_Es" class="form-control">
+       		    	<option selected>--Selecciona--</option>
+        	    	<option>1</option>
+        	    	<option>2</option>
+        	    	<option>3</option>
+        	    	<option>4</option>
+        	    	<option>5</option>
+        	    	<option>6</option>
+      		   	    </select>	    				
+  				</div>
+  				<div class="form-group col-md-6">
+     			    <label for="inputEmail">Email</label>
+      			    <input type="email" class="form-control" name="Email_Es" id="Email_Es" placeholder="Email del estudiante">
+    			</div>
+    			<div class="form-group col-md-6">
+     			    <label for="inputdireccion">Direccion</label>
+      			    <input type="text" class="form-control" name="Direcc_Es" id="Direcc_Es" placeholder="Direccion del estudiante">
+    			</div>
+    			 
+   				    <div class="form-group col-md-6">
+     			    <label for="inputNombre">Celular</label>
+      			    <input type="text" class="form-control"  name="Celular_Es" id="Celular_Es" placeholder="Celular del estudiante">
+    			</div>
+    				<div class="form-group col-md-6">
+     			    <label for="inputApellido">Telefono</label>
+      			    <input type="text" class="form-control" name="Tel_Es" id="Tel_Es" placeholder="Telefono del estudiante">
+    				</div>
+    				<div class="form-group col-md-8">
+     			    <label for="inputNombre">Acudiente</label>
+      			    <input type="text" class="form-control" name="Nom_Acudiente" id="Nom_Acudiente" placeholder="Nombre del Acudiente">
+    			</div>
+
+    			<div class="form-group col-md-4">
+      		    	<label for="inputTipo">Estado:</label>
+      				<select name="Estado" id="Estado" class="form-control">
+       		    	<option selected>--Selecciona--</option>
+        	    	<option>Habilitado</option>
+        	    	<option>Deshabilitado</option>
+      		   	    </select>	    				
+  				</div>
+  
+  
+                       
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="area_id" id="area_id" value="" />
+                    <input type="hidden" name="button_action" id="button_action" value="insert" />
+                    <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
+                    <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+    </div>
+  </div>
+</div>
+
+<!--FIN MODAL INSERTAR MODIFICADO-->
+
 @endsection
 
 @section('scripts')
@@ -142,6 +249,72 @@
 
 
     });
+
+    $('#add_data').click(function(){
+           $('#estudianteModal').modal('show');
+           document.getElementById('estudiante_form').reset();
+           $('#form_output').html('');
+           $('#button_action').val('insert');
+           $('#action').val('Agregar');
+           $('#div').hide();
+           //$('.modal-title').text('REGISTRAR AREA');
+            });
+
+
+    	$('#estudiante_form').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.estudiante') }}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+            {
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<li>'+data.error[count]+'</li>';
+                    }
+                    $('#div').show();
+                    $('#div').html(error_html);                   
+
+                    //alert(form_data);
+                }
+                else
+                {
+                    
+                    //$('#form_output').html(data.success);
+                    document.getElementById('estudiante_form').reset();
+                    $('#action').val('Agregar');
+                    $('.modal-title').text('REGISTRAR ESTUDIANTE');
+                    $('#button_action').val('');
+                    $('#example').DataTable().ajax.reload();
+                    $('#estudianteModal').modal('hide');
+                    alertify.success(data.success);
+                        }
+                    },
+                    error : function(xhr){
+                      /*if (xhr.status == 500) {
+                        alert(xhr.statusText)
+                      }
+                      else*/ if (xhr.status == 401) {
+                        alert("Tiempo de sesion finalizado")
+                        window.location.href = "/"
+                      }
+                    }
+                    
+                      })
+                        }); 
+
+
 
      });//CIERRE DEL DOCUMENTS
 </script>
