@@ -37,8 +37,8 @@ Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.
 Route::get('gestion-estudiante', 'EstudianteController@gestion_estudiante')->name('estudiante.gestion')->middleware('auth');
 Route::get('listar-estudiante', 'EstudianteController@listarEstudiante')->name('listar.estudiante')->middleware('auth');
 Route::post('guardar-estudiante', 'EstudianteController@guardarEstudiante')->name('guardar.estudiante')->middleware('auth');
-
-
+Route::post('eliminar-estudiante', 'EstudianteController@eliminar')->name('eliminar.estudiante')->middleware('auth');
+Route::get('actualizar-estudiante', 'EstudianteController@fetch')->name('fetch.estudiante')->middleware('auth');
 //FIN RUTAS ESTUDIANTE
 
 //RUTAS AREAS

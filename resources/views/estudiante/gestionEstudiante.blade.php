@@ -138,10 +138,14 @@
     				<div class="form-group col-md-6">
       		    	<label for="inputTipo">Tipo de documento</label>
       				<select name="Tp_Documen_Es" id="Tp_Documen_Es" class="form-control">
-       		    	<option selected>--Selecciona--</option>
-        	    	<option>cc</option>
+       		    	<option selected value="">--Selecciona--</option>
+        	    	<option>Cédula de ciudadanía (CC)</option>
+        	    	<option>Tarjeta de identidad (TI)</option>
+        	    	<option>Registro civil (RC)</option>
+        	    	<option>Cédula de extranjería (CE)</option>
+        	    	<option>Tarjeta pasaporte (TP)</option>
       		   	    </select>
-    			</div>
+    				</div>
     			<div class="form-group col-md-6">
      			    <label for="inputidentificacion">Identificacion</label>
       			    <input type="text" class="form-control" name="idEstudiante" id="idEstudiante" placeholder="Numero de documento">
@@ -149,7 +153,7 @@
     			<div class="form-group col-md-4">
       		    	<label for="inputTipo">Sexo:</label>
       				<select name="Sex_es" id="Sex_es" class="form-control">
-       		    	<option selected>--Selecciona--</option>
+       		    	<option selected value="">--Selecciona--</option>
         	    	<option>M</option>
         	    	<option>F</option>
       		   	    </select>	    				
@@ -161,7 +165,7 @@
   				<div class="form-group col-md-4">
       		    	<label for="inputTipo">Estrato:</label>
       				<select name="Estrato_Es" id="Estrato_Es" class="form-control">
-       		    	<option selected>--Selecciona--</option>
+       		    	<option selected value="">--Selecciona--</option>
         	    	<option>1</option>
         	    	<option>2</option>
         	    	<option>3</option>
@@ -195,7 +199,7 @@
     			<div class="form-group col-md-4">
       		    	<label for="inputTipo">Estado:</label>
       				<select name="Estado" id="Estado" class="form-control">
-       		    	<option selected>--Selecciona--</option>
+       		    	<option selected value="">--Selecciona--</option>
         	    	<option>Habilitado</option>
         	    	<option>Deshabilitado</option>
       		   	    </select>	    				
@@ -205,7 +209,7 @@
                        
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" name="area_id" id="area_id" value="" />
+                    <input type="hidden" name="estudiante_id" id="estudiante_id" value="" />
                     <input type="hidden" name="button_action" id="button_action" value="insert" />
                     <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
                     <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
@@ -263,7 +267,7 @@
 
     	$('#estudiante_form').on('submit', function(event){
         event.preventDefault();
-        var form_data = $(this).serialize();
+        var form_data = $(this).serialize();       
         $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -314,10 +318,77 @@
                       })
                         }); 
 
+    		 $(document).on('click', '.edit', function(){
+                      var idEstudiante = $(this).attr("id"); 
+                       $.ajaxSetup({
+                          headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                           }
+                         });                      
+                        $.ajax({
+                          url:"{{route('fetch.estudiante')}}",
+                          method:'GET',
+                          data:{id:idEstudiante},
+                          dataType:'json',
+                          success:function(response){
+
+                            $('#idEstudiante').val(response.idEstudiante);
+                            $('#Nom_Es').val(response.Nom_Es);
+                            $('#Apell_Es').val(response.Apell_Es);
+                            $('#Sex_es').val(response.Sex_es);
+                            $('#Celular_Es').val(response.Celular_Es);
+                            $('#Edad_es').val(response.Edad_es);
+                            $('#Direcc_Es').val(response.Direcc_Es);
+                            $('#Estrato_Es').val(response.Estrato_Es);
+                            $('#Email_Es').val(response.Email_Es);
+                            $('#Tp_Documen_Es').val(response.Tp_Documen_Es);
+                            $('#Nom_Acudiente').val(response.Nom_Acudiente);
+                            $('#Tel_Es').val(response.Tel_Es);
+                            $('#Estado').val(response.Estado);
+
+                            //FIN                          
+                            $('#estudiante_id').val(idEstudiante);                          
+                            $('#estudianteModal').modal('show');
+                            $('#action').val('Editar');
+                            $('.modal-title').text('EDITAR ESTUDIANTE');
+                            $('#button_action').val('update'); 
+                            $('#div').hide();                 
+
+
+                          }
+
+                      })
+
+
+                  });//FIN DEL DOCUMENTS EDITAR 
+
 
 
      });//CIERRE DEL DOCUMENTS
 </script>
+
+<script type="text/javascript"> 
+
+        function eliminar(id){
+        alertify.confirm('Eliminar Estudiante','¿Desea eliminar este Estudiante?', function(){ 
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+          $.post("{{ route('eliminar.estudiante') }}", {
+          "id": id,         
+          },
+          function(response){
+           alertify.success(response.message); 
+           $('#example').DataTable().ajax.reload();
+           });//FIN DEL AJAX
+           },function(){ alertify.error('CANCELADO')
+         
+           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
+           };//FIN DE LA FUNCION ELIMINAR        
+
+      </script> 
 @endsection  
 
 
