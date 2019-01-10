@@ -173,8 +173,8 @@
 
 @section('scripts')
     
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="{{ asset('administradores/scripts/datatables/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('administradores/scripts/datatables/dataTables.bootstrap4.min.js') }}"></script>
      <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
 
 

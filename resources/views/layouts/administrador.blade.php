@@ -9,7 +9,7 @@
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('administradores/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('administradores/icon.css') }}" rel="stylesheet">
+    <link href="{{ asset('administradores/icon.css') }}" rel="stylesheet">    
     <link rel="stylesheet" href="{{ asset('administradores/bootstrap.min.css') }}" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="{{ asset('administradores/styles/shards-dashboards.1.1.0.min.css') }}">
     <link rel="stylesheet" href="{{ asset('administradores/styles/extras.1.1.0.min.css') }}">
@@ -103,7 +103,7 @@
                 <div class="input-group input-group-seamless ml-3">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <i class="fas fa-search"></i>
+                      <!--<i class="fas fa-search"></i>-->
                     </div>
                   </div>
                   <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
