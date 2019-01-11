@@ -33,6 +33,14 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('dashboard-admin', 'HomeController@dashboard_admin')->name('home.admin')->middleware('auth');
 Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.docente')->middleware('auth');
 
+//RUTAS CURSO
+Route::get('gestion-curso', 'CursoController@gestion_curso')->name('curso.gestion')->middleware('auth');
+Route::get('listar-curso', 'CursoController@listarCurso')->name('listar.curso')->middleware('auth');
+Route::post('guardar-curso', 'CursoController@guardarCurso')->name('guardar.curso')->middleware('auth');
+Route::post('eliminar-curso', 'CursoController@eliminar')->name('eliminar.curso')->middleware('auth');
+Route::get('actualizar-curso', 'CursoController@fetch')->name('fetch.curso')->middleware('auth');
+//FIN RUTAS CURSO
+
 //RUTAS ESTUDIANTE
 Route::get('gestion-estudiante', 'EstudianteController@gestion_estudiante')->name('estudiante.gestion')->middleware('auth');
 Route::get('listar-estudiante', 'EstudianteController@listarEstudiante')->name('listar.estudiante')->middleware('auth');

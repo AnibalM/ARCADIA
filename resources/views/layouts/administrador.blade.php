@@ -74,7 +74,7 @@
                 </a>
               </li>              
               <li class="nav-item">
-                <a class="nav-link " href="cursos.html">
+                <a class="nav-link " href="{{ route('curso.gestion') }}">
                   <i class="material-icons">school</i>
                   <span>Cursos</span>
                 </a>
