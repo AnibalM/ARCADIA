@@ -4,6 +4,11 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/alertify.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/themes/default.css') }}">
+<style type="text/css">
+  .hide {
+    display: none !important;
+  }
+</style>
 @endsection
 
 
@@ -27,19 +32,19 @@
                     <div>
                       <div>
                  <!--EMPIEZA LA TABLA AQUI-->
-                 <table id="example" class="table table-striped table-bordered" style="width:100%">
+                 <table class="table table-striped table-bordered" style="width:100%">
                  <thead>
             <tr>
 
 
-                <th>Identificacion</th>
+                <th onclick="ordenar('idArea')">Identificacion</th>
                 <th>Nombre area</th>
                 <th>Estado</th>
                 <th>Acciones</th>
                 
             </tr>
         </thead>
-        <tbody>          
+        <tbody id="cuerpo_listado">          
         
             
             
@@ -55,6 +60,7 @@
             </tr>
         </tfoot>
     </table>
+    <div id="paginacion"></div>
 
 
                 <!--TERMINA LA TABLA AQUI-->
@@ -159,8 +165,91 @@
 
 
  <script type="text/javascript">
+  var ordenamiento = 'idArea';
+  var formato = 'asc';
+  var control_formato = 1;
+  function ordenar(campo) {
+    control_formato += 1;
+    if (control_formato % 2 == 0) formato = 'desc';
+    else formato = 'asc';
+    ordenamiento = campo;
+    consultar_listado();
+  }
+  function consultar_listado(url = "{{route('listar.area')}}") {
+    $.ajaxSetup({
+      headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+       }
+     });                      
+    $.ajax({
+      url:url,
+      method:'POST',
+      data:{
+        'orden': ordenamiento,
+        'formato': formato,
+      },
+      dataType:'json',
+      success:function(response){
+        let datos = response.data;
+        let paginacion = {
+          'current_page': response.current_page,
+          'first_page_url': response.first_page_url,
+          'from': response.from,
+          'last_page': response.last_page,
+          'last_page_url': response.last_page_url,
+          'next_page_url': response.next_page_url,
+          'path': response.path,
+          'per_page': response.per_page,
+          'prev_page_url': response.prev_page_url,
+          'to': response.to,
+          'total': response.total,
+        }
+        $("#cuerpo_listado").html("")
+        datos.map(function(item) {
+          $("#cuerpo_listado").append(`
+            <tr>
+              <td>${item.idArea}</td>
+              <td>${item.Tipo_area}</td>
+              <td>${item.Estado}</td>
+              <td></td>
+            </tr>
+          `);
+        })
+        let disable_anterior = '';
+        if (paginacion.prev_page_url == null){
+          disable_anterior = 'hide';
+        }
+        let disable_siguiente = '';
+        if (paginacion.next_page_url == null){
+          disable_siguiente = 'hide';
+        }
+        let numeros_anibal = paginacion.total;
+        let btn_numeros_anibal = "";
+        for(let i=1; i<=numeros_anibal; i++) {
+          let tipo = 'default';
+          if (i == paginacion.current_page) tipo = 'primary';
+          btn_numeros_anibal += `
+            <a href="http://localhost:8000/listar-area?page=${i}" class="pagination-a btn btn-${tipo}">${i}</a>
+          `;
+        }
+        $("#paginacion").html(`
+          <div class="btn-group">
+            ${btn_numeros_anibal}
+          </div>
+        `);
+      }
+    })
+  }
     $(document).ready(function(){
-    $('#example').DataTable({
+      $('body').on('click', '.pagination-a', function(e) {//con numeros
+        //$('body').on('click', '.pager li a', function(e) {//para simple
+            e.preventDefault();
+            var url = $(this).attr('href');  
+            consultar_listado(url);
+            //window.history.pushState("", "", url);
+        });
+      consultar_listado();
+    /*$('#example').DataTable({
       processing: true,
       serverSide: true,
       language: {
@@ -177,7 +266,7 @@
                   ]
 
 
-    });
+    });*/
 
     $('#add_data').click(function(){
            $('#areaModal').modal('show');

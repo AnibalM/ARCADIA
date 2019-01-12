@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Auth;
 //return $pdf->download();
 //})->name('pdf');
 
+Route::get('/', function () {
+    return view('auth.login');
+});
 Route::get('docente', 'DocenteController@index')->name('docente');
 Route::get('pdf', 'DocenteController@pdf')->name('docente.pdf');
 
@@ -43,7 +46,7 @@ Route::get('actualizar-curso', 'CursoController@fetch')->name('fetch.curso')->mi
 
 //RUTAS ESTUDIANTE
 Route::get('gestion-estudiante', 'EstudianteController@gestion_estudiante')->name('estudiante.gestion')->middleware('auth');
-Route::get('listar-estudiante', 'EstudianteController@listarEstudiante')->name('listar.estudiante')->middleware('auth');
+Route::any('listar-estudiante', 'EstudianteController@listarEstudiante')->name('listar.estudiante')->middleware('auth');
 Route::post('guardar-estudiante', 'EstudianteController@guardarEstudiante')->name('guardar.estudiante')->middleware('auth');
 Route::post('eliminar-estudiante', 'EstudianteController@eliminar')->name('eliminar.estudiante')->middleware('auth');
 Route::get('actualizar-estudiante', 'EstudianteController@fetch')->name('fetch.estudiante')->middleware('auth');
@@ -51,7 +54,7 @@ Route::get('actualizar-estudiante', 'EstudianteController@fetch')->name('fetch.e
 
 //RUTAS AREAS
 Route::get('gestion-area', 'AreaController@gestion_area')->name('area.gestion')->middleware('auth');
-Route::get('listar-area', 'AreaController@listarArea')->name('listar.area')->middleware('auth');
+Route::post('listar-area', 'AreaController@listarArea')->name('listar.area')->middleware('auth');
 Route::post('guardar-area', 'AreaController@guardarArea')->name('guardar.area')->middleware('auth');
 Route::post('eliminar-area', 'AreaController@eliminar')->name('eliminar.area')->middleware('auth');
 Route::get('actualizar-area', 'AreaController@fetch')->name('fetch.area')->middleware('auth');;
