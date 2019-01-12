@@ -54,7 +54,7 @@ Route::get('actualizar-estudiante', 'EstudianteController@fetch')->name('fetch.e
 
 //RUTAS AREAS
 Route::get('gestion-area', 'AreaController@gestion_area')->name('area.gestion')->middleware('auth');
-Route::post('listar-area', 'AreaController@listarArea')->name('listar.area')->middleware('auth');
+Route::get('listar-area', 'AreaController@listarArea')->name('listar.area')->middleware('auth');
 Route::post('guardar-area', 'AreaController@guardarArea')->name('guardar.area')->middleware('auth');
 Route::post('eliminar-area', 'AreaController@eliminar')->name('eliminar.area')->middleware('auth');
 Route::get('actualizar-area', 'AreaController@fetch')->name('fetch.area')->middleware('auth');;

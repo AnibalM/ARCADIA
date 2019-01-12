@@ -26,8 +26,8 @@ class AreaController extends Controller
     		return view('areas.gestionArea');
 
     	 }
-
-    	 public function listarArea(Request $request)
+         // FORMA PARA HACERLO CON PAGINATE
+    	 /*public function listarArea(Request $request)
     	 {
             $area = Area::orderBy($request->orden,$request->formato)->paginate(1);
             return $area;
@@ -38,9 +38,20 @@ class AreaController extends Controller
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
 
-       		->make(true);*/
+       		->make(true);
 
-    	 }
+    	 }*/
+         public function listarArea(Request $request)
+         {
+            $area = Area::select('idArea', 'Tipo_area', 'Estado');
+            return Datatables::of($area)
+            ->addColumn('action', function($area){
+                 return '<a href="#" class="btn btn-xs btn-info edit" id="'.$area->idArea.'"><i class="glyphicon
+                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$area->idArea.')"><i class="glyphicon
+                 glyphicon-edit"></i> Eliminar</a>';
+                }) 
+            ->make(true);
+         }
 
          
   function guardarArea(Request $request)
