@@ -12,7 +12,7 @@
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 <span class="text-uppercase page-subtitle">Docentes</span>
                 <h3 class="page-title">Listados</h3>
-                <button class="boton" data-toggle="modal" id="add_data"  style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
+                <button class="boton" data-toggle="modal" id="add_data" style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
                 Agregar</button>                
               </div>              
             </div>
@@ -20,8 +20,11 @@
                 <a href="{{ route('docente.pdf') }}" class="btn btn-success">
                 Descargar listado
                 </a>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+                Agregar Asignatura
+                </button>               
                 <br>
-                <br>
+                <br>                
                 <h4><strong>GESTION DOCENTES</strong></h4>
               </div>
               
@@ -45,8 +48,10 @@
 
                 <th>Cedula</th>
                 <th>Nombre</th>
-                <th>Apellidos</th>
+                <th>Apellidos</th>                
                 <th>Tipo Docente</th>
+                <th>Correo</th>                
+                <th>Estado</th>                
                 <th>Acciones</th>
                 
                 
@@ -61,8 +66,10 @@
             <tr>
                 <th>Cedula</th>
                 <th>Nombre</th>
-                <th>Apellidos</th>
+                <th>Apellidos</th>                
                 <th>Tipo Docente</th>
+                <th>Correo</th>                
+                <th>Estado</th>                
                 <th>Acciones</th>
                 
             </tr>
@@ -115,6 +122,39 @@
   </main>
       </div>
     </div> 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form method="post" id="impartir">
+                <div class="modal-header">
+                    <h5><b>AGREGAR ASIGNATURA A IMPARTIR</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>                   
+                </div>
+                <div class="modal-body">                      
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Nombres del docente:</b></label>
+                        <select class="form-control" name="docente" id="docente">                          
+                        <option>Estable</option>                        
+                        </select>
+                        </div>                      
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Asignatura:</b></label>
+                        <select class="form-control" name="asignatura" id="asignatura">
+                        <option>Habilitado</option>
+                        <option>Deshabilitado</option>
+                        </select>
+                        </div>
+                </div>               
+            </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Asignar</button>
+      </div>
+    </div>
+  </div>
+</div>
    
 <!--MODAL INSERTAR MODIFICAR-->
 <div id="docenteModal" class="modal fade" role="dialog">
@@ -150,12 +190,19 @@
                         </div>
                        <div class="form-group">
                         <label>Correo Electronico</label>
-                        <input type="text" name="correo" id="correo" class="form-control" />
+                        <input type="text" name="Email" id="Email" class="form-control" />
                     </div> 
                     <div class="form-group">
                         <label>Contraseña</label>
                         <input type="text" name="contrasena" id="contrasena" class="form-control" />
                     </div>
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label">Estado:</label>
+                        <select class="form-control" name="Estado" id="Estado">
+                        <option>Habilitado</option>
+                        <option>Deshabilitado</option>
+                        </select>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="docente_id" id="docente_id" value="" />
@@ -194,6 +241,8 @@
                         { data: 'Nombre', name: 'Nombre' },
                         { data: 'Apellidos', name: 'Apellidos'},
                         { data: 'Tipo_Docente', name: 'Tipo_Docente'}, 
+                        { data: 'Email', name: 'Email'},                      
+                        { data: 'Estado', name: 'Estado'},
                         { data: "action", orderable:false, searchable:false}                      
                          
                   ]
@@ -213,7 +262,7 @@
 
         $('#docente_form').on('submit', function(event){
         event.preventDefault();
-        var form_data = $(this).serialize();
+        var form_data = $(this).serialize();        
         $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -256,9 +305,7 @@
 
                   $(document).on('click', '.edit', function(){
                       var idDocente = $(this).attr("id");
-                       $('#form_output').html('');
-
-                    
+                       $('#form_output').html('');                    
                         $.ajaxSetup({
                         headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -275,7 +322,8 @@
                             $('#nombre').val(response.Nombre);
                             $('#apellido').val(response.Apellidos);
                             $('#tipo').val(response.tipo);
-                            $('#correo').val(response.correo);
+                            $('#Email').val(response.Email);
+                            $('#Estado').val(response.Estado);                           
                             $('#docente_id').val(idDocente);                          
                             $('#docenteModal').modal('show');
                             $('#action').val('Editar');
