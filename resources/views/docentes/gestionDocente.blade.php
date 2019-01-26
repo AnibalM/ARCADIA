@@ -253,6 +253,7 @@
                   ]
 
 
+
     });//CIERRE DEL DATATABLES
 
            $('#add_data').click(function(){

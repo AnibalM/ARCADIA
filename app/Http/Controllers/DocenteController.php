@@ -166,7 +166,13 @@ class DocenteController extends Controller
        $docentes = docente::select('idDocente','Nombre', 'Apellidos', 'Tipo_Docente','Email', 'Estado')
        ->where('ADMIN', '0')->where('eliminado', 'false');
        return Datatables::of($docentes)
-       ->addColumn('action', function($docentes){
+       ->editColumn('Estado', function($docentes){
+        $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
+        $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
+        if ($docentes->Estado == 'Habilitado') return $habilitado;
+        else return $deshabilitado;
+       })
+       ->editColumn('action', function($docentes){
 
         return '<a href="#" class="btn btn-xs btn-primary edit" id="'.$docentes->idDocente.'"><i class="glyphicon
         glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$docentes->idDocente.')"><i class="glyphicon
@@ -175,6 +181,7 @@ class DocenteController extends Controller
 
 
        })
+       ->rawColumns(['action', 'Estado'])
        ->make(true);
     }
 
