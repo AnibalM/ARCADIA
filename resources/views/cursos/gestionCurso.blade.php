@@ -16,7 +16,11 @@
               </div>              
             </div>
             <div>
-              <br>
+              <button type="button" id="agregar" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Agregar Asignatura
+                </button>               
+                <br>
+                <br>  
               
               
                 <h4><strong>GESTION CURSOS</strong></h4>
@@ -154,6 +158,43 @@
 </div>
 
 <!--FIN MODAL INSERTAR MODIFICADO-->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter"  role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form method="post" id="impartir">
+                <div class="modal-header">
+                    <h5><b>AGREGAR ASIGNATURA A CURSO</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>                   
+                </div>
+                <div class="modal-body"> 
+                  <span id="error"></span>                     
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
+                        <select class="form-control" name="Docente_idDocente" id="Docente_idDocente">                                                
+                        @foreach($cursos as $curso)                         
+                        <option value="">{{ $curso->Grado}}</option>
+                        @endforeach                                            
+                        </select>
+                        </div>                      
+                       <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Asignatura:</b></label>
+                        <select class="form-control" name="Asignatura_idAsignatura" id="Asignatura_idAsignatura">
+                        @foreach($asignaturas as $materia)
+                        <option value="{{ $materia->idAsignatura}}">{{ $materia->Nombre_Asignatura }}</option>
+                        @endforeach
+                        </select>
+                        </div>
+                </div>               
+            
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Asignar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 @endsection
 

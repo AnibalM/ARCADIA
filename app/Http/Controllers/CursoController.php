@@ -23,28 +23,57 @@ class CursoController extends Controller
 
 	public function gestion_curso(Request $request)
 	{
-		return view('cursos.gestionCurso');
+    $asignaturas = $this->cargarAsignaturas();
+    $cursos = $this->cargarCursos();
+		return view('cursos.gestionCurso', compact('asignaturas', 'cursos'));
+    
 	}	
+
+  public function cargarAsignaturas()
+  {
+
+            $asignatura = DB::table('asignatura')
+            ->select('idAsignatura', 'Nombre_Asignatura')->where('Estado', 'Habilitado')           
+            ->get();            
+             return $asignatura;
+                
+            }   
+   public function cargarCursos()
+  {
+
+            $cursos = DB::table('curso')
+            ->select('idCurso', 'Grado')->where('Estado', 'Habilitado')           
+            ->get();            
+             return $cursos;
+                
+            }           
 
 	 public function listarCurso(Request $request)
     	 {
 
        		$curso = Curso::select('idCurso', 'Grado', 'Estado')->where('eliminado', 'false');
        		return Datatables::of($curso)
+          ->editColumn('Estado', function($docentes){
+          $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
+          $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
+          if ($docentes->Estado == 'Habilitado') return $habilitado;
+          else return $deshabilitado;
+          })
             ->addColumn('action', function($curso){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$curso->idCurso.'"><i class="glyphicon
                  glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$curso->idCurso.')"><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
+           ->rawColumns(['action', 'Estado']) 
 
-       		->make(true);
+       		 ->make(true);
 
     	 }
 
         public function guardarCurso(Request $request)
           {
 
-    //$id = $request->get('idarea');            
+           //$id = $request->get('idarea');            
             $validation = Validator::make($request->all(), [
             'idCurso' => 'required',
             //'Tipo_area' => 'required|unique:area,'.$request->idarea
