@@ -20,7 +20,7 @@
                 <a href="{{ route('docente.pdf') }}" class="btn btn-success">
                 Descargar listado
                 </a>
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" id="agregar" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
                 Agregar Asignatura
                 </button>               
                 <br>
@@ -124,7 +124,7 @@
     </div> 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter"  role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <form method="post" id="impartir">
@@ -132,26 +132,31 @@
                     <h5><b>AGREGAR ASIGNATURA A IMPARTIR</b></h5>
                    <button type="button" class="close" data-dismiss="modal">&times;</button>                   
                 </div>
-                <div class="modal-body">                      
+                <div class="modal-body"> 
+                  <span id="error"></span>                     
                     <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Nombres del docente:</b></label>
-                        <select class="form-control" name="docente" id="docente">                          
-                        <option>Estable</option>                        
+                        <select class="form-control" name="Docente_idDocente" id="Docente_idDocente"> 
+                        @foreach($docentes as $docente)                         
+                        <option value="{{ $docente->idDocente}}">{{ $docente->Nombre}} {{ $docente->Apellidos }}</option>
+                        @endforeach                     
                         </select>
                         </div>                      
                     <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Asignatura:</b></label>
-                        <select class="form-control" name="asignatura" id="asignatura">
-                        <option>Habilitado</option>
-                        <option>Deshabilitado</option>
+                        <select class="form-control" name="Asignatura_idAsignatura" id="Asignatura_idAsignatura">
+                        @foreach($asignaturas as $materia)
+                        <option value="{{ $materia->idAsignatura}}">{{ $materia->Nombre_Asignatura }}</option>
+                        @endforeach
                         </select>
                         </div>
                 </div>               
-            </form>
+            
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Asignar</button>
+        <button type="submit" class="btn btn-primary">Asignar</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -259,6 +264,13 @@
            $('.modal-title').text('AGREGAR DOCENTE');
             });
 
+            $('#agregar').click(function(){
+           
+           document.getElementById('impartir').reset();
+           $('#error').html('');
+           
+            });
+
 
         $('#docente_form').on('submit', function(event){
         event.preventDefault();
@@ -299,7 +311,7 @@
                     }
                     
                       })
-                        });
+                        });                    
 
                 
 
@@ -382,9 +394,10 @@
           function(response){
            alertify.success(response.message); 
            $('#example').DataTable().ajax.reload();
+
           });//FIN DEL AJAX
 
-           },function(){ alertify.error('Cancelado')
+           },function(){ alertify.error('CANCELADO')
          
          }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
 
@@ -398,8 +411,54 @@
 
 </script>
 
+<script type="text/javascript">
+  
+  $('#impartir').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();                 
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.docente_asignatura') }}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+               {
+
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                    }
+                    $('#error').html(error_html);
+
+                }
+                else
+                {
+                    
+                    $('#exampleModalCenter').modal('hide');
+                    alertify.success(data.success);
+                   
+                 }
+                                      }
 
 
+
+                  });    
+                    
+              
+         });//FIN DE LA FUNCION
 
 </script>
+
+
+
+
+
 @endsection

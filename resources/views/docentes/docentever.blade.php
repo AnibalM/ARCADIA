@@ -14,34 +14,12 @@
                 <div class="col-xs-12">
     <h1 class="page-header">INSTITUCION EDUCATIVA ARCADIA</h1>
     <h2 class="page-header">Informacion del Docente</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Cedula</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Tipo Docente</th>
-                <th>Telefono</th>
-            </tr>                            
-        </thead>
-        <tbody>
-            @foreach($docente as $docente)
-            <tr>
-                <td>{{ $docente->idDocente }}</td>
-                <td>{{ $docente->Nombre }}</td>
-                <td>{{ $docente->Apellidos }}</td>
-                <td>{{ $docente->Tipo_Docente }}</td>
-                <td>{{ $docente->Telefono }}</td>                
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <hr>
-    <!--<p>
-        <a href="{{ route('docente.pdf') }}" class="btn btn-sm btn-primary">
-            Descargar listado en PDF
-        </a>
-    </p>-->
+    {{ $docente->idDocente }} <br>
+    {{ $docente->Nombre }} <br>
+    {{ $docente->Apellidos }}<br>
+    {{ $docente->Telefono }}<br>
+    {{ $docente->Tipo_Docente }}
+    
  </div>
             </div>
         </div>

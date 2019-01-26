@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Docente;
+use App\Asignatura;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use DataTables;
@@ -18,7 +19,13 @@ class DocenteController extends Controller
     }
 
     public function gestion_docente(Request $request){
-        return view('docentes.gestionDocente');
+
+        $docentes = $this->cargarDocentes();
+        $asignaturas = $this->cargarAsignaturas(); 
+
+        //$datos = ['docentes' => $docentes , 'asignaturas' => $asignaturas];   
+
+        return view('docentes.gestionDocente', compact('asignaturas', 'docentes'));
     }
 
     public function crear(Request $request){
@@ -32,26 +39,41 @@ class DocenteController extends Controller
         return view('docentes.docente', compact('docente'));
     }
 
-    public function pdf()
+  public function pdf()
     {      
         
         $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono');
-
         $pdf = PDF::loadView('docentes.docente', compact('docente'));
-
         return $pdf->download('listado-docentes.pdf');
     }
 
     public function docentever($id)
     {
-         $docente = docente::all('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono')->where('idDocente', $id);
+         $docente = docente::select('idDocente','Nombre','Apellidos','Tipo_Docente','Telefono')->where('idDocente', $id)->first();
          $pdfver = PDF::loadView('docentes.docentever', compact('docente')); 
-        
-        return $pdfver->stream();
+            
+         return $pdfver->stream();
     }
 
+    public function cargarDocentes(){
 
-    
+            $docentes = DB::table('docente')
+            ->select('idDocente', 'Nombre', 'Apellidos')->where('Estado', 'Habilitado')
+            ->where('eliminado', 'false')->where('ADMIN', '0')          
+            ->get();            
+             return $docentes;
+
+
+            } 
+
+    public function cargarAsignaturas(){
+
+            $asignatura = DB::table('asignatura')
+            ->select('idAsignatura', 'Nombre_Asignatura')->where('Estado', 'Habilitado')           
+            ->get();            
+             return $asignatura;
+                
+            }    
 
 
     function guardar(Request $request)
@@ -195,6 +217,14 @@ class DocenteController extends Controller
 
             'eliminado' => 'true'
         ]);
+
+        DB::table('docente_has_asignatura')->where('Docente_idDocente', $request->id)
+        ->update([
+
+            'Estado' => 'libre',
+            'fin' => date('Y-m-d')
+        ]);
+
     	return response()->json(["message" => "DOCENTE ELIMINADO CON EXITO"]);
     }
 

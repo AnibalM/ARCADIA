@@ -23,7 +23,9 @@ class VerifyCsrfToken extends Middleware
         'eliminar-docente',     
         'guardar-area',
         'guardar-estudiante',
-        'guardar-docente'
+        'guardar-docente',
+        'guardar-intercepto'
+        
       
 
 

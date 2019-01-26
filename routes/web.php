@@ -77,8 +77,13 @@ Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docen
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');
 Route::get('update-docente', 'DocenteController@fetch')->name('fetch.docentes')->middleware('auth');;
 Route::post('eliminar-docente', 'DocenteController@eliminar')->name('eliminar.docente')->middleware('auth');
-
+Route::get('cargar-docentes', 'DocenteController@cargarDocentes')->name('cargar.docentes');
+Route::get('cargar-asignaturas', 'DocenteController@cargarAsignaturas')->name('cargar.asignaturas');
 //FIN RUTAS DOCENTES
+
+//RUTAS TABLAS INTERCEPTOS
+Route::post('guardar-intercepto', 'Controllerdocente_asignatura@guardardocenteconasignatura')->name('guardar.docente_asignatura')->middleware('auth');
+//FIN RUTAS TABLAS INTERCEPTOS
 
 
 //RUTAS DE LA CRUD DE PRACTICA....

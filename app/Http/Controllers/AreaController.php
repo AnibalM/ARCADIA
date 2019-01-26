@@ -54,7 +54,7 @@ class AreaController extends Controller
          }
 
          
-  function guardarArea(Request $request)
+  public function guardarArea(Request $request)
         {
 
             //$id = $request->get('idarea');            
