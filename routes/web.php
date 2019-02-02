@@ -82,7 +82,8 @@ Route::get('cargar-asignaturas', 'DocenteController@cargarAsignaturas')->name('c
 //FIN RUTAS DOCENTES
 
 //RUTAS TABLAS INTERCEPTOS
-Route::post('guardar-intercepto', 'Controllerdocente_asignatura@guardardocenteconasignatura')->name('guardar.docente_asignatura')->middleware('auth');
+Route::post('guardar-intercepto-ad', 'Controllerdocente_asignatura@guardardocenteconasignatura')->name('guardar.docente_asignatura')->middleware('auth');
+Route::post('guardar-intercepto-ac', 'Controllerasignatura_curso@guardarcursoconasignatura')->name('guardar.curso_asignatura')->middleware('auth');
 //FIN RUTAS TABLAS INTERCEPTOS
 
 

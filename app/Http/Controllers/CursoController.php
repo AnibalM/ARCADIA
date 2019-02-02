@@ -16,7 +16,7 @@ class CursoController extends Controller
 {
   
   	public function __construct()
-    	 {
+    {
     		$this->middleware('auth');//Verifica si el usuario esta logeado o no...
 		 }
 

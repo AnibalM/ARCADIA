@@ -18,6 +18,9 @@
             <div>
               <button type="button" id="agregar" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                 Agregar Asignatura
+                </button> 
+                <button type="button" id="agregar" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">
+                Agregar Estudiantes
                 </button>               
                 <br>
                 <br>  
@@ -162,7 +165,7 @@
 <div class="modal fade" id="exampleModalCenter"  role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <form method="post" id="impartir">
+      <form method="post" id="asignar">
                 <div class="modal-header">
                     <h5><b>AGREGAR ASIGNATURA A CURSO</b></h5>
                    <button type="button" class="close" data-dismiss="modal">&times;</button>                   
@@ -171,9 +174,9 @@
                   <span id="error"></span>                     
                     <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
-                        <select class="form-control" name="Docente_idDocente" id="Docente_idDocente">                                                
+                        <select class="form-control" name="Curso_idCurso" id="Curso_idCurso">                                                
                         @foreach($cursos as $curso)                         
-                        <option value="">{{ $curso->Grado}}</option>
+                        <option >{{ $curso->Grado}}</option>
                         @endforeach                                            
                         </select>
                         </div>                      
@@ -347,6 +350,52 @@
            };//FIN DE LA FUNCION ELIMINAR        
 
       </script> 
+
+      <script type="text/javascript">
+  
+  $('#asignar').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();                 
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.curso_asignatura') }}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+               {
+
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                    }
+                    $('#error').html(error_html);
+
+                }
+                else
+                {
+                    
+                    $('#exampleModalCenter').modal('hide');
+                    alertify.success(data.success);
+                   
+                 }
+                                      }
+
+
+
+                  });    
+                    
+              
+         });//FIN DE LA FUNCION
+
+</script>
 
 
 @endsection   
