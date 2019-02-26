@@ -47,7 +47,7 @@ class Controllerasignatura_curso extends Controller
                 else {                    
                          $impartir = new asignatura_has_curso([
                         'Curso_idCurso'    =>  $request->get('Curso_idCurso'),
-                        'Asignatura_idAsignatura'     =>  $request->get('Asignatura_idAsignatura')  
+                        'Asignatura_idAsignatura' =>  $request->get('Asignatura_idAsignatura')  
                     ]);
                     $impartir->save();
                     $success_output = 'ASIGNACION REGISTRADA SATISFACTORIAMENTE';

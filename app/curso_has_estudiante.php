@@ -7,10 +7,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 
-class estudiante_has_curso extends Model
+class curso_has_estudiante extends Authenticatable
 {
    protected $table= "curso_has_estudiante";
-   protected $fillable = [ 'curso_idCurso', 'estudiante_idEstudiante'
+   protected $fillable = ['curso_idCurso', 'estudiante_idEstudiante'
    ]; 
    public $timestamps = false; 
 }

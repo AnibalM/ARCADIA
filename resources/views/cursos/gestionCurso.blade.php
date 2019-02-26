@@ -207,12 +207,12 @@
                    <button type="button" class="close" data-dismiss="modal">&times;</button>                   
                 </div>
                 <div class="modal-body"> 
-                  <span id="error"></span>                     
+                  <span id="errorDos"></span>                     
                     <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
                         <select class="form-control" name="curso_idCurso" id="curso_idCurso">                                                
                         @foreach($cursos as $curso)                         
-                        <option >{{ $curso->Grado}}</option>
+                        <option value="{{ $curso->idCurso }}" >{{ $curso->Grado}}</option>
                         @endforeach                                            
                         </select>
                         </div>                      
@@ -443,49 +443,41 @@
          });//FIN DE LA FUNCION
 
 </script>
- <script type="text/javascript">       
-  
-  $('#asignarEstudiantes').on('submit', function(event){
-        event.preventDefault();
-        var form_data = $(this).serialize();                 
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     <script type="text/javascript">   
+     $('#asignarEstudiantes').on('submit', function(event){
+          event.preventDefault();
+          var form_data = $(this).serialize();  
+          alert(form_data);               
+          $.ajaxSetup({
+          headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-        });
-        $.ajax({
-            url:"{{ route('guardar.curso_estudiante') }}",
-            method:"POST",
-            data:form_data,
-            dataType:"json",
-            success:function(data)
-               {
+      });
+          $.ajax({
+              url:"{{ route('guardar.curso_estudiante') }}",
+              method:"POST",
+              data:form_data,
+              dataType:"json",
+              success:function(data)
+                 {
 
-                if(data.error.length > 0)
-                {
-                    var error_html = '';
-                    for(var count = 0; count < data.error.length; count++)
-                    {
-                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
-                    }
-                    $('#error').show();
-                    $('#error').html(error_html);
-
-                }
+                  if(data.error.length > 0)
+                  {
+                      var error_html = '';
+                      for(var count = 0; count < data.error.length; count++)
+                      {
+                          error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                      }
+                      $('#errorDos').show();
+                      $('#errorDos').html(error_html);
+                   }
                 else
-                {
-                    
-                    $('#exampleModalCenter').modal('hide');
-                    alertify.success(data.success);
-                   
+                 {
+                    $('#asignaturaEstudiante').modal('hide');
+                    alertify.success(data.success);                   
                  }
-                                      }
-                  });    
-                    
-              
-         });//FIN DE LA FUNCION
-
-</script>
-
-
+                 }
+         }); 
+              });//FIN DE LA FUNCION
+      </script>
 @endsection   
