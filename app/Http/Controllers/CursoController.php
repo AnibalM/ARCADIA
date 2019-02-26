@@ -25,7 +25,8 @@ class CursoController extends Controller
 	{
     $asignaturas = $this->cargarAsignaturas();
     $cursos = $this->cargarCursos();
-		return view('cursos.gestionCurso', compact('asignaturas', 'cursos'));
+    $estudiantes = $this->cargarEstudiantes();
+		return view('cursos.gestionCurso', compact('asignaturas', 'cursos', 'estudiantes'));
     
 	}	
 
@@ -46,7 +47,15 @@ class CursoController extends Controller
             ->get();            
              return $cursos;
                 
-            }           
+            } 
+  public function cargarEstudiantes(){
+            $estudiantes = DB::table('estudiante')
+            ->select('idEstudiante','Nom_Es', 'Apell_Es')
+            ->where('Estado', 'Habilitado')
+            ->where('eliminado', 'false')
+            ->get();
+            return $estudiantes;
+  }                    
 
 	 public function listarCurso(Request $request)
     	 {

@@ -84,9 +84,11 @@ Route::get('cargar-asignaturas', 'DocenteController@cargarAsignaturas')->name('c
 //RUTAS TABLAS INTERCEPTOS
 Route::post('guardar-intercepto-ad', 'Controllerdocente_asignatura@guardardocenteconasignatura')->name('guardar.docente_asignatura')->middleware('auth');
 Route::post('guardar-intercepto-ac', 'Controllerasignatura_curso@guardarcursoconasignatura')->name('guardar.curso_asignatura')->middleware('auth');
+Route::post('guardar-intercepto-ec', 'Controllerestudiante_curso@guardarCursoconestudiante')->name('guardar.curso_estudiante')->middleware('auth');
 //FIN RUTAS TABLAS INTERCEPTOS
+//RUTAS REPORTES
 
-
+Route::get('gestion-reportes', 'ReporteController@gestion_reporte')->name('reporte.gestion')->middleware('auth');
 //RUTAS DE LA CRUD DE PRACTICA....
 Route::get('crear-docente', 'DocenteController@crear')->name('crear.docente')->middleware('auth');
 Route::get('editar-docente/{id}', 'DocenteController@editar')->name('editar.docente')->middleware('auth');

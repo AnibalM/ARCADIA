@@ -16,10 +16,10 @@
               </div>              
             </div>
             <div>
-              <button type="button" id="agregar" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+              <button type="button" id="agregarAsignaturaCurso" class="btn btn-primary">
                 Agregar Asignatura
                 </button> 
-                <button type="button" id="agregar" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" id="agregarEstudianteCurso" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">
                 Agregar Estudiantes
                 </button>               
                 <br>
@@ -162,7 +162,7 @@
 
 <!--FIN MODAL INSERTAR MODIFICADO-->
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter"  role="dialog">
+<div class="modal fade" id="asignaturaCurso"  role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <form method="post" id="asignar">
@@ -185,6 +185,42 @@
                         <select class="form-control" name="Asignatura_idAsignatura" id="Asignatura_idAsignatura">
                         @foreach($asignaturas as $materia)
                         <option value="{{ $materia->idAsignatura}}">{{ $materia->Nombre_Asignatura }}</option>
+                        @endforeach
+                        </select>
+                        </div>
+                </div>               
+            
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Asignar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="asignaturaEstudiante"  role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form method="post" id="asignarEstudiantes">
+                <div class="modal-header">
+                    <h5><b>AGREGAR ESTUDIANTE A CURSO</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>                   
+                </div>
+                <div class="modal-body"> 
+                  <span id="error"></span>                     
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
+                        <select class="form-control" name="curso_idCurso" id="curso_idCurso">                                                
+                        @foreach($cursos as $curso)                         
+                        <option >{{ $curso->Grado}}</option>
+                        @endforeach                                            
+                        </select>
+                        </div>                      
+                       <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Estudiante:</b></label>
+                        <select class="form-control" name="estudiante_idEstudiante" id="estudiante_idEstudiante">
+                        @foreach($estudiantes as $estudiante)
+                        <option value="{{ $estudiante->idEstudiante}}">{{ $estudiante->Nom_Es }} {{ $estudiante->Apell_Es }}</option>
                         @endforeach
                         </select>
                         </div>
@@ -231,7 +267,7 @@
 
 
 
-    $('#add_data').click(function(){
+           $('#add_data').click(function(){
            $('#cursoModal').modal('show');
            document.getElementById('curso_form').reset();
            $('#form_output').html('');
@@ -239,6 +275,15 @@
            $('#action').val('Agregar');
            $('#div').hide();           
             });
+
+           $('#agregarAsignaturaCurso').click(function(){
+           $('#asignaturaCurso').modal('show');           
+           $('#error').hide();
+           });
+           $('#agregarEstudianteCurso').click(function(){
+           $('#asignaturaEstudiante').modal('show');           
+           $('#error').hide();
+           });
 
 
     	$('#curso_form').on('submit', function(event){
@@ -352,6 +397,7 @@
       </script> 
 
       <script type="text/javascript">
+        asignarEstudiantes
   
   $('#asignar').on('submit', function(event){
         event.preventDefault();
@@ -376,6 +422,7 @@
                     {
                         error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
                     }
+                    $('#error').show();
                     $('#error').html(error_html);
 
                 }
@@ -390,6 +437,49 @@
 
 
 
+                  });    
+                    
+              
+         });//FIN DE LA FUNCION
+
+</script>
+ <script type="text/javascript">       
+  
+  $('#asignarEstudiantes').on('submit', function(event){
+        event.preventDefault();
+        var form_data = $(this).serialize();                 
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        $.ajax({
+            url:"{{ route('guardar.curso_estudiante') }}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            success:function(data)
+               {
+
+                if(data.error.length > 0)
+                {
+                    var error_html = '';
+                    for(var count = 0; count < data.error.length; count++)
+                    {
+                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                    }
+                    $('#error').show();
+                    $('#error').html(error_html);
+
+                }
+                else
+                {
+                    
+                    $('#exampleModalCenter').modal('hide');
+                    alertify.success(data.success);
+                   
+                 }
+                                      }
                   });    
                     
               

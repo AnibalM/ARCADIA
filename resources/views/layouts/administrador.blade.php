@@ -91,6 +91,12 @@
                   <span>Docentes</span>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('reporte.gestion') }}">
+                  <i class="material-icons">report</i>
+                  <span>Reportes</span>
+                </a>
+              </li>
             </ul>
           </div>
         </aside>

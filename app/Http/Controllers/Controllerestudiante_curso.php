@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use App\asignatura_has_curso;
 use DB;
 use Illuminate\Validation\Rule;
+use App\estudiante_has_curso;
 
-
-class Controllerasignatura_curso extends Controller
+class Controllerestudiante_curso extends Controller
 {
-     public function __construct()
+    public function __construct()
     	 {
     		$this->middleware('auth');//Verifica si el usuario esta logeado o no...
 		 }
 
-	function guardarcursoconasignatura(Request $request)
-	   {
+	function guardarCursoconestudiante(Request $request){
 
 		$validation = Validator::make($request->all(), [
             'Curso_idCurso' => 'required',            
@@ -36,18 +34,19 @@ class Controllerasignatura_curso extends Controller
         }
         else
         {            
-                $validar = asignatura_has_curso::all()
-                ->where('Asignatura_idAsignatura',$request->Asignatura_idAsignatura)
-                ->where('Curso_idCurso',$request->Curso_idCurso)->first();
+                $validar = estudiante_has_curso::all()
+                ->where('estudiante_idEstudiante',$request->estudiante_idEstudiante)
+                ->where('curso_idCurso',$request->curso_idCurso)
+                ->first();
                                 
                 if ($validar)
                 {
-                    $error_array[] = "ESTA ASIGNATURA YA HA SIDO ASOCIADA A ESTE CURSO";
+                    $error_array[] = "ESTE ESTUDIANTE YA HA SIDO ASOCIADA A ESTE CURSO";
                 }
                 else {                    
-                         $impartir = new asignatura_has_curso([
-                        'Curso_idCurso'    =>  $request->get('Curso_idCurso'),
-                        'Asignatura_idAsignatura'     =>  $request->get('Asignatura_idAsignatura')  
+                         $impartir = new estudiante_has_curso([
+                        'curso_idCurso'    =>  $request->get('curso_idCurso'),
+                        'estudiante_idEstudiante'     =>  $request->get('estudiante_idEstudiante')  
                     ]);
                     $impartir->save();
                     $success_output = 'ASIGNACION REGISTRADA SATISFACTORIAMENTE';
@@ -62,4 +61,5 @@ class Controllerasignatura_curso extends Controller
       }
 
 
-}//FIN DE LA CLASE 
+	}	 
+}
