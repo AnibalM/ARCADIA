@@ -282,7 +282,7 @@
            });
            $('#agregarEstudianteCurso').click(function(){
            $('#asignaturaEstudiante').modal('show');           
-           $('#error').hide();
+           $('#errorDos').hide();
            });
 
 
@@ -446,8 +446,7 @@
      <script type="text/javascript">   
      $('#asignarEstudiantes').on('submit', function(event){
           event.preventDefault();
-          var form_data = $(this).serialize();  
-          alert(form_data);               
+          var form_data = $(this).serialize();                          
           $.ajaxSetup({
           headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

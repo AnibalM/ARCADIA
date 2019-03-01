@@ -60,7 +60,7 @@ class AreaController extends Controller
             //$id = $request->get('idarea');            
             $validation = Validator::make($request->all(), [
             'idArea' => 'required',
-            //'Tipo_area' => 'required|unique:area,'.$request->idarea
+            
             'Tipo_area' => [
                 'required',
                  Rule::unique('area')->ignore($request->idArea,'idArea'),
@@ -117,8 +117,21 @@ class AreaController extends Controller
     }
 
     public function eliminar(Request $request){
-        DB::table('area')->where('idArea', $request->id)->delete();
-        return response()->json(["message" => "AREA ELIMINADA CON EXITO"]);
+        
+        $error= "";
+        $success= "";
+        $validar =  DB::table('asignatura')
+        ->where('Area_idArea', $request->id)
+        ->first();
+        if($validar) {
+             $error = 'ESTA AREA NO SE PUEDE ELIMINAR PORQUE TIENE ASOCIADA UNA O MAS ASIGNATURAS';
+        }else{            
+                DB::table('area')->where('idArea', $request->id)->delete();
+                $success = 'AREA ELIMINADA CON EXITO';
+        } 
+
+       return  response()->json(["error" => $error, "success" => $success 
+                                ]);
     }
 
 

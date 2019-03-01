@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/alertify.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('administradores/alertifyjs/css/themes/default.css') }}">
+
 @endsection
 
 
@@ -121,11 +122,14 @@
                         
                     <div class="form-group">
                         <label>Identificacion</label>
-                        <input type="text" name="idArea" id="idArea" class="form-control" />
+                        <input type="text" name="idArea" id="idArea" class="form-control" onpaste="return false" onkeypress="return solonumero(event)" minlength="4" maxlength="4">
+                        <small id="area" name="area"  class="text-danger">El numero debe ser de 4 digitos</small>
                     </div>
+           
                     <div class="form-group">
                         <label>Nombre del area</label>
-                        <input type="text" name="Tipo_area" id="Tipo_area" class="form-control" />
+                        <input type="text" name="Tipo_area" id="Tipo_area" class="form-control" onpaste="return false" onkeypress="return sololetras(event)" minlength="8" maxlength="20">
+                        <small id="nombre" name="nombre" class="text-danger">El nombre debe contener entre 8 y 20 letras</small>
                     </div>                     
                     <div class="form-group">
                         <label for="estado" class="col-form-label">Estado:</label>
@@ -139,7 +143,7 @@
                 <div class="modal-footer">
                     <input type="hidden" name="area_id" id="area_id" value="" />
                     <input type="hidden" name="button_action" id="button_action" value="insert" />
-                    <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
+                    <input type="submit" name="action" id="action" value="Add" class="btn btn-outline-success" />
                     <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
@@ -153,8 +157,16 @@
     <script type="text/javascript" src="{{ asset('administradores/datatables/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('administradores/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
+    <script type="text/javascript" src="{{ asset('js/validacion.js') }}"></script>
  <script type="text/javascript">
+
     $(document).ready(function(){
+      $("#area").css({
+       "display" : "none"
+      });
+      $("#nombre").css({
+       "display" : "none"
+      });
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -171,15 +183,7 @@
                          
                   ]
     });
-    $('#add_data').click(function(){
-           $('#areaModal').modal('show');
-           document.getElementById('area_form').reset();
-           $('#form_output').html('');
-           $('#button_action').val('insert');
-           $('#action').val('Agregar');
-           $('#div').hide();
-           //$('.modal-title').text('REGISTRAR AREA');
-            });
+   
     $('#area_form').on('submit', function(event){
         event.preventDefault();
         var form_data = $(this).serialize();
@@ -258,6 +262,7 @@
                           }
                       })
                   });//FIN DEL DOCUMENTS EDITAR 
+    
     });//CIERRE DEL DOCUMENTS
     </script>
     <script type="text/javascript"> 
@@ -272,7 +277,11 @@
           "id": id,         
           },
           function(response){
-           alertify.success(response.message); 
+          if(response.error.length > 1){
+            alertify.error(response.error);
+          }else{
+            alertify.error(response.success);
+          }     
            $('#example').DataTable().ajax.reload();
            });//FIN DEL AJAX
            },function(){ alertify.error('Cancelado')
