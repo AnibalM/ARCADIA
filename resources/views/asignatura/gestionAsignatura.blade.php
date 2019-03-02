@@ -123,11 +123,15 @@
                         
                     <div class="form-group">
                         <label>Identificacion</label>
-                        <input type="text" name="idAsignatura" id="idAsignatura" class="form-control" />
+                        <input type="text" name="idAsignatura" id="idAsignatura" class="form-control" onpaste="return false" onkeypress="return solonumero(event)" minlength="4" maxlength="4">
+                        <small id="asignatura" name="asignatura"  class="text-danger">La identificacion debe ser de 4 digitos.</small>
+
                     </div>
                     <div class="form-group">
                         <label>Nombre de la Asignatura</label>
-                        <input type="text" name="Nombre_Asignatura" id="Nombre_Asignatura" class="form-control" />
+                        <input type="text" name="Nombre_Asignatura" id="Nombre_Asignatura" class="form-control" onpaste="return false" onkeypress="return sololetras(event)" minlength="6" maxlength="25">
+                        <small id="nombre" name="nombre"  class="text-danger">El nombre debe contener entre 6 y 25 letras.</small>
+
                     </div>                     
                     <div class="form-group">
                         <label for="areaasociada" class="col-form-label">Area Asociada:</label>
@@ -140,6 +144,7 @@
                       <div class="form-group">
                         <label for="estado" class="col-form-label">Estado:</label>
                         <select class="form-control" name="estado" id="estado">
+                        <option selected value="">--Selecciona--</option>   
                         <option>Habilitado</option>
                         <option>Deshabilitado</option>
                         </select>
@@ -164,10 +169,17 @@
     <script type="text/javascript" src="{{ asset('administradores/datatables/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('administradores/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
-
+    <script type="text/javascript" src="{{ asset('js/validacionAsignatura.js') }}"></script>
 
     <script type="text/javascript">
     $(document).ready(function(){
+       $("#asignatura").css({
+       "display" : "none"
+      });
+   
+       $("#nombre").css({
+       "display" : "none"
+      });
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -189,15 +201,17 @@
     });
 
 
-          $('#add_data').click(function(){
+           $('#add_data').click(function(){
+           let codigo = document.getElementById('idAsignatura');
+           codigo.readOnly = false;
            $('#asignaturaModal').modal('show');
            document.getElementById('asignatura_form').reset();
            $('#form_output').html('');
            $('#button_action').val('insert');
            $('#action').val('Agregar');
            $('#div').hide();
-           //$('.modal-title').text('REGISTRAR AREA');
-            });
+           $('.modal-title').text('REGISTRAR ASIGNATURA');
+           });
 
         $('#asignatura_form').on('submit', function(event){
         event.preventDefault();
@@ -245,6 +259,8 @@
 
 
                     $(document).on('click', '.edit', function(){
+                      let codigo = document.getElementById('idAsignatura');
+                      codigo.readOnly = true;
                       var idAsignatura = $(this).attr("id"); 
                        $.ajaxSetup({
                           headers: {
@@ -280,19 +296,17 @@
 
 
      });//CIERRE DEL DOCUMENTS
-
     </script>
-
-
-    <script type="text/javascript"> 
-
-        function eliminar(id){
-        alertify.confirm('Eliminar Asignatura','¿Desea eliminar esta asignatura?', function(){ 
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-        });
+      
+      <script>
+        $(document).on('click', '.delete', function(){
+          var id = $(this).attr("id");  
+           alertify.confirm('Eliminar Asignatura','¿Desea eliminar esta asignatura?', function(){ 
+            $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            });
           $.post("{{ route('eliminar.asignatura') }}", {
           "id": id,         
           },
@@ -302,10 +316,11 @@
            });//FIN DEL AJAX
            },function(){ alertify.error('Cancelado')
          
-           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
-           };//FIN DE LA FUNCION ELIMINAR        
+           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}}); 
+        });
+      </script>
 
-      </script> 
+   
 
 
 

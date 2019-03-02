@@ -125,12 +125,13 @@
                         
                     <div class="form-group">
                         <label>Identificacion</label>
-                        <input type="text" name="idCurso" id="idCurso" class="form-control" />
+                        <input type="text" name="idCurso" id="idCurso" class="form-control" onpaste="return false" onkeypress="return solonumero(event)" minlength="2" maxlength="2">
+                        <small id="curso" name="curso"  class="text-danger">El numero debe ser de 2 digitos</small>
                     </div>
                     <div class="form-group">
                         <label>Grado</label>
-                         <select class="form-control" name="Grado" id="Grado">
-                         <option selected value="">--Selecciona--</option>	
+                        <select class="form-control" name="Grado" id="Grado">
+                        <option selected value="">--Selecciona--</option>	
                         <option value="6">Sexto</option>
                         <option value="7">Septimo</option>
                         <option value="8">Octavo</option>
@@ -242,10 +243,13 @@
     <script type="text/javascript" src="{{ asset('administradores/datatables/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('administradores/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
-
+     <script  src="{{ asset('js/validacionCurso.js') }}"></script> 
 
     <script type="text/javascript">
     $(document).ready(function(){
+       $("#curso").css({
+        "display" : "none"
+          });
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -273,7 +277,10 @@
            $('#form_output').html('');
            $('#button_action').val('insert');
            $('#action').val('Agregar');
-           $('#div').hide();           
+           $('#div').hide(); 
+           $('.modal-title').text('REGISTRAR CURSO'); 
+           let codigo = document.getElementById('idCurso');
+           codigo.readOnly = false;         
             });
 
            $('#agregarAsignaturaCurso').click(function(){
@@ -288,7 +295,7 @@
 
     	$('#curso_form').on('submit', function(event){
         event.preventDefault();
-        var form_data = $(this).serialize();        
+        var form_data = $(this).serialize();               
         $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -340,7 +347,9 @@
                         });
 
     		 $(document).on('click', '.edit', function(){
-                      var idCurso = $(this).attr("id"); 
+                      var idCurso = $(this).attr("id");
+                       let codigo = document.getElementById('idCurso');
+                       codigo.readOnly = true;  
                        $.ajaxSetup({
                           headers: {
                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -373,15 +382,16 @@
 
     });//CIERRE DEL DOCUMENTS
     </script>
-    <script type="text/javascript"> 
-
-        function eliminar(id){
-        alertify.confirm('Eliminar Curso','¿Desea eliminar este Curso?', function(){ 
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-        });
+    
+      <script>
+        $(document).on('click', '.delete', function(){
+          var id = $(this).attr("id");  
+           alertify.confirm('Eliminar Curso','¿Desea eliminar este curso?', function(){ 
+            $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            });
           $.post("{{ route('eliminar.curso') }}", {
           "id": id,         
           },
@@ -389,15 +399,14 @@
            alertify.success(response.message); 
            $('#example').DataTable().ajax.reload();
            });//FIN DEL AJAX
-           },function(){ alertify.error('CANCELADO')
+           },function(){ alertify.error('Cancelado')
          
-           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
-           };//FIN DE LA FUNCION ELIMINAR        
-
-      </script> 
+           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}}); 
+        });
+      </script>
 
       <script type="text/javascript">
-        asignarEstudiantes
+       
   
   $('#asignar').on('submit', function(event){
         event.preventDefault();

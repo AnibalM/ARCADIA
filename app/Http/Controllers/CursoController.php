@@ -45,9 +45,8 @@ class CursoController extends Controller
             $cursos = DB::table('curso')
             ->select('idCurso', 'Grado')->where('Estado', 'Habilitado')           
             ->get();            
-             return $cursos;
-                
-            } 
+             return $cursos;                
+  } 
   public function cargarEstudiantes(){
             $estudiantes = DB::table('estudiante')
             ->select('idEstudiante','Nom_Es', 'Apell_Es')
@@ -70,7 +69,7 @@ class CursoController extends Controller
           })
             ->addColumn('action', function($curso){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$curso->idCurso.'"><i class="glyphicon
-                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$curso->idCurso.')"><i class="glyphicon
+                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" id="'.$curso->idCurso.'" ><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
            ->rawColumns(['action', 'Estado']) 

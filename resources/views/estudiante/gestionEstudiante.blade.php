@@ -141,10 +141,8 @@
        		    	<option selected value="">--Selecciona--</option>
         	    	<option>Cédula de ciudadanía (CC)</option>
         	    	<option>Tarjeta de identidad (TI)</option>
-        	    	<option>Registro civil (RC)</option>
-        	    	<option>Cédula de extranjería (CE)</option>
-        	    	<option>Tarjeta pasaporte (TP)</option>
-      		   	    </select>
+        	    	<option>Registro civil (RC)</option>        	    	
+      		   	</select>
     				</div>
     			<div class="form-group col-md-6">
      			    <label for="inputidentificacion">Identificacion</label>

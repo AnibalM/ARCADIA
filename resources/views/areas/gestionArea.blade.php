@@ -13,7 +13,7 @@
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 <span class="text-uppercase page-subtitle">Areas</span>
                 <h3 class="page-title">Listados</h3>
-                <button class="boton" data-toggle="modal" id="add_data"  style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
+                <button class="boton" data-toggle="modal" id="add_data" name="add_data" style="position:relative; left:125px; top: -39px; padding: 5px 18px;font-size: 18px; border-style:none; border-radius:18px; border: 2px solid #0080FF; "> 
                 Agregar</button>                
               </div>              
             </div>
@@ -134,6 +134,7 @@
                     <div class="form-group">
                         <label for="estado" class="col-form-label">Estado:</label>
                         <select class="form-control" name="estado" id="estado">
+                        <option selected value="">--Selecciona--</option>   
                         <option>Habilitado</option>
                         <option>Deshabilitado</option>
                         </select>
@@ -157,7 +158,7 @@
     <script type="text/javascript" src="{{ asset('administradores/datatables/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('administradores/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
-    <script type="text/javascript" src="{{ asset('js/validacion.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/validacionArea.js') }}"></script>
  <script type="text/javascript">
 
     $(document).ready(function(){
@@ -183,6 +184,19 @@
                          
                   ]
     });
+
+    $('#add_data').click(function(){ 
+           let codigo = document.getElementById('idArea');
+           codigo.readOnly = false;          
+           $('#areaModal').modal('show');
+           document.getElementById('area_form').reset();
+           $('#form_output').html('');
+           $('#button_action').val('insert');
+           $('#action').val('Agregar');
+           $('.modal-title').text('AGREGAR AREA');
+           $('#div').hide();   
+           });//FIN DEL ADD DATA
+
    
     $('#area_form').on('submit', function(event){
         event.preventDefault();
@@ -214,6 +228,8 @@
                 {
                     
                     //$('#form_output').html(data.success);
+                    let codigo = document.getElementById('idArea');
+                    codigo.readOnly = false;
                     document.getElementById('area_form').reset();
                     $('#action').val('Agregar');
                     $('.modal-title').text('REGISTRAR AREA');
@@ -238,7 +254,9 @@
       
   
                       $(document).on('click', '.edit', function(){
-                      var idArea = $(this).attr("id"); 
+                      var idArea = $(this).attr("id");
+                      let codigo = document.getElementById('idArea');
+                      codigo.readOnly = true;
                        $.ajaxSetup({
                           headers: {
                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -265,28 +283,29 @@
     
     });//CIERRE DEL DOCUMENTS
     </script>
-    <script type="text/javascript"> 
-        function eliminar(id){
-        alertify.confirm('Eliminar Area','¿Desea eliminar esta area?', function(){ 
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-        });
+    <script>
+        $(document).on('click', '.delete', function(){
+          var id = $(this).attr("id");  
+           alertify.confirm('Eliminar Area','¿Desea eliminar esta Area?', function(){ 
+            $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            });
           $.post("{{ route('eliminar.area') }}", {
           "id": id,         
           },
           function(response){
-          if(response.error.length > 1){
-            alertify.error(response.error);
-          }else{
-            alertify.error(response.success);
-          }     
+           if (response.error.length > 0){
+           alertify.error(response.error);  
+           } else{
+            alertify.success(response.success);
+           }           
            $('#example').DataTable().ajax.reload();
            });//FIN DEL AJAX
            },function(){ alertify.error('Cancelado')
          
-           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}});
-           };//FIN DE LA FUNCION ELIMINAR        
-      </script> 
+           }).set({labels:{ok:'Aceptar', cancel: 'Cancelar'}}); 
+        });
+      </script>
 @endsection    

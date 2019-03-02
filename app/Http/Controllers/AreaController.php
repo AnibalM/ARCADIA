@@ -47,7 +47,7 @@ class AreaController extends Controller
             return Datatables::of($area)
             ->addColumn('action', function($area){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$area->idArea.'"><i class="glyphicon
-                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$area->idArea.')"><i class="glyphicon
+                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" id="'.$area->idArea.'")"><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
             ->make(true);
@@ -57,13 +57,13 @@ class AreaController extends Controller
   public function guardarArea(Request $request)
         {
 
-            //$id = $request->get('idarea');            
+                 
             $validation = Validator::make($request->all(), [
             'idArea' => 'required',
-            
+            'estado' => 'required|min:10|max:13',            
             'Tipo_area' => [
                 'required',
-                 Rule::unique('area')->ignore($request->idArea,'idArea'),
+                 Rule::unique('area')->ignore($request->idArea,'idArea')
             ],
         ]);
 

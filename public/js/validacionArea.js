@@ -46,20 +46,11 @@ if(letras.indexOf(teclado)==-1 && !teclado_especial){
 }
 
 
- 			$('#add_data').click(function(){
-           $('#areaModal').modal('show');
-           document.getElementById('area_form').reset();
-           $('#form_output').html('');
-           $('#button_action').val('insert');
-           $('#action').val('Agregar');
-           $('#div').hide();
-           });//FIN DEL ADD DATA
-
+     			 
 
  		$('#action').click(function(){
  		var i = 0;
-      	var cod=$("#idArea").val();
-       
+      	var cod=$("#idArea").val();       
        	if(cod.length > "4" || cod.length < "4"){
         i=parseInt(i+1);
         $("#area").css({
@@ -73,7 +64,6 @@ if(letras.indexOf(teclado)==-1 && !teclado_especial){
        }  
 
        var nom=$("#Tipo_area").val();
-       alert(nom.length);
        if(nom.length < "8" || nom.length > "20"){
         i=parseInt(i+1);
         $("#nombre").css({
@@ -87,11 +77,11 @@ if(letras.indexOf(teclado)==-1 && !teclado_especial){
        } 
 
 
-       if(i >= 1 ){
-        return false; 
-       }else{
-       $("#areaModal").submit(); 
-       } 
-	   });
+         if(i >= 1 ){
+          return false; 
+         }else{
+         $("#areaModal").submit(); 
+         } 
+  	   });
 
   

@@ -49,7 +49,7 @@ class AsignaturaController extends Controller
 		 	return Datatables::of($asignatura)
             ->addColumn('action', function($asignatura){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$asignatura->idAsignatura.'"><i class="glyphicon
-                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$asignatura->idAsignatura.')"><i class="glyphicon
+                 glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" id="'.$asignatura->idAsignatura.'" ><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
 
@@ -63,6 +63,7 @@ class AsignaturaController extends Controller
                       
             $validation = Validator::make($request->all(), [
             'idAsignatura' => 'required',
+            'estado' => 'required'
         
             /*'Tipo_area' => [
                 'required',
