@@ -146,7 +146,8 @@
     				</div>
     			<div class="form-group col-md-6">
      			    <label for="inputidentificacion">Identificacion</label>
-      			    <input type="text" class="form-control" name="idEstudiante" id="idEstudiante" placeholder="Numero de documento">
+      			    <input type="text" class="form-control" name="idEstudiante" id="idEstudiante" placeholder="Numero de documento" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="10">
+                <small id="id" name="id"  class="text-danger"></small>
     			</div>
     			<div class="form-group col-md-4">
       		    	<label for="inputTipo">Sexo:</label>
@@ -174,7 +175,8 @@
   				</div>
   				<div class="form-group col-md-6">
      			    <label for="inputEmail">Email</label>
-      			    <input type="email" class="form-control" name="Email_Es" id="Email_Es" placeholder="Email del estudiante">
+      			    <input type="text" class="form-control" name="Email_Es" id="Email_Es" placeholder="Email del estudiante">
+                <small id="correo" name="correo" class="text-danger"></small>
     			</div>
     			<div class="form-group col-md-6">
      			    <label for="inputdireccion">Direccion</label>
@@ -187,7 +189,8 @@
     			</div>
     				<div class="form-group col-md-6">
      			    <label for="inputApellido">Telefono</label>
-      			    <input type="text" class="form-control" name="Tel_Es" id="Tel_Es" placeholder="Telefono del estudiante">
+      			    <input type="text" class="form-control" name="Tel_Es" id="Tel_Es" placeholder="Telefono del estudiante" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="7">
+                <small id="telefono" name="telefono" class="text-danger"></small>
     				</div>
     				<div class="form-group col-md-8">
      			    <label for="inputNombre">Acudiente</label>
@@ -225,10 +228,20 @@
     
     <script type="text/javascript" src="{{ asset('administradores/datatables/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('administradores/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
+    <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('js/validacionEstudiante.js') }}"></script> 
 
     <script type="text/javascript">
     $(document).ready(function(){
+      $("#id").css({
+       "display" : "none"
+      });
+      $("#telefono").css({
+       "display" : "none"
+      });
+      $("#correo").css({
+       "display" : "none"
+      });
     $('#example').DataTable({
       processing: true,
       serverSide: true,

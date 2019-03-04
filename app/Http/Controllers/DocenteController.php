@@ -63,8 +63,7 @@ class DocenteController extends Controller
             'Email' => [
                 'required',
                  Rule::unique('docente')->ignore($request->idDocente,'idDocente'),
-            ],
-            
+            ],            
         ]);
         $error_array = array();
         $success_output = '';

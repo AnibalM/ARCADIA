@@ -57,48 +57,36 @@ class AsignaturaController extends Controller
 
 		 }
 
-		 function guardarAsignatura(Request $request)
-        {
-
-                      
+		function guardarAsignatura(Request $request)
+        {                      
             $validation = Validator::make($request->all(), [
             'idAsignatura' => 'required',
-            'estado' => 'required'
-        
-            /*'Tipo_area' => [
-                'required',
-                 Rule::unique('area')->ignore($request->idArea,'idArea'),
-            ],*/
-        ]);
+            'estado' => 'required'   
+            ]);
 
-        $error_array = array();
-        $success_output = '';
+            $error_array = array();
+            $success_output = '';
         if ($validation->fails())
         {
             foreach($validation->messages()->getMessages() as $field_name => $messages)
             {
-
                 $error_array[] = $messages;
             }
         }
         else
         {
-            if($request->get('button_action') == "insert")
-            {
+            if($request->get('button_action') == "insert"){
+            
                 $asignatura = new Asignatura([
                     'idAsignatura'    =>  $request->get('idAsignatura'),
                     'Nombre_Asignatura'     =>  $request->get('Nombre_Asignatura'),
                     'Area_idArea' => $request->get('Area_idArea'),
-                    'Estado'     =>  $request->get('estado')
-                    
+                    'Estado'     =>  $request->get('estado')                    
                 ]);
                 $asignatura->save();
-                $success_output = 'ASIGNATURA REGISTRADA CON EXITO';
-            } 
-
+                $success_output = 'ASIGNATURA REGISTRADA CON EXITO';}
              if($request->get('button_action') == "update") 
-             {
-                
+             {                
                 DB::table('asignatura')->where("idAsignatura", $request->asignatura_id)
                 ->update([
                     'idAsignatura'    =>  $request->get('idAsignatura'),
@@ -107,7 +95,6 @@ class AsignaturaController extends Controller
                     'Estado'     =>  $request->get('estado')
                 ]);
                 $success_output = 'ASIGNATURA ACTUALIZADA CON EXITO ';
-
             };            
         }
         $output = array(

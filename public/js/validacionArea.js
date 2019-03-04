@@ -76,6 +76,8 @@ if(letras.indexOf(teclado)==-1 && !teclado_especial){
           });
        } 
 
+       
+
 
          if(i >= 1 ){
           return false; 
