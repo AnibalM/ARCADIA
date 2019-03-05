@@ -86,8 +86,14 @@ class DocenteController extends Controller
                 else{
                 $docente = new docente([
                     'idDocente'    =>  $request->get('idDocente'),
-                    'Nombre'     =>  $request->get('nombre'),
-                    'Apellidos'     =>  $request->get('apellido'),
+                    'Nombre'     =>  $request->get('Nombre'),
+                    'Apellidos'     =>  $request->get('Apellidos'),
+                    'sex'        => $request->get('sex'),
+                    'Telefono' => $request->get('Telefono'),
+                    'Direccion' => $request->get('Direccion'),
+                    'edad' => $request->get('edad'),
+                    'Tipo_Documento' => $request->get('Tipo_Documento'),
+                    'Estrato' => $request->get('Estrato'),        
                     'Tipo_Docente'     =>  $request->get('tipo'),
                     'Email'     =>  $request->get('Email'),
                     'password'     =>  bcrypt($request->get('contrasena')),
@@ -154,8 +160,9 @@ class DocenteController extends Controller
         $id= $request->input('id');
         $docente = Docente::where("idDocente", $id)->first();
        return response()->json(["idDocente" => "$docente->idDocente","Nombre" => "$docente->Nombre",
-        "Apellidos" => "$docente->Apellidos", "tipo" => "$docente->Tipo_Docente", "Email" => "$docente->Email",
-         "Estado" => "$docente->Estado"
+        "Apellidos" => "$docente->Apellidos", "Tipo_Docente" => "$docente->Tipo_Docente", "Email" => "$docente->Email",
+         "Estado" => "$docente->Estado", "Tipo_Documento" => "$docente->Tipo_Documento", "Estrato" => "$docente->Estrato",
+          "sex" => "$docente->sex", "Direccion" => "$docente->Direccion", "edad" => "$docente->edad", "Telefono" => "$docente->Telefono"      
         ]);
     }
     /*public function listar()

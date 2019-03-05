@@ -194,7 +194,13 @@
            $('#button_action').val('insert');
            $('#action').val('Agregar');
            $('.modal-title').text('AGREGAR AREA');
-           $('#div').hide();   
+           $('#div').hide();  
+           $("#area").css({
+             "display" : "none"
+            });
+            $("#nombre").css({
+             "display" : "none"
+            }); 
            });//FIN DEL ADD DATA
 
    

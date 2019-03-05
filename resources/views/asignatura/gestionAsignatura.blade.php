@@ -136,6 +136,7 @@
                     <div class="form-group">
                         <label for="areaasociada" class="col-form-label">Area Asociada:</label>
                         <select class="form-control" name="Area_idArea" id="Area_idArea">
+                        <option selected value="">--Selecciona--</option>
                         @foreach($areas as $area)
                         <option value= "{{ $area->idArea }}">{{ $area->Tipo_area }}</option>
                         @endforeach
@@ -211,6 +212,13 @@
            $('#action').val('Agregar');
            $('#div').hide();
            $('.modal-title').text('REGISTRAR ASIGNATURA');
+           $("#asignatura").css({
+               "display" : "none"
+              });
+           
+               $("#nombre").css({
+               "display" : "none"
+              });
            });
 
         $('#asignatura_form').on('submit', function(event){

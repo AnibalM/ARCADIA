@@ -280,7 +280,10 @@
            $('#div').hide(); 
            $('.modal-title').text('REGISTRAR CURSO'); 
            let codigo = document.getElementById('idCurso');
-           codigo.readOnly = false;         
+           codigo.readOnly = false; 
+            $("#curso").css({
+             "display" : "none"
+          });        
             });
 
            $('#agregarAsignaturaCurso').click(function(){

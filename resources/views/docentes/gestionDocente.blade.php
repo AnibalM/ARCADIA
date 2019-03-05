@@ -160,6 +160,127 @@
     </div>
   </div>
 </div>
+ <!--MODAL INSERTAR MODIFICAR-->
+
+<div id="x" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" id="docente_form">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>REGISTRAR DOCENTE</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   
+                </div>
+                <div class="modal-body">
+                      <!--{{csrf_field()}}-->                    
+                    <div class="alert alert-danger" id="div">                     
+                    </div>                        
+                    
+                 <div class="form-row">
+                  <div class="form-group col-md-6">
+                <label for="inputTipo">Tipo de documento</label>
+              <select name="Tipo_Documento" id="Tipo_Documento" class="form-control">
+                <option selected value="">--Selecciona--</option>
+                <option>Cédula de ciudadanía (CC)</option>
+                <option>Tarjeta de identidad (TI)</option>
+                <option>Registro civil (RC)</option>                
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputidentificacion">Identificacion</label>
+                <input type="text" class="form-control" name="idDocente" id="idDocente" placeholder="Numero de documento" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="10">
+                <small id="id" name="id"  class="text-danger"></small>
+          </div>
+              <div class="form-group col-md-6">
+              <label for="inputNombre">Nombre</label>
+                <input type="text" class="form-control" name="Nombre" id="Nombre" placeholder="Nombre del docente" onpaste="return false" onkeypress="return sololetras(event)" minlength="3" maxlength="20">
+                <small id="nombre" name="nombre" class="text-danger"></small>
+          </div>
+            <div class="form-group col-md-6">
+              <label for="inputApellido">Apellido</label>
+                <input type="text" class="form-control" name="Apellidos" id="Apellidos" placeholder="Apellidos del docente" onpaste="return false" onkeypress="return sololetras(event)" minlength="3" maxlength="20">
+                <small id="apellido" name="apellido" class="text-danger"></small>
+          </div>           
+          
+          <div class="form-group col-md-4">
+                <label for="inputTipo">Sexo:</label>
+              <select name="sex" id="sex" class="form-control">
+                <option selected value="">--Selecciona--</option>
+                <option>M</option>
+                <option>F</option>
+                  </select>             
+          </div>
+
+          <div class="form-group col-md-4">
+              <label for="inputidentificacion">Edad</label>
+                <input type="text" class="form-control" name="edad" id="edad" placeholder="Edad" onpaste="return false" onkeypress="return solonumero(event)" minlength="2" maxlength="2">
+                <small id="edad" name="edad"  class="text-danger"></small>
+
+          </div>
+          <div class="form-group col-md-4">
+                <label for="inputTipo">Estrato:</label>
+              <select name="Estrato" id="Estrato" class="form-control">
+                <option selected value="">--Selecciona--</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                  </select>             
+          </div>
+          <div class="form-group col-md-6">
+              <label for="inputEmail">Email</label>
+                <input type="text" class="form-control" name="Email" id="Email" placeholder="Email del estudiante" onpaste="return false" minlength="5" maxlength="40" />
+                <small id="correo" name="correo" class="text-danger"></small>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="inputdireccion">Direccion</label>
+                <input type="text" class="form-control" name="Direccion" id="Direccion" placeholder="Direccion del docente" onpaste="return false" minlength="5" maxlength="40">
+                <small id="direccion" name="direccion" class="text-danger"></small>
+          </div>
+            <div class="form-group col-md-6">
+              <label for="inputApellido">Telefono</label>
+                <input type="text" class="form-control" name="  Telefono" id="  Telefono" placeholder="Telefono del docente" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="7">
+                <small id="telefono" name="telefono" class="text-danger"></small>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="tipo" class="col-form-label">Tipo de docente:</label>
+                <select class="form-control" name="tipo" id="tipo">
+                <option selected value="">--Selecciona--</option>
+                <option>Estable</option>
+                <option>Provisional</option>
+                </select>
+            </div>
+            <div class="form-group col-md-8">
+              <label for="inputNombre">Contraseña</label>
+                <input type="text" class="form-control" name="password" id="password" placeholder="Contraseña" onpaste="return false" onkeypress="return sololetras(event)" minlength="15" maxlength="25">
+                <small id="acudiente" name="acudiente" class="text-danger"></small>
+          </div>
+
+          <div class="form-group col-md-4">
+                <label for="inputTipo">Estado:</label>
+              <select name="Estado" id="Estado" class="form-control">
+                <option selected value="">--Selecciona--</option>
+                <option>Habilitado</option>
+                <option>Deshabilitado</option>
+                  </select>             
+          </div> 
+  
+                       
+                </div>
+                <div class="modal-footer">
+                   <input type="hidden" name="docente_id" id="docente_id" value="" />
+                    <input type="hidden" name="button_action" id="button_action" value="insert" />
+                    <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
+                    <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+    </div>
+  </div>
+</div>
+
+<!--FIN MODAL INSERTAR MODIFICADO-->
    
 <!--MODAL INSERTAR MODIFICAR-->
 <div id="docenteModal" class="modal fade" role="dialog">
@@ -188,7 +309,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tipo" class="col-form-label">Tipo de docente:</label>
-                        <select class="form-control" name="tipo" id="tipo">
+                        <select class="form-control" name="Tipo_Docente" id="Tipo_Docente">
                         <option>Estable</option>
                         <option>Provisional</option>
                         </select>
@@ -228,6 +349,7 @@
     <script type="text/javascript" src="{{ asset('administradores/scripts/datatables/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('administradores/scripts/datatables/dataTables.bootstrap4.min.js') }}"></script>
      <script src="{{ asset('administradores/alertifyjs/alertify.js') }}"></script>  
+     <script  src=" {{ asset('js/validacionDocente.js') }}"></script>
 
 
 
@@ -257,12 +379,13 @@
     });//CIERRE DEL DATATABLES
 
            $('#add_data').click(function(){
-           $('#docenteModal').modal('show');
+           $('#x').modal('show');
            document.getElementById('docente_form').reset();
            $('#form_output').html('');
            $('#button_action').val('insert');
            $('#action').val('Agregar');
-           $('.modal-title').text('AGREGAR DOCENTE');
+           $('.modal-title').text('REGISTRAR DOCENTE');
+           $('#div').hide();
             });
 
             $('#agregar').click(function(){
@@ -293,9 +416,10 @@
                     var error_html = '';
                     for(var count = 0; count < data.error.length; count++)
                     {
-                        error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                        error_html += '<li>'+data.error[count]+'</li>';
                     }
-                    $('#form_output').html(error_html);
+                    $('#div').show();
+                    $('#div').html(error_html);   
                 }
                 else
                 {
@@ -306,7 +430,7 @@
                     $('.modal-title').text('AGREGAR DOCENTE');
                     $('#button_action').val('insert');
                     $('#example').DataTable().ajax.reload();
-                    $('#docenteModal').modal('hide');
+                    $('#x').modal('hide');
                     alertify.success(data.success);
                         }
                     }
@@ -332,16 +456,23 @@
                           success:function(response){
 
                             $('#idDocente').val(response.idDocente);
-                            $('#nombre').val(response.Nombre);
-                            $('#apellido').val(response.Apellidos);
-                            $('#tipo').val(response.tipo);
+                            $('#Nombre').val(response.Nombre);
+                            $('#Apellidos').val(response.Apellidos);
+                            $('#sex').val(response.sex);
+                            $('#Telefono').val(response.Telefono);
+                            $('#Direccion').val(response.Direccion);
+                            $('#edad').val(response.edad);
+                            $('#Tipo_Documento').val(response.Tipo_Documento);
+                            $('#Estrato').val(response.Estrato);
+                            $('#Tipo_Docente').val(response.Tipo_Docente);
                             $('#Email').val(response.Email);
                             $('#Estado').val(response.Estado);                           
                             $('#docente_id').val(idDocente);                          
-                            $('#docenteModal').modal('show');
+                            $('#x').modal('show');
                             $('#action').val('Editar');
                             $('.modal-title').text('EDITAR DOCENTE');
                             $('#button_action').val('update');
+                            $('#div').hide(); 
                             
 
                           }

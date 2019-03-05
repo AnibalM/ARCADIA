@@ -112,7 +112,7 @@
 
  <!--MODAL INSERTAR MODIFICAR-->
 
-<div id=estudianteModal class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div id="estudianteModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form method="post" id="estudiante_form">
@@ -129,11 +129,13 @@
                  <div class="form-row">
    				    <div class="form-group col-md-6">
      			    <label for="inputNombre">Nombre</label>
-      			    <input type="text" class="form-control" name="Nom_Es" id="Nom_Es" placeholder="Nombre del estudiante">
+      			    <input type="text" class="form-control" name="Nom_Es" id="Nom_Es" placeholder="Nombre del estudiante" onpaste="return false" onkeypress="return sololetras(event)" minlength="3" maxlength="20">
+                <small id="nombre" name="nombre" class="text-danger"></small>
     			</div>
     				<div class="form-group col-md-6">
      			    <label for="inputApellido">Apellido</label>
-      			    <input type="text" class="form-control" name="Apell_Es" id="Apell_Es" placeholder="Apellido del estudiante">
+      			    <input type="text" class="form-control" name="Apell_Es" id="Apell_Es" placeholder="Apellido del estudiante" onpaste="return false" onkeypress="return sololetras(event)" minlength="3" maxlength="20">
+                <small id="apellido" name="apellido" class="text-danger"></small>
     			</div>
     				<div class="form-group col-md-6">
       		    	<label for="inputTipo">Tipo de documento</label>
@@ -159,7 +161,9 @@
   				</div>
   				<div class="form-group col-md-4">
      			    <label for="inputidentificacion">Edad</label>
-      			    <input type="number" class="form-control" name="Edad_es" id="Edad_es" placeholder="Edad">
+      			    <input type="text" class="form-control" name="Edad_es" id="Edad_es" placeholder="Edad" onpaste="return false" onkeypress="return solonumero(event)" minlength="2" maxlength="2">
+                <small id="edad" name="edad"  class="text-danger"></small>
+
     			</div>
   				<div class="form-group col-md-4">
       		    	<label for="inputTipo">Estrato:</label>
@@ -175,17 +179,19 @@
   				</div>
   				<div class="form-group col-md-6">
      			    <label for="inputEmail">Email</label>
-      			    <input type="text" class="form-control" name="Email_Es" id="Email_Es" placeholder="Email del estudiante">
+      			    <input type="text" class="form-control" name="Email_Es" id="Email_Es" placeholder="Email del estudiante" onpaste="return false" minlength="5" maxlength="40" />
                 <small id="correo" name="correo" class="text-danger"></small>
     			</div>
     			<div class="form-group col-md-6">
      			    <label for="inputdireccion">Direccion</label>
-      			    <input type="text" class="form-control" name="Direcc_Es" id="Direcc_Es" placeholder="Direccion del estudiante">
+      			    <input type="text" class="form-control" name="Direcc_Es" id="Direcc_Es" placeholder="Direccion del estudiante" onpaste="return false" minlength="5" maxlength="40">
+                <small id="direccion" name="direccion" class="text-danger"></small>
     			</div>
     			 
    				    <div class="form-group col-md-6">
      			    <label for="inputNombre">Celular</label>
-      			    <input type="text" class="form-control"  name="Celular_Es" id="Celular_Es" placeholder="Celular del estudiante">
+      			    <input type="text" class="form-control"  name="Celular_Es" id="Celular_Es" placeholder="Celular del estudiante" onpaste="return false" onkeypress="return solonumero(event)" minlength="10" maxlength="10">
+                <small id="celular" name="celular" class="text-danger"></small>
     			</div>
     				<div class="form-group col-md-6">
      			    <label for="inputApellido">Telefono</label>
@@ -194,7 +200,8 @@
     				</div>
     				<div class="form-group col-md-8">
      			    <label for="inputNombre">Acudiente</label>
-      			    <input type="text" class="form-control" name="Nom_Acudiente" id="Nom_Acudiente" placeholder="Nombre del Acudiente">
+      			    <input type="text" class="form-control" name="Nom_Acudiente" id="Nom_Acudiente" placeholder="Nombre del Acudiente" onpaste="return false" onkeypress="return sololetras(event)" minlength="15" maxlength="25">
+                <small id="acudiente" name="acudiente" class="text-danger"></small>
     			</div>
 
     			<div class="form-group col-md-4">
@@ -242,6 +249,24 @@
       $("#correo").css({
        "display" : "none"
       });
+      $("#nombre").css({
+       "display" : "none"
+      });
+      $("#apellido").css({
+       "display" : "none"
+      });
+      $("#edad").css({
+       "display" : "none"
+      });
+      $("#direccion").css({
+       "display" : "none"
+      });
+      $("#celular").css({
+       "display" : "none"
+      });
+      $("#acudiente").css({
+       "display" : "none"
+      });
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -272,7 +297,33 @@
            $('#button_action').val('insert');
            $('#action').val('Agregar');
            $('#div').hide();
-           //$('.modal-title').text('REGISTRAR AREA');
+           $("#id").css({
+             "display" : "none"
+            });
+            $("#telefono").css({
+             "display" : "none"
+            });
+            $("#correo").css({
+             "display" : "none"
+            });
+            $("#nombre").css({
+             "display" : "none"
+            });
+            $("#apellido").css({
+             "display" : "none"
+            });
+            $("#edad").css({
+             "display" : "none"
+            });
+            $("#direccion").css({
+             "display" : "none"
+            });
+            $("#celular").css({
+             "display" : "none"
+            });
+            $("#acudiente").css({
+             "display" : "none"
+            });
             });
 
 

@@ -47,11 +47,18 @@ class AsignaturaController extends Controller
 		 				  ->get();
 		 	
 		 	return Datatables::of($asignatura)
+            ->editColumn('Estado', function($docentes){
+              $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
+              $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
+              if ($docentes->Estado == 'Habilitado') return $habilitado;
+              else return $deshabilitado;
+              })
             ->addColumn('action', function($asignatura){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$asignatura->idAsignatura.'"><i class="glyphicon
                  glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" id="'.$asignatura->idAsignatura.'" ><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
+            ->rawColumns(['action', 'Estado']) 
 
        		->make(true);	
 
@@ -61,7 +68,12 @@ class AsignaturaController extends Controller
         {                      
             $validation = Validator::make($request->all(), [
             'idAsignatura' => 'required',
-            'estado' => 'required'   
+            'estado' => 'required',
+            'Area_idArea' => 'required',
+            'Nombre_Asignatura' => [
+                'required',
+                 Rule::unique('asignatura')->ignore($request->idAsignatura,'idAsignatura')
+            ],  
             ]);
 
             $error_array = array();
@@ -76,7 +88,11 @@ class AsignaturaController extends Controller
         else
         {
             if($request->get('button_action') == "insert"){
-            
+
+                $validar = asignatura::select('idAsignatura')->where('idAsignatura',$request->idAsignatura)->first();
+                if ($validar){
+                    $error_array[] = "Este id de asignatura ya se encuentra registrado";
+                } else {
                 $asignatura = new Asignatura([
                     'idAsignatura'    =>  $request->get('idAsignatura'),
                     'Nombre_Asignatura'     =>  $request->get('Nombre_Asignatura'),
@@ -84,7 +100,9 @@ class AsignaturaController extends Controller
                     'Estado'     =>  $request->get('estado')                    
                 ]);
                 $asignatura->save();
-                $success_output = 'ASIGNATURA REGISTRADA CON EXITO';}
+                $success_output = 'ASIGNATURA REGISTRADA CON EXITO';
+                }
+            }
              if($request->get('button_action') == "update") 
              {                
                 DB::table('asignatura')->where("idAsignatura", $request->asignatura_id)

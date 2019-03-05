@@ -29,12 +29,18 @@ class EstudianteController extends Controller
 	 {
 	 	$estudiante = Estudiante::select('idEstudiante', 'Nom_Es', 'Apell_Es', 'Edad_es', 'Email_Es', 'Celular_Es', 'Estado')->where('eliminado', 'false');
        		return Datatables::of($estudiante)
+            ->editColumn('Estado', function($docentes){
+              $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
+              $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
+              if ($docentes->Estado == 'Habilitado') return $habilitado;
+              else return $deshabilitado;
+              })
             ->addColumn('action', function($estudiante){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$estudiante->idEstudiante.'"><i class="glyphicon
                  glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" onclick="eliminar('.$estudiante->idEstudiante.')"><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
-
+            ->rawColumns(['action', 'Estado']) 
        		->make(true);
 
 	 }
@@ -43,10 +49,13 @@ class EstudianteController extends Controller
 	 public function guardarEstudiante(Request $request)
 	 {
 
-	 	//$id = $request->get('idarea');            
+	 	          
             $validation = Validator::make($request->all(), [
             'idEstudiante' => 'required',
-            //'Tipo_area' => 'required|unique:area,'.$request->idarea
+            'Tp_Documen_Es' => 'required',
+            'Estrato_Es' => 'required',
+            'Estado' => 'required',
+            'Sex_es' => 'required',        
             'Email_Es' => [
                 'required',
                  Rule::unique('estudiante')->ignore($request->idEstudiante,'idEstudiante'),

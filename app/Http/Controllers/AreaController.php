@@ -45,11 +45,18 @@ class AreaController extends Controller
          {
             $area = Area::select('idArea', 'Tipo_area', 'Estado');
             return Datatables::of($area)
+            ->editColumn('Estado', function($docentes){
+              $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
+              $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
+              if ($docentes->Estado == 'Habilitado') return $habilitado;
+              else return $deshabilitado;
+              })
             ->addColumn('action', function($area){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$area->idArea.'"><i class="glyphicon
                  glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" id="'.$area->idArea.'")"><i class="glyphicon
                  glyphicon-edit"></i> Eliminar</a>';
                 }) 
+            ->rawColumns(['action', 'Estado']) 
             ->make(true);
          }
 

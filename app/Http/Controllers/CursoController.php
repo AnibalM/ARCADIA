@@ -61,12 +61,12 @@ class CursoController extends Controller
 
        		$curso = Curso::select('idCurso', 'Grado', 'Estado')->where('eliminado', 'false');
        		return Datatables::of($curso)
-          ->editColumn('Estado', function($docentes){
-          $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
-          $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
-          if ($docentes->Estado == 'Habilitado') return $habilitado;
-          else return $deshabilitado;
-          })
+            ->editColumn('Estado', function($docentes){
+            $habilitado = '<span class="badge badge-success">Habilitado</span>'; 
+            $deshabilitado = '<span class="badge badge-warning">Deshabilitado</span>';       
+            if ($docentes->Estado == 'Habilitado') return $habilitado;
+            else return $deshabilitado;
+            })
             ->addColumn('action', function($curso){
                  return '<a href="#" class="btn btn-xs btn-info edit" id="'.$curso->idCurso.'"><i class="glyphicon
                  glyphicon-edit"></i> Editar</a> <a href="#" class="btn btn-xs btn-danger delete" id="'.$curso->idCurso.'" ><i class="glyphicon
