@@ -191,7 +191,7 @@ $('#action').click(function(){
   		 }
 
   		let acudiente = $("#Nom_Acudiente").val();
-  		if(acudiente.length > "15" || acudiente.length < "25"){
+  		if(acudiente.length > "25" || acudiente.length < "15"){
        	i=parseInt(i+1);
         $("#acudiente").css({
         "display" : "block"

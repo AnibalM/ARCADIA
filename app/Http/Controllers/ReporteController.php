@@ -15,8 +15,23 @@ class ReporteController extends Controller
 
     public function gestion_reporte(Request $request)
     	 {
-    		return view('reportes.reportes');
+    	 	$edades = $this->cargarEdades();
+    		return view('reportes.reportes',compact('edades'));
 
     	 }
+
+
+
+
+    public function cargarEdades()
+ 	 {
+  			$edades = DB::table('docente')  
+  			->select('edad', DB::raw('count(*) as total'))
+  			->groupBy('edad')        
+            ->get();            
+             return $edades;                
+  	} 
+  		
+
     	 
 }//fin de la clase

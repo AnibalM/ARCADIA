@@ -189,7 +189,7 @@
             <div class="form-group col-md-6">
               <label for="inputidentificacion">Identificacion</label>
                 <input type="text" class="form-control" name="idDocente" id="idDocente" placeholder="Numero de documento" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="10">
-                <small id="id" name="id"  class="text-danger"></small>
+                <small id="id" name="id" class="text-danger"></small>
           </div>
               <div class="form-group col-md-6">
               <label for="inputNombre">Nombre</label>
@@ -214,7 +214,7 @@
           <div class="form-group col-md-4">
               <label for="inputidentificacion">Edad</label>
                 <input type="text" class="form-control" name="edad" id="edad" placeholder="Edad" onpaste="return false" onkeypress="return solonumero(event)" minlength="2" maxlength="2">
-                <small id="edad" name="edad"  class="text-danger"></small>
+                <small id="años" name="años"  class="text-danger"></small>
 
           </div>
           <div class="form-group col-md-4">
@@ -239,23 +239,28 @@
                 <input type="text" class="form-control" name="Direccion" id="Direccion" placeholder="Direccion del docente" onpaste="return false" minlength="5" maxlength="40">
                 <small id="direccion" name="direccion" class="text-danger"></small>
           </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
               <label for="inputApellido">Telefono</label>
-                <input type="text" class="form-control" name="  Telefono" id="  Telefono" placeholder="Telefono del docente" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="7">
+                <input type="text" class="form-control" name="Telefono" id="Telefono" placeholder="Telefono del docente" onpaste="return false" onkeypress="return solonumero(event)" minlength="7" maxlength="7">
                 <small id="telefono" name="telefono" class="text-danger"></small>
             </div>
-            <div class="form-group col-md-6">
-                <label for="tipo" class="col-form-label">Tipo de docente:</label>
-                <select class="form-control" name="tipo" id="tipo">
+            <div class="form-group col-md-4">
+              <label for="inputNombre">Celular</label>
+                <input type="text" class="form-control"  name="Celular" id="Celular" placeholder="Celular del docente" onpaste="return false" onkeypress="return solonumero(event)" minlength="10" maxlength="10">
+                <small id="celular" name="celular" class="text-danger"></small>
+          </div>
+            <div class="form-group col-md-4">
+                <label for="inputTipo">Tipo de docente:</label>
+              <select name="Tipo_Docente" id="Tipo_Docente" class="form-control">
                 <option selected value="">--Selecciona--</option>
                 <option>Estable</option>
                 <option>Provisional</option>
-                </select>
-            </div>
+                  </select>             
+          </div> 
             <div class="form-group col-md-8">
               <label for="inputNombre">Contraseña</label>
-                <input type="text" class="form-control" name="password" id="password" placeholder="Contraseña" onpaste="return false" onkeypress="return sololetras(event)" minlength="15" maxlength="25">
-                <small id="acudiente" name="acudiente" class="text-danger"></small>
+                <input type="text" class="form-control" name="password" id="password" placeholder="Contraseña" onpaste="return false" minlength="5" maxlength="15">
+                <small id="contrasena" name="contrasena" class="text-danger"></small>
           </div>
 
           <div class="form-group col-md-4">
@@ -282,66 +287,7 @@
 
 <!--FIN MODAL INSERTAR MODIFICADO-->
    
-<!--MODAL INSERTAR MODIFICAR-->
-<div id="docenteModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" id="docente_form">
-                <div class="modal-header">
-                    <h5 class="modal-title"><b>AGREGAR DOCENTE</b></h5>
-                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                   
-                </div>
-                <div class="modal-body">
-                      <!--{{csrf_field()}}-->
-                    <span id="form_output"></span>
-                    <div class="form-group">
-                        <label>Cedula</label>
-                        <input type="text" name="idDocente" id="idDocente" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Nombres</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control" />
-                    </div>
-                     <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" name="apellido" id="apellido" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="tipo" class="col-form-label">Tipo de docente:</label>
-                        <select class="form-control" name="Tipo_Docente" id="Tipo_Docente">
-                        <option>Estable</option>
-                        <option>Provisional</option>
-                        </select>
-                        </div>
-                       <div class="form-group">
-                        <label>Correo Electronico</label>
-                        <input type="text" name="Email" id="Email" class="form-control" />
-                    </div> 
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="text" name="contrasena" id="contrasena" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="tipo" class="col-form-label">Estado:</label>
-                        <select class="form-control" name="Estado" id="Estado">
-                        <option>Habilitado</option>
-                        <option>Deshabilitado</option>
-                        </select>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="docente_id" id="docente_id" value="" />
-                    <input type="hidden" name="button_action" id="button_action" value="insert" />
-                    <input type="submit" name="submit" id="action" value="Add" class="btn btn-outline-success" />
-                    <button type="button" class="btn btn-outline-danger"" data-dismiss="modal">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!--FIN MODAL INSERTAR MODIFICADO-->
 @endsection
 
 @section('scripts')
@@ -355,6 +301,33 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
+       $("#id").css({
+       "display" : "none"
+      });
+       $("#nombre").css({
+       "display" : "none"
+      });
+       $("#apellido").css({
+       "display" : "none"
+      });
+      $("#años").css({
+       "display" : "none"
+      });
+      $("#correo").css({
+       "display" : "none"
+      });
+      $("#direccion").css({
+       "display" : "none"
+      });
+       $("#telefono").css({
+       "display" : "none"
+      });
+       $("#celular").css({
+       "display" : "none"
+      });
+       $("#contrasena").css({
+       "display" : "none"
+      });
     $('#example').DataTable({
       processing: true,
       serverSide: true,
@@ -386,6 +359,35 @@
            $('#action').val('Agregar');
            $('.modal-title').text('REGISTRAR DOCENTE');
            $('#div').hide();
+           let codigo = document.getElementById('idDocente');
+                       codigo.readOnly = false; 
+           $("#id").css({
+             "display" : "none"
+            });
+             $("#nombre").css({
+             "display" : "none"
+            });
+             $("#apellido").css({
+             "display" : "none"
+            });
+            $("#años").css({
+             "display" : "none"
+            });
+            $("#correo").css({
+             "display" : "none"
+            });
+            $("#direccion").css({
+             "display" : "none"
+            });
+             $("#telefono").css({
+             "display" : "none"
+            });
+             $("#celular").css({
+             "display" : "none"
+            });
+             $("#contrasena").css({
+             "display" : "none"
+            });
             });
 
             $('#agregar').click(function(){
@@ -442,6 +444,8 @@
 
                   $(document).on('click', '.edit', function(){
                       var idDocente = $(this).attr("id");
+                      let codigo = document.getElementById('idDocente');
+                       codigo.readOnly = true; 
                        $('#form_output').html('');                    
                         $.ajaxSetup({
                         headers: {
@@ -466,7 +470,8 @@
                             $('#Estrato').val(response.Estrato);
                             $('#Tipo_Docente').val(response.Tipo_Docente);
                             $('#Email').val(response.Email);
-                            $('#Estado').val(response.Estado);                           
+                            $('#Estado').val(response.Estado); 
+                            $('#Celular').val(response.Celular);                          
                             $('#docente_id').val(idDocente);                          
                             $('#x').modal('show');
                             $('#action').val('Editar');

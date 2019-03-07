@@ -37,12 +37,13 @@ class Controllerdocente_asignatura extends Controller
         }
         else
         {            
-                $id_asig = docente_has_asignatura::select('Asignatura_idAsignatura')->where('Estado', 'ocupado')
+                $id_asig = docente_has_asignatura::select('Asignatura_idAsignatura')
+                ->where('Docente_idDocente', $request->Docente_idDocente)                
                 ->where('Asignatura_idAsignatura',$request->Asignatura_idAsignatura)->first();
                                 
                 if ($id_asig)
                 {
-                    $error_array[] = "ESTA ASIGNATURA YA ESTA TOMADA POR OTRO DOCENTE";
+                    $error_array[] = "ESTA ASIGNATURA YA ESTA TOMADA POR ESTE DOCENTE";
                 }
                 else {
                     

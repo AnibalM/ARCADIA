@@ -10,7 +10,7 @@ class Docente extends Authenticatable
     protected $table = "docente";
     protected $fillable = [
         'idDocente', 'Nombre', 'Apellidos', 'sex', 'Telefono', 'Direccion', 'Email', 'edad', 
-        'Tipo_Docente', 'Tipo_Documento', 'Estrato', 'Estado', 'ADMIN', 'password'
+        'Tipo_Docente', 'Tipo_Documento', 'Estrato', 'Estado', 'ADMIN', 'password', 'Celular'
     ];
     //protected $hidden = ['password'];
     public $timestamps = false;

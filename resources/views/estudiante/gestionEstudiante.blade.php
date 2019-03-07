@@ -297,6 +297,8 @@
            $('#button_action').val('insert');
            $('#action').val('Agregar');
            $('#div').hide();
+           let codigo = document.getElementById('idEstudiante');
+           codigo.readOnly = false; 
            $("#id").css({
              "display" : "none"
             });
@@ -382,6 +384,8 @@
 
     		 $(document).on('click', '.edit', function(){
                       var idEstudiante = $(this).attr("id"); 
+                       let codigo = document.getElementById('idEstudiante');
+                       codigo.readOnly = true; 
                        $.ajaxSetup({
                           headers: {
                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

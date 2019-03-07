@@ -85,8 +85,16 @@ Route::get('cargar-asignaturas', 'DocenteController@cargarAsignaturas')->name('c
 Route::post('guardar-intercepto-ad', 'Controllerdocente_asignatura@guardardocenteconasignatura')->name('guardar.docente_asignatura')->middleware('auth');
 Route::post('guardar-intercepto-ac', 'Controllerasignatura_curso@guardarcursoconasignatura')->name('guardar.curso_asignatura')->middleware('auth');
 Route::post('guardar-intercepto-ec', 'Controllerestudiante_curso@guardarCursoconestudiante')->name('guardar.curso_estudiante')->middleware('auth');
+Route::post('guardar-intercepto-dc', 'Controllerdocente_curso@guardarCursocondocente')->name('guardar.curso_docente')->middleware('auth');
 //FIN RUTAS TABLAS INTERCEPTOS
 //RUTAS REPORTES
+
+//GESTION DE NOTAS
+Route::get('gestion-notas', 'NotaController@gestion_notas')->name('nota.gestion')->middleware('auth');
+Route::get('listar-estudiantesnotas/', 'NotaController@listarEstudiantesNotas')->name('listar.Estudiantescurso')->middleware('auth');
+
+
+//FIN GESTION DE NOTAS
 
 Route::get('gestion-reportes', 'ReporteController@gestion_reporte')->name('reporte.gestion')->middleware('auth');
 //RUTAS DE LA CRUD DE PRACTICA....

@@ -21,7 +21,9 @@ class Controllerasignatura_curso extends Controller
 	   {
 
 		$validation = Validator::make($request->all(), [
-            'Curso_idCurso' => 'required',            
+            'Curso_idCursoasignatura' => 'required',
+            'Asignatura_idAsignatura' => 'required'
+
         ]);
 
         $error_array = array();
@@ -38,7 +40,7 @@ class Controllerasignatura_curso extends Controller
         {            
                 $validar = asignatura_has_curso::all()
                 ->where('Asignatura_idAsignatura',$request->Asignatura_idAsignatura)
-                ->where('Curso_idCurso',$request->Curso_idCurso)->first();
+                ->where('Curso_idCurso',$request->Curso_idCursoasignatura)->first();
                                 
                 if ($validar)
                 {
@@ -46,7 +48,7 @@ class Controllerasignatura_curso extends Controller
                 }
                 else {                    
                          $impartir = new asignatura_has_curso([
-                        'Curso_idCurso'    =>  $request->get('Curso_idCurso'),
+                        'Curso_idCurso'    =>  $request->get('Curso_idCursoasignatura'),
                         'Asignatura_idAsignatura' =>  $request->get('Asignatura_idAsignatura')  
                     ]);
                     $impartir->save();

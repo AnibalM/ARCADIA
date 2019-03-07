@@ -6,43 +6,62 @@
        <!--<link rel="stylesheet" href="{{ asset('administradores/bootstrap.css') }}">-->
 
         <title>INSTITUCION EDUCATIVA ARCADIA</title>
+        <style>
+        
 
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 5px;
+          text-align: left;
+        }
+        h1{
+            text-align: center;
+            position: relative;
+            top: -80px;
+            right: -370px;
+            padding: 0px;
+            margin: 0px;
+            font-size: 25px;
+        }
+
+        img{
+            width:128px;
+            height:128px;
+            position:relative;
+            left:-150px;
+        }
+</style>
     </head>
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
+    <img src="images/Huila.png" alt="ARCADIA icon">                
     <h1 class="page-header">INSTITUCION EDUCATIVA ARCADIA</h1>
     <h2 class="page-header">Listado de Docentes</h2>
-    <table>
-        <thead>
+    <table style="width:100%">
             <tr>
-                <th>Cedula</th>
+                <th background="aqua">Cedula</th>
                 <th>Nombre</th>
                 <th>Apellidos</th>
                 <th>Tipo Docente</th>
                 <th>Telefono</th>
-            </tr>                            
-        </thead>
-        <tbody>
+            </tr> 
             @foreach($docente as $docente)
             <tr>
                 <td>{{ $docente->idDocente }}</td>
                 <td>{{ $docente->Nombre }}</td>
                 <td>{{ $docente->Apellidos }}</td>
                 <td>{{ $docente->Tipo_Docente }}</td>
-                <td>{{ $docente->Telefono }}</td>                
+                <td>{{ $docente->Telefono }}</td>  
             </tr>
             @endforeach
-        </tbody>
-    </table>
-    <hr>
-    <!--<p>
-        <a href="{{ route('docente.pdf') }}" class="btn btn-sm btn-primary">
-            Descargar listado en PDF
-        </a>
-    </p>-->
- </div>
+    </table>    
+    
+                </div>
             </div>
         </div>
     </body>

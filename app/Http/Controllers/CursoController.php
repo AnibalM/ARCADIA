@@ -26,7 +26,8 @@ class CursoController extends Controller
     $asignaturas = $this->cargarAsignaturas();
     $cursos = $this->cargarCursos();
     $estudiantes = $this->cargarEstudiantes();
-		return view('cursos.gestionCurso', compact('asignaturas', 'cursos', 'estudiantes'));
+    $docentes = $this->cargarDocentes();
+		return view('cursos.gestionCurso', compact('asignaturas', 'cursos', 'estudiantes', 'docentes'));
     
 	}	
 
@@ -54,7 +55,15 @@ class CursoController extends Controller
             ->where('eliminado', 'false')
             ->get();
             return $estudiantes;
-  }                    
+  }  
+
+   public function cargarDocentes(){
+            $docentes = DB::table('docente')
+            ->select('idDocente', 'Nombre', 'Apellidos')->where('Estado', 'Habilitado')
+            ->where('eliminado', 'false')->where('ADMIN', '0')          
+            ->get();            
+             return $docentes;
+            }                   
 
 	 public function listarCurso(Request $request)
     	 {
@@ -143,12 +152,23 @@ class CursoController extends Controller
 
     public function eliminar(Request $request)
      {
+        $error= "";
+        $success= "";
+        $Validar = DB::table('curso_has_estudiante')
+        ->where('curso_idCurso', $request->id)
+        ->first();
+        if ($Validar) {
+           $error = 'NO SE PUEDE ELIMINAR EL CURSO PORQUE TIENE ESTUDIANTES ASIGNADOS';
+        }else{
         DB::table('curso')->where('idCurso', $request->id)
         ->update([
 
             'eliminado' => 'true'
         ]);
-        return response()->json(["message" => "CURSO ELIMINADO CON EXITO"]);
+        $success = 'CURSO ELIMINADO CON EXITO';
+      }
+        return  response()->json(["error" => $error, "success" => $success 
+                                ]);
     }
 
     function fetch(Request $request)

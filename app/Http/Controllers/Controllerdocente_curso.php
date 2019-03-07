@@ -7,21 +7,21 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Validation\Rule;
-use App\curso_has_estudiante;
+use App\curso_has_docente;
 
-class Controllerestudiante_curso extends Controller
+class Controllerdocente_curso extends Controller
 {
-    public function __construct()
+   
+   		 public function __construct()
     	 {
     		$this->middleware('auth');//Verifica si el usuario esta logeado o no...
 		 }
-
-	function guardarCursoconestudiante(Request $request)
+		 function guardarCursocondocente(Request $request)
 		{
 
 		      $validation = Validator::make($request->all(), [
-              'curso_idCursoestudiante' => 'required',  
-              'estudiante_idEstudiante' => 'required'          
+              'curso_idCursodocente' => 'required',  
+              'docente_idDocente' => 'required'          
               ]);
 
         $error_array = array();
@@ -36,21 +36,21 @@ class Controllerestudiante_curso extends Controller
         }
         else
         {            
-                $validar = curso_has_estudiante::all()
-                ->where('estudiante_idEstudiante',$request->estudiante_idEstudiante)
-                ->where('curso_idCurso',$request->curso_idCursoestudiante)->first();
+                $validar = curso_has_docente::all()
+                ->where('docente_idDocente',$request->docente_idDocente)
+                ->where('curso_idCurso',$request->curso_idCursodocente)->first();
                                 
                 if ($validar)
                 {
-                    $error_array[] = "ESTE ESTUDIANTE YA HA SIDO ASOCIADO A ESTE CURSO";
+                    $error_array[] = "ESTE DOCENTE YA HA SIDO ASOCIADO A ESTE CURSO";
                 }
                 else {                   
-                        $impartir = new curso_has_estudiante([
-                        'curso_idCurso'    =>  $request->get('curso_idCursoestudiante'),
-                        'estudiante_idEstudiante' =>  $request->get('estudiante_idEstudiante')  
+                        $impartir = new curso_has_docente([
+                        'curso_idCurso'    =>  $request->get('curso_idCursodocente'),
+                        'docente_idDocente' =>  $request->get('docente_idDocente')  
                     ]);
                     $impartir->save();
-                    $success_output = 'ASIGNACION REGISTRADA SATISFACTORIAMENTE';
+                    $success_output = 'DOCENTE ASIGNADO SATISFACTORIAMENTE';
                 }           
                       
         }
@@ -60,7 +60,4 @@ class Controllerestudiante_curso extends Controller
         );
         echo json_encode($output);
       }
-
-
-		 
 }

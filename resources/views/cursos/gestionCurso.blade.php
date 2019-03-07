@@ -21,7 +21,11 @@
                 </button> 
                 <button type="button" id="agregarEstudianteCurso" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">
                 Agregar Estudiantes
-                </button>               
+                </button> 
+                <button type="button" id="agregarDocenteCurso" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+                Agregar Docentes
+                </button>   
+                             
                 <br>
                 <br>  
               
@@ -162,6 +166,7 @@
 </div>
 
 <!--FIN MODAL INSERTAR MODIFICADO-->
+
 <!-- Modal -->
 <div class="modal fade" id="asignaturaCurso"  role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -175,15 +180,17 @@
                   <span id="error"></span>                     
                     <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
-                        <select class="form-control" name="Curso_idCurso" id="Curso_idCurso">                                                
+                        <select class="form-control" name="Curso_idCursoasignatura" id="Curso_idCursoasignatura">
+                        <option selected value="">--Selecciona--</option>                                                
                         @foreach($cursos as $curso)                         
-                        <option >{{ $curso->Grado}}</option>
+                        <option value="{{ $curso->idCurso}}">{{ $curso->Grado}}</option>
                         @endforeach                                            
                         </select>
                         </div>                      
                        <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Asignatura:</b></label>
                         <select class="form-control" name="Asignatura_idAsignatura" id="Asignatura_idAsignatura">
+                        <option selected value="">--Selecciona--</option>  
                         @foreach($asignaturas as $materia)
                         <option value="{{ $materia->idAsignatura}}">{{ $materia->Nombre_Asignatura }}</option>
                         @endforeach
@@ -211,7 +218,8 @@
                   <span id="errorDos"></span>                     
                     <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
-                        <select class="form-control" name="curso_idCurso" id="curso_idCurso">                                                
+                        <select class="form-control" name="curso_idCursoestudiante" id="curso_idCursoestudiante">
+                        <option selected value="">--Selecciona--</option>                                                   
                         @foreach($cursos as $curso)                         
                         <option value="{{ $curso->idCurso }}" >{{ $curso->Grado}}</option>
                         @endforeach                                            
@@ -220,6 +228,7 @@
                        <div class="form-group">
                         <label for="tipo" class="col-form-label"><b>Estudiante:</b></label>
                         <select class="form-control" name="estudiante_idEstudiante" id="estudiante_idEstudiante">
+                        <option selected value="">--Selecciona--</option>     
                         @foreach($estudiantes as $estudiante)
                         <option value="{{ $estudiante->idEstudiante}}">{{ $estudiante->Nom_Es }} {{ $estudiante->Apell_Es }}</option>
                         @endforeach
@@ -235,7 +244,44 @@
     </div>
   </div>
 </div>
-
+<div class="modal fade" id="cursoDocente"  role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form method="post" id="asignarDocente">
+                <div class="modal-header">
+                    <h5><b>AGREGAR DOCENTE A CURSO</b></h5>
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>                   
+                </div>
+                <div class="modal-body"> 
+                  <span id="errorTres"></span>                     
+                    <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Nombres del curso:</b></label>
+                        <select class="form-control" name="curso_idCursodocente" id="curso_idCursodocente">  
+                        <option selected value="">--Selecciona--</option>                                              
+                        @foreach($cursos as $curso)                         
+                        <option value="{{ $curso->idCurso }}" >{{ $curso->Grado}}</option>
+                        @endforeach                                            
+                        </select>
+                        </div>                      
+                        <div class="form-group">
+                        <label for="tipo" class="col-form-label"><b>Nombres del docente:</b></label>
+                        <select class="form-control" name="docente_idDocente" id="docente_idDocente"> 
+                        <option selected value="">--Selecciona--</option>     
+                        @foreach($docentes as $docente)                         
+                        <option value="{{ $docente->idDocente}}">{{ $docente->Nombre}} {{ $docente->Apellidos }}</option>
+                        @endforeach                     
+                        </select>
+                        </div>
+                </div>               
+            
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Asignar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -289,11 +335,24 @@
            $('#agregarAsignaturaCurso').click(function(){
            $('#asignaturaCurso').modal('show');           
            $('#error').hide();
+           $('#Asignatura_idAsignatura').prop('selectedIndex',0);  
+           $('#Curso_idCursoasignatura').prop('selectedIndex',0);   
+
            });
            $('#agregarEstudianteCurso').click(function(){
            $('#asignaturaEstudiante').modal('show');           
            $('#errorDos').hide();
+           $('#estudiante_idEstudiante').prop('selectedIndex',0);  
+           $('#curso_idCursoestudiante').prop('selectedIndex',0);   
            });
+           $('#agregarDocenteCurso').click(function(){
+           $('#cursoDocente').modal('show');           
+           $('#errorTres').hide(); 
+           $('#docente_idDocente').prop('selectedIndex',0);  
+           $('#curso_idCursodocente').prop('selectedIndex',0);     
+        
+           });
+           
 
 
     	$('#curso_form').on('submit', function(event){
@@ -399,7 +458,11 @@
           "id": id,         
           },
           function(response){
-           alertify.success(response.message); 
+           if (response.error.length > 0){
+           alertify.error(response.error);  
+           } else{
+            alertify.success(response.success);
+           }   
            $('#example').DataTable().ajax.reload();
            });//FIN DEL AJAX
            },function(){ alertify.error('Cancelado')
@@ -441,7 +504,7 @@
                 else
                 {
                     
-                    $('#exampleModalCenter').modal('hide');
+                    $('#asignaturaCurso').modal('hide');
                     alertify.success(data.success);
                    
                  }
@@ -486,6 +549,44 @@
                  {
                     $('#asignaturaEstudiante').modal('hide');
                     alertify.success(data.success);                   
+                 }
+                 }
+         }); 
+              });//FIN DE LA FUNCION
+      </script>
+      <script type="text/javascript">   
+     $('#asignarDocente').on('submit', function(event){
+          event.preventDefault();
+          var form_data = $(this).serialize();                          
+          $.ajaxSetup({
+          headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+          $.ajax({
+              url:"{{ route('guardar.curso_docente') }}",
+              method:"POST",
+              data:form_data,
+              dataType:"json",
+              success:function(data)
+                 {
+
+                  if(data.error.length > 0)
+                  {
+                      var error_html = '';
+                      for(var count = 0; count < data.error.length; count++)
+                      {
+                          error_html += '<div class="alert alert-danger">'+data.error[count]+'</div>';
+                      }
+                      $('#errorTres').show();
+                      $('#errorTres').html(error_html);
+                      
+                   }
+                else
+                 {
+                    $('#cursoDocente').modal('hide');
+                    alertify.success(data.success);
+                                     
                  }
                  }
          }); 

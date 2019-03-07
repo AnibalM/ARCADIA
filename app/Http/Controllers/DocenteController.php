@@ -63,7 +63,13 @@ class DocenteController extends Controller
             'Email' => [
                 'required',
                  Rule::unique('docente')->ignore($request->idDocente,'idDocente'),
-            ],            
+            ],
+            'Tipo_Documento' => 'required',
+            'sex' => 'required',
+            'Estrato' => 'required',
+            'Tipo_Docente' => 'required',
+            'Estado' => 'required'
+
         ]);
         $error_array = array();
         $success_output = '';
@@ -94,10 +100,11 @@ class DocenteController extends Controller
                     'edad' => $request->get('edad'),
                     'Tipo_Documento' => $request->get('Tipo_Documento'),
                     'Estrato' => $request->get('Estrato'),        
-                    'Tipo_Docente'     =>  $request->get('tipo'),
+                    'Tipo_Docente'     =>  $request->get('Tipo_Docente'),
                     'Email'     =>  $request->get('Email'),
-                    'password'     =>  bcrypt($request->get('contrasena')),
-                    'Estado'   => $request->get('Estado')
+                    'password'     =>  bcrypt($request->get('password')),
+                    'Estado'   => $request->get('Estado'),
+                    'Celular' => $request->get('Celular'),
                 ]);
                 $docente->save();
                 $success_output = 'DOCENTE REGISTRADO CON EXITO';
@@ -108,12 +115,19 @@ class DocenteController extends Controller
                 
                 $docente = Docente::where("idDocente", $request->docente_id)->first();
                 $docente->idDocente = $request->get('idDocente');
-                $docente->Nombre = $request->get('nombre');
-                $docente->Apellidos = $request->get('apellido');               
-                $docente->Tipo_Docente = $request->get('tipo');
+                $docente->Nombre = $request->get('Nombre');
+                $docente->Apellidos = $request->get('Apellidos');  
+                $docente->sex = $request->get('sex');
+                $docente->Telefono = $request->get('Telefono');
+                $docente->Direccion = $request->get('Direccion');
+                $docente->edad = $request->get('edad');
+                $docente->Tipo_Documento = $request->get('Tipo_Documento');
+                $docente->Estrato = $request->get('Estrato');
+                $docente->Tipo_Docente = $request->get('Tipo_Docente');
                 $docente->Email = $request->get('Email');
-                $docente->password = bcrypt($request->get('contrasena'));
+                $docente->password = bcrypt($request->get('password'));
                 $docente->Estado = $request->get('Estado');
+                $docente->Celular = $request->get('Celular');
                 $docente->save();
                 $success_output = 'DOCENTE ACTUALIZADO CON EXITO ';
                     };
@@ -162,7 +176,8 @@ class DocenteController extends Controller
        return response()->json(["idDocente" => "$docente->idDocente","Nombre" => "$docente->Nombre",
         "Apellidos" => "$docente->Apellidos", "Tipo_Docente" => "$docente->Tipo_Docente", "Email" => "$docente->Email",
          "Estado" => "$docente->Estado", "Tipo_Documento" => "$docente->Tipo_Documento", "Estrato" => "$docente->Estrato",
-          "sex" => "$docente->sex", "Direccion" => "$docente->Direccion", "edad" => "$docente->edad", "Telefono" => "$docente->Telefono"      
+          "sex" => "$docente->sex", "Direccion" => "$docente->Direccion", "edad" => "$docente->edad", "Telefono" => "$docente->Telefono",
+          "Celular" => "$docente->Celular"      
         ]);
     }
     /*public function listar()
