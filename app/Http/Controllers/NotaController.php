@@ -57,13 +57,110 @@ class NotaController extends Controller
             ->select('idEstudiante', 'Nom_Es', 'Apell_Es', 'Email_Es')
             ->where('curso_idCurso', $request->id)->get();  
             return DataTables::of($estudiantes) 
-             ->addColumn('action', function($estudiantes){
-                 return '<a href="#" class="btn btn-xs btn-success asignar" id="'.$estudiantes->idEstudiante.'"><i class="glyphicon
-                 glyphicon-edit"></i> Asignar</a> <a href="#" class="btn btn-xs btn-primary edit" id="'.$estudiantes->idEstudiante.'")"><i class="glyphicon
-                 glyphicon-edit"></i> Editar</a>';
-                })           
+            ->editColumn('definitiva', function($estudiantes) use ($request){
+                $notas = DB::table("asignatura_has_estudiante")
+                    ->select("Nota1","Nota2","Nota3")
+                    ->where("Asignatura_idAsignatura",$request->asignatura)
+                    ->where("Estudiante_idEstudiante",$estudiantes->idEstudiante)
+                    ->where("curso_idCurso",$request->id)
+                    ->first();
+                if ($notas) {
+                    $nota = ($notas->Nota1 * 0.3) + ($notas->Nota2 * 0.3) + ($notas->Nota3 * 0.4);
+                }
+                else $nota = "";
+                return '<center>'.$nota.'</center>';
+            })
+            ->editColumn('nota1', function($estudiantes) use ($request){
+                $notas = DB::table("asignatura_has_estudiante")
+                    ->select("Nota1")
+                    ->where("Asignatura_idAsignatura",$request->asignatura)
+                    ->where("Estudiante_idEstudiante",$estudiantes->idEstudiante)
+                    ->where("curso_idCurso",$request->id)
+                    ->first();
+                if ($notas) $nota = $notas->Nota1;
+                else $nota = "";
+                return '<span id="msg_1_'.$estudiantes->idEstudiante.'"></span><img src="'.asset('images/loading.gif').'" class="hide" width="50" height="50" id="loading_1_'.$estudiantes->idEstudiante.'" /><center><input value="'.$nota.'" onkeyup="guardar(1,event,this.value,'.$estudiantes->idEstudiante.')" class="campo_nota" type="text" style="width: 50%;text-align: center;" /></center>';
+            })
+            ->editColumn('nota2', function($estudiantes) use ($request){
+                $notas = DB::table("asignatura_has_estudiante")
+                    ->select("Nota2")
+                    ->where("Asignatura_idAsignatura",$request->asignatura)
+                    ->where("Estudiante_idEstudiante",$estudiantes->idEstudiante)
+                    ->where("curso_idCurso",$request->id)
+                    ->first();
+                if ($notas) $nota = $notas->Nota2;
+                else $nota = "";
+                return '<span id="msg_2_'.$estudiantes->idEstudiante.'"></span><img src="'.asset('images/loading.gif').'" class="hide" width="50" height="50" id="loading_2_'.$estudiantes->idEstudiante.'" /><center><input value="'.$nota.'" onkeyup="guardar(2,event,this.value,'.$estudiantes->idEstudiante.')" class="campo_nota" type="text" style="width: 50%;text-align: center;" /></center>';
+            })
+            ->editColumn('nota3', function($estudiantes) use ($request){
+                $notas = DB::table("asignatura_has_estudiante")
+                    ->select("Nota3")
+                    ->where("Asignatura_idAsignatura",$request->asignatura)
+                    ->where("Estudiante_idEstudiante",$estudiantes->idEstudiante)
+                    ->where("curso_idCurso",$request->id)
+                    ->first();
+                if ($notas) $nota = $notas->Nota3;
+                else $nota = "";
+                return '<span id="msg_3_'.$estudiantes->idEstudiante.'"></span><img src="'.asset('images/loading.gif').'" class="hide" width="50" height="50" id="loading_3_'.$estudiantes->idEstudiante.'" /><center><input value="'.$nota.'" onkeyup="guardar(3,event,this.value,'.$estudiantes->idEstudiante.')" class="campo_nota" type="text" style="width: 50%;text-align: center;" /></center>';
+            })
+            ->rawColumns(['nota1', 'nota2', 'nota3', 'definitiva'])
             ->make(true);
             
+         }
+         public function guardar_nota(Request $req) {
+            DB::beginTransaction();
+            try {
+                $nota1 = null;
+                $nota2 = null;
+                $nota3 = null;
+                $nota = [];
+                if ($req->campo == "1") {
+                    $nota1 = $req->nota;
+                    $nota = ["nota1" => $req->nota];
+                }
+                elseif ($req->campo == "2") {
+                    $nota2 = $req->nota;
+                    $nota = ["nota2" => $req->nota];
+                }
+                elseif ($req->campo == "3") {
+                    $nota3 = $req->nota;
+                    $nota = ["nota3" => $req->nota];
+                }
+
+                $validar = DB::table("asignatura_has_estudiante")->select("Asignatura_idAsignatura")
+                    ->where("Asignatura_idAsignatura",$req->asignatura)
+                    ->where("Estudiante_idEstudiante",$req->estudiante)
+                    ->where("curso_idCurso",$req->curso)
+                    ->first();
+                if ($validar != null) {
+                    DB::table("asignatura_has_estudiante")
+                    ->where("Asignatura_idAsignatura",$req->asignatura)
+                    ->where("Estudiante_idEstudiante",$req->estudiante)
+                    ->where("curso_idCurso",$req->curso)
+                    ->update($nota);
+                }
+                else {
+                    DB::table("asignatura_has_estudiante")->insert([
+                        "Asignatura_idAsignatura"=>$req->asignatura,
+                        "Estudiante_idEstudiante"=>$req->estudiante,
+                        "curso_idCurso"=>$req->curso,
+                        "Nota1"=>$nota1,
+                        "Nota2"=>$nota2,
+                        "Nota3"=>$nota3
+                    ]);
+                }
+
+                DB::commit();
+                return response()->json(["statusCode"=>201,"statusText"=>"Nota guardada"]);
+            }
+            catch(Exception $ex) {
+                DB::rollback();
+                return response()->json(["statusCode"=>500,"statusText"=>$ex->getMessage()]);
+            }
+            catch(PDOException  $ex) {
+                DB::rollback();
+                return response()->json(["statusCode"=>500,"statusText"=>$ex->getMessage()]);
+            }
          }
    
 	 

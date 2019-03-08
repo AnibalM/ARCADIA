@@ -34,6 +34,8 @@ Route::any('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('dashboard-admin', 'HomeController@dashboard_admin')->name('home.admin')->middleware('auth');
+Route::get('dashboard-estadisticas', 'HomeController@estadisticas')->name('home.estadisticas')->middleware('auth');
+Route::post('dashboard-estadisticas2', 'HomeController@estadisticas2')->name('home.estadisticas2')->middleware('auth');
 Route::get('dashboard-docente', 'HomeController@dashboard_docente')->name('home.docente')->middleware('auth');
 
 //RUTAS CURSO
@@ -74,6 +76,7 @@ Route::get('update-asignatura', 'AsignaturaController@fetch')->name('fetch.asign
 //RUTAS DEL DOCENTE
 Route::get('gestion-docente', 'DocenteController@gestion_docente')->name('docente.gestion')->middleware('auth');
 Route::post('guardar-docente', 'DocenteController@guardar')->name('guardar.docente')->middleware('auth');
+Route::post('guardar-nota', 'NotaController@guardar_nota')->name('guardar.nota')->middleware('auth');
 Route::get('listar-docentes', 'DocenteController@listar')->name('listar.docentes')->middleware('auth');
 Route::get('update-docente', 'DocenteController@fetch')->name('fetch.docentes')->middleware('auth');;
 Route::post('eliminar-docente', 'DocenteController@eliminar')->name('eliminar.docente')->middleware('auth');
